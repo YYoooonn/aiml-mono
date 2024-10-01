@@ -1,62 +1,51 @@
-# Multi-stage build
+FROM node:18-alpine AS base
 
-# 1단계 환경 설정 및 dependancy 설치
-FROM node:20-slim AS deps
+# 1. Install dependencies only when needed
+FROM base AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
-RUN wget -qO /bin/pnpm "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" && chmod +x /bin/pnpm
 
-# 명령어를 실행할 디렉터리 지정
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Dependancy install을 위해 package.json, pnpm.lock 복사 
+# Install dependencies based on the preferred package manager
 COPY ./frontend/package.json ./frontend/pnpm-lock.yaml ./
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-# Dependancy 설치
-RUN pnpm install --frozen-lockfile 
-
-###########################################################
-
-# 2단계: next.js 빌드 단계
-FROM node:20-slim AS builder
-
-# Docker를 build할때 개발 모드 구분용 환경 변수를 명시함
-ARG ENV_MODE
-
-# 명령어를 실행할 디렉터리 지정
-WORKDIR /usr/src/app
-
-# node_modules 등의 dependancy를 복사함.
-COPY --from=deps /usr/src/app/node_modules ./node_modules
+# 2. Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# This will do the trick, use the corresponding env file for each environment.
+COPY ./frontend/.env.development ./frontend/.env.production
+RUN npm run build
 
-# 구축 환경에 따라 env 변수를 다르게 가져가야 하는 경우 환경 변수를 이용해서 env를 구분해준다.
-COPY ./frontend/.env.$ENV_MODE ./frontend/.env.production
-RUN pnpm build
+# 3. Production image, copy all the files and run next
+FROM base AS runner
+WORKDIR /app
 
-###########################################################
+ENV NODE_ENV=production
 
-# 3단계:  next.js 실행 단계
-FROM node:20-slim AS runner
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
 
-# 명령어를 실행할 디렉터리 지정
-WORKDIR /usr/src/app
- 
-# container 환경에 시스템 사용자를 추가함
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+COPY --from=builder /app/public ./public
 
-# next.config.js에서 output을 standalone으로 설정하면 
-# 빌드에 필요한 최소한의 파일만 ./next/standalone로 출력이 된다.
-# standalone 결과물에는 public 폴더와 static 폴더 내용은 포함되지 않으므로, 따로 복사를 해준다.
-COPY --from=builder /usr/src/app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /usr/src/app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /usr/src/app/.next/static ./.next/static
- 
-# 빌드로 생성한 이미지의 수신 대기 포트를 3000으로 설정
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+
+USER nextjs
+
 EXPOSE 3000
 
-# # node로 애플리케이션 실행
-# CMD ["node", "server.js"] 
+ENV PORT=3000
 
-# standalone으로 나온 결과값은 node 자체적으로만 실행 가능
-CMD ["pnpm", "start"]
+CMD HOSTNAME="0.0.0.0" node server.js

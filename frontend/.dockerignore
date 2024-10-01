@@ -1,5 +1,7 @@
 Dockerfile
 .dockerignore
 node_modules
-pnpm-debug.log
-dist
+npm-debug.log
+README.md
+.next
+.git

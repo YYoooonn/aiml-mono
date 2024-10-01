@@ -1,22 +1,23 @@
 # Multi-stage build
 
 # 1단계 환경 설정 및 dependancy 설치
-FROM node:18-alpine AS deps
+FROM node:20-slim AS deps
 RUN apk add --no-cache libc6-compat
+RUN wget -qO /bin/pnpm "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" && chmod +x /bin/pnpm
 
 # 명령어를 실행할 디렉터리 지정
 WORKDIR /usr/src/app
 
 # Dependancy install을 위해 package.json, pnpm.lock 복사 
-COPY package.json pnpm.lock ./ 
+COPY ./frontend/package.json ./frontend/pnpm-lock.yaml ./
 
 # Dependancy 설치
-RUN pnpm --frozen-lockfile 
+RUN pnpm install --frozen-lockfile 
 
 ###########################################################
 
 # 2단계: next.js 빌드 단계
-FROM node:18-alpine AS builder
+FROM node:20-slim AS builder
 
 # Docker를 build할때 개발 모드 구분용 환경 변수를 명시함
 ARG ENV_MODE
@@ -29,13 +30,13 @@ COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . .
 
 # 구축 환경에 따라 env 변수를 다르게 가져가야 하는 경우 환경 변수를 이용해서 env를 구분해준다.
-COPY .env.$ENV_MODE ./.env.production
+COPY ./frontend/.env.$ENV_MODE ./frontend/.env.production
 RUN pnpm build
 
 ###########################################################
 
 # 3단계:  next.js 실행 단계
-FROM node:18-alpine AS runner
+FROM node:20-slim AS runner
 
 # 명령어를 실행할 디렉터리 지정
 WORKDIR /usr/src/app
@@ -54,8 +55,8 @@ COPY --from=builder --chown=nextjs:nodejs /usr/src/app/.next/static ./.next/stat
 # 빌드로 생성한 이미지의 수신 대기 포트를 3000으로 설정
 EXPOSE 3000
 
-# node로 애플리케이션 실행
-CMD ["node", "server.js"] 
+# # node로 애플리케이션 실행
+# CMD ["node", "server.js"] 
 
 # standalone으로 나온 결과값은 node 자체적으로만 실행 가능
-# CMD ["npm", "start"]
+CMD ["pnpm", "start"]

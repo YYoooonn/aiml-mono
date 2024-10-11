@@ -9,7 +9,7 @@
 <!--
 The following rules in the Naver coding convention cannot be checked by this configuration file.
 
-- [avoid-korean-pronouncnoe]
+- [avoid-korean-pronounce]
 - [class-noun]
 - [interface-noun-adj]
 - [method-verb-preposition]

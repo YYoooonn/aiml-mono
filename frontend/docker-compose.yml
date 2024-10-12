@@ -1,9 +1,12 @@
-version: "3"
+# version: "3"
 services:
   frontend:
     build:
       context: .
       dockerfile: ./docker/next.Dockerfile
+    # platform for ec2 environment
+    platform: linux/x86_64
+    image: yyoooonn/aimlfront:latest
     ports:
       - 3000:3000
 
@@ -11,6 +14,9 @@ services:
     build:
       context: .
       dockerfile: ./docker/nginx/nginx.Dockerfile
+    # platform for ec2 environment
+    platform: linux/x86_64
+    image: yyoooonn/aimlfrontnginx:latest
     ports:
       - 80:80
     depends_on:

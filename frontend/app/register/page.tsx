@@ -20,11 +20,11 @@ export default function Login() {
           }
         }
       );
-      console.log(response);
+
       // localStorage.setItem('token', response.data.jwt);
       // router.push('/profile');
     } catch (error) {
-      console.error("로그인 실패", error);
+      console.error("가입 실패", error);
     }
   };
 
@@ -46,7 +46,7 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <button type="submit">로그인</button>
+      <button type="submit">회원가입</button>
     </form>
   );
 }

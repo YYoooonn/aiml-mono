@@ -1,32 +1,32 @@
-services:
-  frontend:
-    container_name: frontend
-    build:
-      context: ./frontend
-      dockerfile: prod.Dockerfile
-      args:
-        ENV_VARIABLE: ${ENV_VARIABLE}
-        NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
-    restart: always
-    ports:
-      - 3000:3000
+# services:
+#   frontend:
+#     container_name: frontend
+#     build:
+#       context: ./frontend
+#       dockerfile: prod.Dockerfile
+#       args:
+#         ENV_VARIABLE: ${ENV_VARIABLE}
+#         NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
+#     restart: always
+#     ports:
+#       - 3000:3000
     
-  nginx:
-    container_name: nginx
-    image: nginx:latest
-    restart: always
-    volumes:
-      - ./conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
-    ports:
-      - 80:80
-      - 443:443
-    depends_on:
-      - frontend
+#   nginx:
+#     container_name: nginx
+#     image: nginx:latest
+#     restart: always
+#     volumes:
+#       - ./conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
+#     ports:
+#       - 80:80
+#       - 443:443
+#     depends_on:
+#       - frontend
 
-  # Add more containers below (nginx, postgres, etc.)
+#   # Add more containers below (nginx, postgres, etc.)
 
-# Define a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
-networks:
-  my_network:
-    external: true
+# # Define a network, which allows containers to communicate
+# # with each other, by using their container name as a hostname
+# networks:
+#   my_network:
+#     external: true

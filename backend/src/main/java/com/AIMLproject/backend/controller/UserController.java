@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.AIMLproject.backend.domain.User;
 import com.AIMLproject.backend.service.UserService;
 
-@CrossOrigin(origins = {"http://ec2-15-165-90-147.ap-northeast-2.compute.amazonaws.com/"})
+@CrossOrigin
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

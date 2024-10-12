@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.AIMLproject.backend.domain.User;
 import com.AIMLproject.backend.service.UserService;
 
+@CrossOrigin(origins = {"http://ec2-15-165-90-147.ap-northeast-2.compute.amazonaws.com/"})
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

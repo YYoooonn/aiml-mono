@@ -6,7 +6,10 @@
 
 ```bash
 # AIMLproject/frontend
+# install packages
+pnpm i
 
+# run in development environment
 pnpm dev
 ```
 

@@ -1,9 +1,9 @@
-
 ## Getting Started
 
 1. pnpm 설치
 
 !! 개발 환경
+
 ```bash
 # AIMLproject/frontend
 
@@ -23,7 +23,6 @@ docker-compose build
 docker push yyoooonn/aimlfront
 docker push yyoooonn/aimlfrontnginx
 ```
-
 
 ```bash
 # ec2에서

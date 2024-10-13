@@ -1,10 +1,16 @@
 import { createServer } from "node:http";
 import next from "next";
 import { Server } from "socket.io";
+import dotenv from "dotenv";
 
+// environment check
 const dev = process.env.NODE_ENV !== "production";
-const hostname = "localhost";
-const port = 3000;
+
+// environment variable setting for node
+dotenv.config(dev ? { path: ".env.local" } : { path: ".env.production.local" });
+
+const hostname = process.env.URL_HOSTNAME;
+const port = process.env.PORT;
 // when using middleware `hostname` and `port` must be provided below
 const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();
@@ -16,7 +22,6 @@ app.prepare().then(() => {
 
   io.on("connection", (socket) => {
     // ...
-    console.log(socket);
   });
 
   httpServer

@@ -11,7 +11,7 @@ export default function Login() {
     try {
       const json = JSON.stringify({ username: username, password: password });
       const response = await axios.post(
-        "http://13.124.220.49:8080/api/auth/register",
+        "http://13.124.220.49:8080/api/auth/register/",
         json, {
           headers:{
             "Content-Type": `application/json`,

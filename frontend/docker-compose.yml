@@ -5,6 +5,8 @@ services:
       context: .
       dockerfile: ./docker/next.Dockerfile
     # platform for ec2 environment
+    env_file:
+    - .env.production.local
     platform: linux/x86_64
     image: yyoooonn/aimlfront:latest
     ports:

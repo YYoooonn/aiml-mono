@@ -11,17 +11,20 @@ export default function Login() {
     try {
       const json = JSON.stringify({ username: username, password: password });
       const response = await axios.post(
-        "http://13.124.220.49:8080/api/users/register",
+        "http://13.124.220.49:8080/api/auth/register",
         json, {
           headers:{
             "Content-Type": `application/json`,
           }
         }
       );
+      const jwt = JSON.parse(response.data).token
+      localStorage.setItem('token', jwt);
     } catch (error) {
-      console.error("가입 실패", error);
+      console.error("로그인 실패", error);
     }
   };
+  
 
   return (
     <form onSubmit={handleSubmit}>
@@ -41,7 +44,33 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <button type="submit">회원가입</button>
+      <button type="submit">로그인</button>
     </form>
   );
 }
+
+// export async function getUserInfo() {
+//   const cookieStore = cookies();
+//   const JSSESSION = cookieStore.get('JSESSIONID')
+
+//   try {
+//       const userInfoResponse = await fetch(process.env.BACKEND_URL+'/api/auth/register', {
+//           method: 'GET',
+//           headers: {
+//               'Content-Type': 'application/json',
+//               'Cookie': `JSESSIONID=${JSSESSION?.value}`
+//           },
+//           credentials: 'include'
+//       })
+
+//       if (!userInfoResponse.ok) {
+//           return null;
+//       }
+
+//       return await userInfoResponse?.json()
+//   } catch (error) {
+//       console.log(error)
+//       return null;
+//   }
+
+// }

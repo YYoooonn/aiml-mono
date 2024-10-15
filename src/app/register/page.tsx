@@ -11,14 +11,14 @@ export default function Login() {
     event.preventDefault();
     try {
       const json = JSON.stringify({ username: username, password: password });
-      console.log(json);
       const response = await axios.post(
         "http://13.124.220.49:8080/api/users/register",
-        json, {
-          headers:{
+        json,
+        {
+          headers: {
             "Content-Type": `application/json`,
-          }
-        }
+          },
+        },
       );
 
       // localStorage.setItem('token', response.data.jwt);

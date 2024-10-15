@@ -1,7 +1,8 @@
 package com.AIMLproject.backend.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.AIMLproject.backend.domain.User;
@@ -11,21 +12,29 @@ import com.AIMLproject.backend.repository.UserRepository;
 public class UserService {
 
 	private final UserRepository userRepository;
-	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
-		this.passwordEncoder = passwordEncoder;
 	}
 
-	public String saveUser(String username, String password) throws Exception {
-		if (userRepository.findByUsername(username).isPresent()) {
-			throw new Exception("User already exists");
+	public String registerUser(String username, String password) {
+		// Check if the username already exists
+		Optional<User> existingUser = userRepository.findByUsername(username);
+
+		if (existingUser.isPresent()) {
+			return "fail"; // If the user already exists, return "fail"
 		}
-		final String encodedPassword = passwordEncoder.encode(password);
-		User user = new User(username, encodedPassword);
-		userRepository.save(user);
-		return encodedPassword;
+
+		// Save new user
+		User newUser = new User(username, password);
+		userRepository.save(newUser);
+
+		return "success"; // If the registration is successful, return "success"
+	}
+
+	public Optional<User> findByUsername(String username) {
+		return userRepository.findByUsername(username);
 	}
 }
+

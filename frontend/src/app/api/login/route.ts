@@ -1,3 +1,4 @@
+import { ApiResponseHeader } from "@/utils/headers";
 import userApiRequest from "@/utils/userApiRequest";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -7,14 +8,20 @@ export async function POST(req: NextRequest) {
     const requestBody = await req.json();
     const response = await userApiRequest("auth/login", "POST", requestBody);
     if (!response.ok) {
-      throw new Error("Error connecting client - client server");
+      // TODO : RestfulAPI - difference in status message
+      const res = await response.text();
+      return NextResponse.json(
+        { error: res },
+        {
+          status: 200,
+          headers: ApiResponseHeader,
+        },
+      );
     }
     const responseData = await response.json();
     return NextResponse.json(JSON.stringify(responseData), {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: ApiResponseHeader,
     });
   } catch (err) {
     console.error(err);

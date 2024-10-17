@@ -6,7 +6,8 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [token, setToken] = useState("");
+  // TODO storing tokens
+  // const [token, setToken] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,8 +21,11 @@ export default function Login() {
         throw new Error(`client - client server status : ${response.status}`);
       }
       const data = await response.json();
-      // TODO : store token in local storage
+      // TODO : store token in local storage, need to remove log
       console.log(data);
+      if (data.hasOwnProperty("error")) {
+        alert(data["error"]);
+      }
     } catch (err) {
       console.log(err);
     }

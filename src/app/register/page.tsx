@@ -1,52 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import axios from "axios";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  // need to be removed
-  const [testResponse, setTestResponse]: any = useState("");
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const loginData = { username: username, password: password };
-    const response = await fetch("/api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(loginData),
-    })
-      .then((res) => res.json())
-      .catch((err) => {
-        console.log(err);
+    try {
+      const loginData = { username: username, password: password };
+      const response = await fetch("/api/register", {
+        method: "POST",
+        body: JSON.stringify(loginData),
       });
+      if (!response.ok) {
+        throw new Error(`client - client server status : ${response.status}`);
+      }
+      const data = await response.json();
+      // TODO : store token in local storage
+      console.log(data);
+      if (data.hasOwnProperty("error")) {
+        alert(data["error"]);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
-
-  // const handleSubmit = async (event: React.FormEvent) => {
-  //   event.preventDefault();
-  //   try {
-  //     const json = JSON.stringify({ username: username, password: password });
-  //     const response = await axios.post(
-  //       "http://13.124.220.49:8080/api/users/register",
-  //       json,
-  //       {
-  //         headers: {
-  //           "Content-Type": `application/json`,
-  //         },
-  //       },
-  //     );
-
-  //     // localStorage.setItem('token', response.data.jwt);
-  //     // router.push('/profile');
-  //   } catch (error) {
-  //     console.error("가입 실패", error);
-  //   }
-  // };
-
   return (
     <div>
       <form onSubmit={handleSubmit}>

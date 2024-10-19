@@ -1,7 +1,10 @@
 "use client";
 
 import { io } from "socket.io-client";
+import dotenv from "dotenv"
 
-export const socket = io(`http://${process.env.PUBLIC_URL}`, {
+dotenv.config({path: '.env.production.local'})
+
+export const socket = io(`http://${process.env.NEXT_PUBLIC_HOSTNAME}:${process.env.PORT}`, {
   path: "/socket.io/",
 });

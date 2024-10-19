@@ -19,6 +19,7 @@ COPY next.config.mjs .
 COPY tsconfig.json .
 COPY tsconfig.server.json .
 COPY server.ts .
+COPY .env.production.local .
 
 # Environment variables must be present at build time
 # https://github.com/vercel/next.js/discussions/14030

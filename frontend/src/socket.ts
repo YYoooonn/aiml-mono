@@ -5,6 +5,6 @@ import dotenv from "dotenv"
 
 dotenv.config({path: '.env.production.local'})
 
-export const socket = io(`http://${process.env.NEXT_PUBLIC_HOSTNAME}:${process.env.PORT}`, {
+export const socket = io(`http://${process.env.NEXT_PUBLIC_HOSTNAME}`, {
   path: "/socket.io/",
 });

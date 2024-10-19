@@ -7,8 +7,8 @@ const dev = process.env.NODE_ENV !== "production";
 
 dotenv.config(dev ? { path: ".env.local" } : { path: ".env.production.local" });
 
-const hostname = dev? "localhost" : process.env.NEXT_PUBLIC_HOSTNAME;
-const port = dev? 3000 : Number(process.env.PORT || 3000);
+const hostname = dev ? "localhost" : process.env.NEXT_PUBLIC_HOSTNAME;
+const port = dev ? 3000 : Number(process.env.PORT || 3000);
 // when using middleware `hostname` and `port` must be provided below
 const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();

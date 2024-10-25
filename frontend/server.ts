@@ -27,7 +27,11 @@ app.prepare().then(() => {
 
   io.on("connection", (socket) => {
     // ...
-    console.log(socket.id);
+    console.log(`User connected : ${socket.id}`);
+    socket.on("sendMessage", (data) => {
+      console.log(data);
+      io.emit("receiveMessage", data);
+    });
   });
 
   httpServer

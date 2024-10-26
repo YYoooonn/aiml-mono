@@ -1,12 +1,11 @@
-import styles from "./page.module.css";
+import * as styles from "./page.css";
+import LeftAisle from "@/components/aisle/leftAisle";
+import RightAisle from "@/components/aisle/rightAisle";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <h1>AIML Project</h1>
-      </main>
-      <footer className={styles.footer}></footer>
-    </div>
+    <>
+      <h1> Welcome </h1>
+    </>
   );
 }

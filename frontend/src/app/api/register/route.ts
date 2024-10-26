@@ -6,7 +6,11 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const requestBody = await req.json();
-    const response = await userApiRequest("auth/login", "POST", requestBody);
+    const response = await userApiRequest(
+      "users/register",
+      "POST",
+      requestBody,
+    );
     if (!response.ok) {
       // TODO : RestfulAPI - difference in status message
       const res = await response.text();

@@ -1,6 +1,5 @@
-import Header from "./header/header";
-import Footer from "./footer/footer";
-import LeftAisle from "./aisle/leftAisle";
-import RightAisle from "./aisle/rightAisle";
+import Header from "./header/Header";
+import Footer from "./footer/Footer";
+import { LeftAisle, RightAisle } from "./aisle/Aisle";
 
 export { Header, Footer, LeftAisle, RightAisle };

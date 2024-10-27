@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.AIMLproject.backend.domain.Obj;
+import com.AIMLproject.backend.domain.Project;
 import com.AIMLproject.backend.dto.ObjectDto;
 import com.AIMLproject.backend.dto.ObjectsDto;
+import com.AIMLproject.backend.dto.ProjectDto;
 import com.AIMLproject.backend.dto.req.CreateNewObjectReq;
 import com.AIMLproject.backend.service.ProjectService;
 
@@ -27,6 +29,17 @@ public class ProjectController {
 	@Autowired
 	public ProjectController(ProjectService projectService) {
 		this.projectService = projectService;
+	}
+
+	@GetMapping("/projects/{projectId}")
+	public ResponseEntity<?> loadProject(@PathVariable Long projectId) {
+		try {
+			Project project = projectService.getProject(projectId);
+			ProjectDto res = new ProjectDto(project);
+			return ResponseEntity.ok(res);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
 	}
 
 	@PostMapping("/projects/{projectId}/objects")

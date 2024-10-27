@@ -15,7 +15,6 @@ public class UserDto {
 	private String username;
 	private String firstName;
 	private String lastName;
-	private String encodedPassword;
 	private List<ProjectDto> projects;
 
 	public UserDto(User user) {
@@ -23,7 +22,6 @@ public class UserDto {
 		this.username = user.getUsername();
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
-		this.encodedPassword = user.getEncodedPassword();
 		this.projects = user.getProjects().stream()
 			.map(ProjectDto::new)
 			.collect(Collectors.toList());

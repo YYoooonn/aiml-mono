@@ -1,6 +1,7 @@
 import { ApiResponseHeader } from "@/utils/headers";
 import userApiRequest from "@/utils/userApiRequest";
 import { NextRequest, NextResponse } from "next/server";
+import { createCookie } from "@/app/_actions/auth";
 
 // login
 export async function POST(req: NextRequest) {
@@ -19,6 +20,10 @@ export async function POST(req: NextRequest) {
       );
     }
     const responseData = await response.json();
+    if (responseData.hasOwnProperty("token")) {
+      // Store token inside cookie
+      await createCookie(responseData.token);
+    }
     return NextResponse.json(JSON.stringify(responseData), {
       status: 200,
       headers: ApiResponseHeader,

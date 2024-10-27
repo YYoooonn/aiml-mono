@@ -11,7 +11,7 @@ const AisleContainer = {
   padding: "4px",
   alignSelf: "top",
   "@media": {
-    [breakpoints.mobile]: { width: 0, padding: 0 },
+    [breakpoints.lowTablet]: { width: 0, padding: 0 },
   },
   ...theme.textStyle.test1,
 };

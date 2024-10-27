@@ -1,15 +1,61 @@
 "use client";
 
 import { useState } from "react";
+import redirectUser from "@/hook/redirectUser";
+import { navigate } from "../_actions/navigate";
+import Form from "@/components/form/BaseForm";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const props = {
+    props: [
+      {
+        form: {
+          label: "username",
+          type: "text",
+        },
+        dispatcher: setUsername,
+      },
+      {
+        form: {
+          label: "password",
+          type: "text",
+        },
+        dispatcher: setPassword,
+      },
+      {
+        form: {
+          label: "first name",
+          type: "text",
+        },
+        dispatcher: setFirstName,
+      },
+      {
+        form: {
+          label: "last name",
+          type: "text",
+        },
+        dispatcher: setLastName,
+      },
+    ],
+    error: error,
+    buttonMessage: "register",
+  };
+
+  const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
-      const loginData = { username: username, password: password };
+      const loginData = {
+        username: username,
+        password: password,
+        firstName: firstname,
+        lastName: lastname,
+      };
       const response = await fetch("/api/register", {
         method: "POST",
         body: JSON.stringify(loginData),
@@ -19,36 +65,33 @@ export default function Register() {
       }
       const data = await response.json();
       // TODO : store token in local storage
-      console.log(data);
       if (data.hasOwnProperty("error")) {
-        alert(data["error"]);
+        setError("Error: ".concat(data["error"]));
+        // reset username and password
+      } else {
+        // XXX login process, need to integrate with Login
+        const resLogin = await fetch("/api/login", {
+          method: "POST",
+          body: JSON.stringify(loginData),
+        });
+        if (!resLogin.ok) {
+          // ERROR : client - client server
+          throw new Error(`client - client server status : ${resLogin.status}`);
+        }
+
+        const dataLogin = await resLogin.json();
+        if (dataLogin.hasOwnProperty("error")) {
+          // ERROR : handle error - alert
+          alert(dataLogin["error"]);
+          navigate("login");
+        } else {
+          redirectUser();
+        }
       }
     } catch (err) {
       console.log(err);
+      setError("Unprecedented error, please try again");
     }
   };
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">회원가입</button>
-      </form>
-      <div style={{ color: "red" }}></div>
-    </div>
-  );
+  return <Form propsWithDispatch={props} handleSubmit={handleSubmit} />;
 }

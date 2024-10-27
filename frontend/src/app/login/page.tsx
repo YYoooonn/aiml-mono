@@ -1,15 +1,32 @@
 "use client";
 
-import Form from "@/components/form/BaseForm";
-import * as styles from "./login.css";
 import { useState } from "react";
+import redirectUser from "@/hook/redirectUser";
+import Form from "@/components/form/BaseForm";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  // TODO storing tokens
-  // const [token, setToken] = useState("");
+  const [error, setError] = useState("");
+  const props = {
+    props: [
+      {
+        form: {
+          label: "username",
+          type: "text",
+        },
+        dispatcher: setUsername,
+      },
+      {
+        form: {
+          label: "password",
+          type: "password",
+        },
+        dispatcher: setPassword,
+      },
+    ],
+    error: error,
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,39 +37,23 @@ export default function Login() {
         body: JSON.stringify(loginData),
       });
       if (!response.ok) {
+        // ERROR : client - client server
         throw new Error(`client - client server status : ${response.status}`);
       }
+
       const data = await response.json();
-      // TODO : store token in local storage, need to remove log
-      console.log(data);
       if (data.hasOwnProperty("error")) {
-        alert(data["error"]);
+        // ERROR : handle error - alert
+        // alert(data["error"]);
+        setError("Error: ".concat(data["error"]));
+      } else {
+        redirectUser();
       }
     } catch (err) {
       console.log(err);
+      setError("Unprecedented error, please try again");
     }
   };
 
-  return (
-    <>
-      <div className={styles.formContainer}>
-        <div className={styles.formLabel}>username :</div>
-        <input
-          className={styles.formInput}
-          type={"text"}
-          onChange={(e) => setUsername(e.target.value)}
-        ></input>
-        <div className={styles.formLabel}>password :</div>
-        <input
-          className={styles.formInput}
-          type={"password"}
-          onChange={(e) => setPassword(e.target.value)}
-        ></input>
-        <div className={styles.buttonSubmit} onClick={handleSubmit}>
-          {" "}
-          submit{" "}
-        </div>
-      </div>
-    </>
-  );
+  return <Form propsWithDispatch={props} handleSubmit={handleSubmit} />;
 }

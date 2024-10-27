@@ -21,6 +21,7 @@ export default function RootLayout({
     >
       <head></head>
       <body>
+        <div id="newProjectModal" />
         <main className={styles.layoutContainer}>
           <Header />
           <div className={styles.pageContentContainer}>

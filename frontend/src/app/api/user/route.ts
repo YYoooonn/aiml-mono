@@ -1,17 +1,15 @@
+import { getCookie } from "@/app/_actions/auth";
 import { ApiResponseHeader } from "@/utils/headers";
-import userApiRequest from "@/utils/userApiRequest";
 import { NextRequest, NextResponse } from "next/server";
-import { createCookie } from "@/app/_actions/auth";
+import userAuthRequest from "@/utils/userAuthRequest";
 
-// login
-export async function POST(req: NextRequest) {
+export const dynamic = "force-dynamic";
+
+// GET USER PROFILE
+export async function GET(req: NextRequest) {
   try {
-    const requestBody = await req.json();
-    const response = await userApiRequest(
-      "users/register",
-      "POST",
-      requestBody,
-    );
+    const token = await getCookie();
+    const response = await userAuthRequest("users/profile", "GET", token);
     if (!response.ok) {
       // TODO : RestfulAPI - difference in status message
       const res = await response.text();
@@ -23,12 +21,10 @@ export async function POST(req: NextRequest) {
         },
       );
     }
+
     const responseData = await response.json();
-    if (responseData.hasOwnProperty("token")) {
-      // TODO
-      await createCookie(responseData.token);
-    }
-    return NextResponse.json(JSON.stringify(responseData), {
+    console.log("received data", responseData);
+    return NextResponse.json(responseData, {
       status: 200,
       headers: ApiResponseHeader,
     });

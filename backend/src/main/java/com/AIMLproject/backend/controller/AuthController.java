@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.AIMLproject.backend.domain.User;
-import com.AIMLproject.backend.dto.UserDto;
 import com.AIMLproject.backend.dto.req.LoginReq;
 import com.AIMLproject.backend.dto.res.LoginRes;
 import com.AIMLproject.backend.service.AuthService;
@@ -32,8 +30,7 @@ public class AuthController {
 	public ResponseEntity<?> login(@RequestBody LoginReq req) { // check
 		try {
 			String jwtToken = authService.generateJwtToken(req.getUsername(), req.getPassword());
-			User user = userService.getUser(req.getUsername());
-			return ResponseEntity.status(HttpStatus.OK).body(new LoginRes(jwtToken, new UserDto(user)));
+			return ResponseEntity.status(HttpStatus.OK).body(new LoginRes(jwtToken, req.getUsername()));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
 		}

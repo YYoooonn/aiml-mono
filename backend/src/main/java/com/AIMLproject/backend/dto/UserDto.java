@@ -26,5 +26,4 @@ public class UserDto {
 			.map(ProjectDto::new)
 			.collect(Collectors.toList());
 	}
-
 }

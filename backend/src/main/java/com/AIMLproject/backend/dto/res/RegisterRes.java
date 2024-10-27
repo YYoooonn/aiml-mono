@@ -1,5 +1,7 @@
 package com.AIMLproject.backend.dto.res;
 
+import com.AIMLproject.backend.domain.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,5 +10,5 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class RegisterRes {
-	private String password;
+	private User user;
 }

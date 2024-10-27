@@ -23,11 +23,11 @@ public class AuthService {
 		this.jwtUtil = jwtUtil;
 	}
 
-	public String generateToken(String username, String password) throws Exception {
+	public String generateJwtToken(String username, String password) throws Exception {
 		try {
 			authManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		} catch (Exception e) {
-			throw new Exception("Invalid username or password");
+		} catch (Exception e) {                                                // fix later
+			throw new Exception("Invalid username or password");            // fix later
 		}
 		UserDetails userDetails = new User(username, password, new ArrayList<>());
 		return jwtUtil.generateToken(userDetails);

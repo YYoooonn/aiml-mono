@@ -20,7 +20,7 @@ public class JwtUtil {
 			.setSubject(userDetails.getUsername())
 			.setIssuedAt(new Date(System.currentTimeMillis()))
 			.setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
-			.signWith(SignatureAlgorithm.HS256, secretKey)
+			.signWith(SignatureAlgorithm.HS256, secretKey.getBytes())
 			.compact();
 	}
 

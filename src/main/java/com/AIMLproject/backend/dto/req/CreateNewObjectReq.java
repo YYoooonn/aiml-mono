@@ -4,5 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class CreateNewObjectReq {
-	private String data;
+	private Object geometry;
+	private Object material;
+	private Object others;
 }

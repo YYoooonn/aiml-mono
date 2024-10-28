@@ -20,15 +20,23 @@ public class Obj {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long objectId;
 
-	@Column(nullable = false)            // to do
-	private String data;                // to do
+	@Column(columnDefinition = "json")
+	private String geometry;
 
-	@ManyToOne(fetch = FetchType.LAZY)    // to do
-	@JoinColumn(name = "projectId")        // to do
+	@Column(columnDefinition = "json")
+	private String material;
+
+	@Column(columnDefinition = "json")
+	private String others;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "projectId")
 	private Project project;
 
-	public Obj(String data, Project project) {
-		this.data = data;
+	public Obj(String geometry, String material, String others, Project project) {
+		this.geometry = geometry;
+		this.material = material;
+		this.others = others;
 		this.project = project;
 	}
 

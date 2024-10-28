@@ -48,6 +48,12 @@ public class UserController {
 		}
 	}
 
+	@GetMapping("/users")
+	public ResponseEntity<?> getUsername(Authentication auth) {
+		String username = auth.getName();
+		return ResponseEntity.ok(username);
+	}
+
 	@GetMapping("/users/{username}/profile")
 	public ResponseEntity<?> getProfile(@PathVariable String username, Authentication auth) {
 		if (auth.getName().equals(username)) {

@@ -1,5 +1,7 @@
 package com.AIMLproject.backend.controller;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.AIMLproject.backend.domain.Obj;
 import com.AIMLproject.backend.domain.Project;
 import com.AIMLproject.backend.domain.User;
-import com.AIMLproject.backend.dto.ObjectDto;
 import com.AIMLproject.backend.dto.ProjectDto;
 import com.AIMLproject.backend.dto.req.CreateNewObjectReq;
 import com.AIMLproject.backend.dto.res.LoadProjectRes;
@@ -41,8 +42,18 @@ public class ProjectController {
 		try {
 			Project project = projectService.getProject(projectId);
 			User user = project.getUser();
+			List<Obj> allObjects = project.getObjects();
+			List<Map<String, Object>> objects = new ArrayList<>();
+			for (Obj object : allObjects) {
+				Map<String, Object> entry = new LinkedHashMap<>(); // LinkedHashMap 사용
+				entry.put("objectId", object.getObjectId());
+				entry.put("geometry", objectMapper.readValue(object.getGeometry(), Map.class));
+				entry.put("material", objectMapper.readValue(object.getMaterial(), Map.class));
+				entry.put("others", objectMapper.readValue(object.getOthers(), Map.class));
+				objects.add(entry);
+			}
 			ProjectDto projectDto = new ProjectDto(project);
-			LoadProjectRes res = new LoadProjectRes(user, projectDto);
+			LoadProjectRes res = new LoadProjectRes(user, projectDto, objects);
 			return ResponseEntity.ok(res);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -56,7 +67,13 @@ public class ProjectController {
 			String material = objectMapper.writeValueAsString(req.getMaterial());
 			String others = objectMapper.writeValueAsString(req.getOthers());
 			Obj object = projectService.addNewObject(projectId, geometry, material, others);
-			return ResponseEntity.ok(new ObjectDto(object));
+			Map<String, Object> entry = new LinkedHashMap<>();
+			entry.put("objectId", object.getObjectId());
+			entry.put("geometry", objectMapper.readValue(geometry, Map.class));
+			entry.put("material", objectMapper.readValue(material, Map.class));
+			entry.put("others", objectMapper.readValue(others, Map.class));
+			entry.put("peojectId", projectId);
+			return ResponseEntity.ok(entry);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}

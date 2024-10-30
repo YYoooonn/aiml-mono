@@ -6,10 +6,11 @@ import userAuthRequest from "@/utils/userAuthRequest";
 
 export const dynamic = "force-dynamic";
 
-// GET USER PROFILE
+// GET Project
 export async function POST(req: NextRequest) {
   try {
     const token = await getCookie();
+
     // 401 error , token not valid - redirect login
     if (!token) {
       return NextResponse.json(
@@ -22,17 +23,15 @@ export async function POST(req: NextRequest) {
     }
 
     const requestBody = await req.json();
-
     const response = await userAuthRequest(
-      "users/projects",
+      `users/${requestBody["username"]}/projects`,
       "POST",
       token,
-      requestBody,
+      requestBody["projectInfo"],
     );
     if (!response.ok) {
       // TODO : RestfulAPI - difference in status message
       const res = await response.text();
-      console.log(response);
       return NextResponse.json(
         { error: res },
         {
@@ -43,12 +42,12 @@ export async function POST(req: NextRequest) {
     }
 
     const responseData = await response.json();
-    console.log("response data from creation", responseData);
+    //console.debug("response data from creating projects", responseData);
     return NextResponse.json(responseData, {
       status: 200,
       headers: ApiResponseHeader,
     });
   } catch (err) {
-    console.error(err);
+    //console.debug(err);
   }
 }

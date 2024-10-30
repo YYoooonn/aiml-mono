@@ -1,19 +1,13 @@
-import { Project } from "@/@types/api";
+import { Project, UserInfo } from "@/@types/api";
 import * as styles from "./user.css";
 import { MouseEvent } from "react";
-import { getCookie } from "@/app/_actions/auth";
 import { navigate } from "@/app/_actions/navigate";
 import Modal from "@/components/modal/Modal";
 import Form from "@/components/form/BaseForm";
-import { Dispatch, SetStateAction, useState } from "react";
-import { UserInfo } from "@/@types/api";
-import { updateUserInfo } from "@/app/_actions/update";
-
-interface ProjectProp {
-  index?: number;
-  project?: Project;
-  userId?: string;
-}
+import { useState, useEffect } from "react";
+import { useUserInfo } from "@/hook/useUserInfo";
+import { createProject } from "@/app/_actions/project";
+import { Dispatch, SetStateAction } from "react";
 
 interface ProjectPropValid {
   index: number;
@@ -21,28 +15,30 @@ interface ProjectPropValid {
   userId: string;
 }
 
-export function ProjectModule({ index, project, userId }: ProjectPropValid) {
+function ProjectModule({ index, project, userId }: ProjectPropValid) {
   const handleClick = (e: MouseEvent) => {
     e.preventDefault();
-    navigate(`/projects/${userId}/${project.projectId}`);
+    navigate(`/user/${userId}/projects/${project.projectId}`);
   };
   return (
     <div key={index} className={styles.projectItem} onClick={handleClick}>
       <div className={styles.projectData}>
         {project.title}
         <div className={styles.projectDataSubtitle}>{project.subtitle}</div>
-        <div className={styles.projectDataSubtitle}>
+        {/* <div className={styles.projectDataSubtitle}>
           created by: {project.createdBy}
-        </div>
+        </div> */}
       </div>
     </div>
   );
 }
 
-export function NewProjectModule({
-  dispatcher,
+function NewProjectModule({
+  addProject,
+  username,
 }: {
-  dispatcher: Dispatch<SetStateAction<UserInfo | undefined>>;
+  addProject: (project: Project) => void;
+  username: string;
 }) {
   const [isOpened, setOpen] = useState(false);
   const [title, setTitle] = useState("");
@@ -51,7 +47,7 @@ export function NewProjectModule({
 
   const handleClick = (e: MouseEvent) => {
     e.preventDefault();
-    console.log("handle click");
+    //console.debug("handle click");
     setOpen(!isOpened);
   };
 
@@ -73,36 +69,22 @@ export function NewProjectModule({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const token = await getCookie();
-      const loginData = { title: title, subtitle: subtitle };
-      const response = await fetch("/api/project", {
-        method: "POST",
-        body: JSON.stringify(loginData),
-      });
-      if (!response.ok) {
-        // ERROR : client - client server
-        throw new Error(`client - client server status : ${response.status}`);
-      }
+      const creationData = { title: title, subtitle: subtitle };
+      const data = await createProject(username, creationData);
 
-      const data = await response.json();
       if (data.hasOwnProperty("error")) {
         // ERROR : handle error - alert
-        // alert(data["error"]);
+        alert(data["error"]);
         setError("Error: ".concat(data["error"]));
       } else {
-        console.log("submission complete");
-        const userInfo = await updateUserInfo();
-        if (!userInfo) {
-          throw new Error("get user info failed");
-        }
-        dispatcher(userInfo);
+        console.debug("submission complete");
+        addProject(data);
         setOpen(false);
-
         setTitle("");
         setSubtitle("");
       }
     } catch (err) {
-      console.log(err);
+      //console.debug(err);
       setError("Unprecedented error, please try again");
     }
   };
@@ -118,7 +100,30 @@ export function NewProjectModule({
         handler={handleClick}
       >
         <Form propsWithDispatch={formProps} handleSubmit={handleSubmit} />
+        {error ? <div style={{ color: "red" }}>{error}</div> : <></>}
       </Modal>
     </>
+  );
+}
+
+export function Projects() {
+  const projects = useUserInfo((state) => state.projects);
+  const addProject = useUserInfo((state) => state.addProject);
+  const username = useUserInfo((state) => state.username);
+
+  return (
+    <div className={styles.projectContainer}>
+      {projects.map((project, i) => {
+        return (
+          <ProjectModule
+            key={i}
+            index={i}
+            project={project}
+            userId={username}
+          />
+        );
+      })}
+      <NewProjectModule addProject={addProject} username={username} />
+    </div>
   );
 }

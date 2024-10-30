@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import redirectUser from "@/hook/redirectUser";
 import { navigate } from "../_actions/navigate";
 import Form from "@/components/form/BaseForm";
+import { fetchRegister, fetchLogin } from "../_actions/user";
+import { useUserInfo } from "@/hook/useUserInfo";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -11,6 +13,11 @@ export default function Register() {
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [error, setError] = useState("");
+  const resetInfo = useUserInfo((state) => state.reset);
+
+  useEffect(() => {
+    resetInfo();
+  }, []);
 
   const props = {
     props: [
@@ -50,42 +57,29 @@ export default function Register() {
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
-      const loginData = {
+      const registerData = {
         username: username,
         password: password,
         firstName: firstname,
         lastName: lastname,
       };
-      const response = await fetch("/api/register", {
-        method: "POST",
-        body: JSON.stringify(loginData),
-      });
-      if (!response.ok) {
-        throw new Error(`client - client server status : ${response.status}`);
-      }
-      const data = await response.json();
-      // TODO : store token in local storage
+
+      const data = await fetchRegister(registerData);
       if (data.hasOwnProperty("error")) {
+        // error message from backend
         setError("Error: ".concat(data["error"]));
-        // reset username and password
       } else {
         // XXX login process, need to integrate with Login
-        const resLogin = await fetch("/api/login", {
-          method: "POST",
-          body: JSON.stringify(loginData),
+        const res = await fetchLogin({
+          username: registerData.username,
+          password: registerData.password,
         });
-        if (!resLogin.ok) {
-          // ERROR : client - client server
-          throw new Error(`client - client server status : ${resLogin.status}`);
-        }
-
-        const dataLogin = await resLogin.json();
-        if (dataLogin.hasOwnProperty("error")) {
+        if (res.hasOwnProperty("error")) {
           // ERROR : handle error - alert
-          alert(dataLogin["error"]);
-          navigate("login");
+          alert(res["error"]);
+          navigate("/login");
         } else {
-          redirectUser();
+          redirectUser(username);
         }
       }
     } catch (err) {

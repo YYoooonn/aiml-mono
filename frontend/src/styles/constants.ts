@@ -1,3 +1,3 @@
 import { breakpoints } from "./breakpoints";
 
-export const AISLEWIDTH = "120px";
+export const AISLEWIDTH = "240px";

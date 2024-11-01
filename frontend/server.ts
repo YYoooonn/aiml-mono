@@ -124,7 +124,7 @@ app.prepare().then(() => {
     });
 
     socket.on("join", (msg: { username: string; type: string }) => {
-      console.debug("join", msg);
+      // console.debug("join", msg);
       if (msg.type === "join" && !usersChat[socket.id]) {
         chat.to(roomId).emit("chatMessage", `${msg.username} joined the room`);
         usersChat[socket.id] = msg.username;
@@ -146,7 +146,7 @@ app.prepare().then(() => {
 
   io.on("connection", (socket) => {
     // ...
-    console.debug(`User connected : ${socket.id}`);
+    // console.debug(`User connected : ${socket.id}`);
 
     // Join and Leave alert
     socket.on("joinAndLeave", (msg: { type: string; username: string }) => {

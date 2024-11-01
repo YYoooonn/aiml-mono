@@ -22,7 +22,7 @@ export async function fetchRegister(props: RegisterInfo) {
   } catch (e) {
     //console.debug("Error from registration :");
     //console.debug(e);
-    return { error: "error from register process" };
+    return { error: "Unprecedented Error: please try again" };
   }
 }
 
@@ -55,7 +55,7 @@ export async function fetchUserInfo(username: UserBaseInfo["username"]) {
       body: JSON.stringify({ username: username }),
     });
     const data = await res.json();
-    console.debug(data);
+    // console.debug(data);
     if (data["username"] && username === data["username"]) {
       return data;
     } else {

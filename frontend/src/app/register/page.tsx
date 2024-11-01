@@ -83,7 +83,7 @@ export default function Register() {
         }
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setError("Unprecedented error, please try again");
     }
   };

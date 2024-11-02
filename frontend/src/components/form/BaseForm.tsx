@@ -26,6 +26,12 @@ export default function Form({
   handleSubmit: (e: React.MouseEvent) => Promise<void>;
 }) {
   const error = propsWithDispatch.error;
+  const onKeydownSubmit = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      // FIXME
+      handleSubmit(e as any);
+    }
+  };
   return (
     <div className={styles.formContainer}>
       {propsWithDispatch.props.map((prop, i) => {
@@ -40,6 +46,7 @@ export default function Form({
               style={error ? { borderColor: "red", color: "red" } : {}}
               type={prop.form.type}
               onChange={(e) => prop.dispatcher(e.target.value)}
+              onKeyDown={onKeydownSubmit}
             ></input>
           </div>
         );

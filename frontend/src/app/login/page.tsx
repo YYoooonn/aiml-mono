@@ -40,18 +40,19 @@ export default function Login() {
         // ERROR : client - client server
         throw new Error(`client - client server status : ${response.status}`);
       }
-
-      const data = await response.json();
+      const data = await response.json().then((r) => {
+        return JSON.parse(r);
+      });
       if (data.hasOwnProperty("error")) {
         // ERROR : handle error - alert
         // alert(data["error"]);
         setError("Error: ".concat(data["error"]));
       } else {
-        redirectUser();
+        redirectUser(data["username"]);
       }
     } catch (err) {
-      console.log(err);
-      setError("Unprecedented error, please try again");
+      console.debug(err)
+      setError("login error, please try again");
     }
   };
 

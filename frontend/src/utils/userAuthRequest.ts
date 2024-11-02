@@ -17,6 +17,7 @@ export default async function userAuthRequest(
   token?: string,
   body?: object,
 ) {
+  console.debug(body);
   return await fetch(`${process.env.BACKEND_API_BASE + endpoint}`, {
     method: method,
     headers: HeaderInfo(token),

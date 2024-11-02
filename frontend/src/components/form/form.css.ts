@@ -7,7 +7,7 @@ export const formContainer = style({
   gap: "16px",
   padding: "8px",
   width: "80%",
-  minWidth: "50vw",
+  minWidth: "150px",
   border: "1.5px solid",
   ...theme.textStyle.subtitle1,
 });

@@ -1,14 +1,10 @@
 import { navigate } from "@/app/_actions/navigate";
-import { redirect } from "next/navigation";
-import { setUserInfo, getUserId } from "./useUserStore";
-import { updateUserInfo } from "@/app/_actions/update";
 
-export default async function pushUser(newURL?: string) {
-  console.log("push user");
+export default async function pushUser(username: string) {
+  //console.debug("push user");
   try {
-    const userInfo = await updateUserInfo();
-    if (userInfo) {
-      navigate(`projects/${userInfo.userId}`);
+    if (username) {
+      navigate(`/user/${username}`);
     } else {
       throw new Error("error while pushing user");
     }

@@ -5,7 +5,7 @@ import { bordertest } from "../test.css";
 
 export const CanvasContainer = style({
   width: "100%",
-  aspectRatio: "1/1",
+  height: "90vh",
   backgroundColor: "rgba(100, 0, 0, 0.1)",
   textAlign: "center",
   ...theme.textStyle.heading2,

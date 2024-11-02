@@ -7,7 +7,7 @@ export const headerContainer = style({
   flexDirection: "column",
   gap: "32px",
   padding: "8px",
-  ...bordertest,
+  borderBottom: "1px solid",
   ...theme.textStyle.heading4,
 });
 

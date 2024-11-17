@@ -54,7 +54,7 @@ export function ChatSocket(props: SocketProps) {
 
     function onSetLog(msg: MessageLog | string) {
       //console.debug(msg);
-      console.log("setlog");
+      // console.log("setlog");
       if (typeof msg === "string") {
         setLogs((prevLogs) => [...prevLogs, msg]);
       } else {
@@ -64,8 +64,8 @@ export function ChatSocket(props: SocketProps) {
 
     socket.on("chatMessage", onSetLog);
 
-    function onUsers(inputUsers: { id: string; username: string }[]) {
-      //console.debug({ inputUsers });
+    function onUsers(inputUsers: { username: string }[]) {
+      console.debug(inputUsers);
       setUsers(inputUsers.map((inputUser) => inputUser.username));
     }
     socket.on("users", onUsers);
@@ -84,9 +84,12 @@ export function ChatSocket(props: SocketProps) {
   };
 
   const onKeyDownSubmit = (e: React.KeyboardEvent) => {
+    // 엔터 두번 발생시
     if (e.key === "Enter" && message) {
-      socket.emit("chatMessage", { username, message });
-      setMessage("");
+      if(!e.nativeEvent.isComposing){
+        socket.emit("chatMessage", { username, message });
+        setMessage("");
+      }
     }
   };
 

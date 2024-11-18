@@ -52,9 +52,9 @@ public class ProjectController {
 	}
 
 	@PutMapping("/projects/{projectId}")
-	public ResponseEntity<?> authorizeProject(@PathVariable Long projectId, @RequestBody Boolean authorization,
+	public ResponseEntity<?> authorizeProject(@PathVariable Long projectId, @RequestBody Boolean auth,
 		@AuthenticationPrincipal UserDetails userDetails) {
-		projectService.authorizeProject(projectId, authorization, userDetails.getUsername());
+		projectService.authorizeProject(projectId, auth, userDetails.getUsername());
 		return ResponseEntity.ok().build();
 	}
 

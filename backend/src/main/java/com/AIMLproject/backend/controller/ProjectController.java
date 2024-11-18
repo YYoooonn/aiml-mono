@@ -1,6 +1,7 @@
 package com.AIMLproject.backend.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -52,8 +53,9 @@ public class ProjectController {
 	}
 
 	@PutMapping("/projects/{projectId}")
-	public ResponseEntity<?> authorizeProject(@PathVariable Long projectId, @RequestBody Boolean auth,
+	public ResponseEntity<?> authorizeProject(@PathVariable Long projectId, @RequestBody Map<String, Boolean> authMap,
 		@AuthenticationPrincipal UserDetails userDetails) {
+		Boolean auth = authMap.get("auth");
 		projectService.authorizeProject(projectId, auth, userDetails.getUsername());
 		return ResponseEntity.ok().build();
 	}

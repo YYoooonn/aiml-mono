@@ -1,5 +1,8 @@
 package com.AIMLproject.backend.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +25,10 @@ public class AuthController {
 	}
 
 	@PostMapping("/auth/login")
-	public ResponseEntity<String> login(@RequestBody LoginReq req) {
+	public ResponseEntity<Map<String, String>> login(@RequestBody LoginReq req) {
 		String token = authService.generateToken(req.getUsername(), req.getPassword());
-		return ResponseEntity.ok(token);
+		Map<String, String> res = new HashMap<>();
+		res.put("token", token);
+		return ResponseEntity.ok(res);
 	}
 }

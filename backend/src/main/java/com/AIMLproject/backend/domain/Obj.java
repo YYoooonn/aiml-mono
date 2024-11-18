@@ -1,13 +1,17 @@
 package com.AIMLproject.backend.domain;
 
+import java.util.Date;
+
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,15 +33,24 @@ public class Obj {
 	@Column(columnDefinition = "json")
 	private String others;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "projectId")
-	private Project project;
+	@CreatedDate
+	private Date createdAt;
 
-	public Obj(String geometry, String material, String others, Project project) {
+	@LastModifiedDate
+	private Date lastModifiedAt;
+
+	@CreatedBy
+	private String createdBy; // username
+
+	@LastModifiedBy
+	private String lastModifiedBy; // username
+
+	public Obj(String geometry, String material, String others, Project project, String username) {
 		this.geometry = geometry;
 		this.material = material;
 		this.others = others;
-		this.project = project;
+		this.createdBy = username;
+		this.lastModifiedBy = username;
 	}
 
 	public Obj() {

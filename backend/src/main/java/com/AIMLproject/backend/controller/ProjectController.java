@@ -52,12 +52,13 @@ public class ProjectController {
 	}
 
 	@PutMapping("/projects/{projectId}")
-	public ResponseEntity<?> authorizeProject(@PathVariable Long projectId, @RequestBody Boolean auth,
+	public ResponseEntity<?> authorizeProject(@PathVariable Long projectId, @RequestBody Map<String, Boolean> authMap,
 		@AuthenticationPrincipal UserDetails userDetails) {
+    Boolean auth = authMap.get("auth");
 		projectService.authorizeProject(projectId, auth, userDetails.getUsername());
 		return ResponseEntity.ok().build();
 	}
-
+  
 	@DeleteMapping("/projects/{projectId}")
 	public ResponseEntity<?> deleteProject(@PathVariable Long projectId,
 		@AuthenticationPrincipal UserDetails userDetails) {

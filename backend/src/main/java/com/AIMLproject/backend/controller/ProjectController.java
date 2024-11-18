@@ -1,7 +1,6 @@
 package com.AIMLproject.backend.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +58,7 @@ public class ProjectController {
 		projectService.authorizeProject(projectId, auth, userDetails.getUsername());
 		return ResponseEntity.ok().build();
 	}
-
+  
 	@DeleteMapping("/projects/{projectId}")
 	public ResponseEntity<?> deleteProject(@PathVariable Long projectId,
 		@AuthenticationPrincipal UserDetails userDetails) {

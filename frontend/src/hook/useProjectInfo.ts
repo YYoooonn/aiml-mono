@@ -7,7 +7,7 @@ import { persist } from "zustand/middleware";
 
 interface ProjectAction {
   fetch: (username: string, projectId: Project["projectId"]) => Promise<void>;
-  addtoObjects: (object: ObjectInfo) => void
+  addtoObjects: (object: ObjectInfo) => void;
 }
 
 type ProjectState = Omit<Project & UserInfo & ProjectAction, "projects">;

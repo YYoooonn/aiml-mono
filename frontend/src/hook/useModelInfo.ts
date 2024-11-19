@@ -43,15 +43,15 @@ export const useModelInfo = create<ModelState>()((set, get) => ({
   setMaterial: (material) => set({ material }),
   setOthers: (others) => set({ others }),
   submit: async (projectId: string) => {
-    const randomModel = createRandomObject()
-    get().set(randomModel)
+    const randomModel = createRandomObject();
+    get().set(randomModel);
     //  console.debug(modelInfo)
     const response = await createObject(projectId, randomModel);
     //console.debug(response);
     if (!response["error"]) {
       set(DEFAULT);
     } else {
-      useProjectInfo.getState().addtoObjects(response)
+      useProjectInfo.getState().addtoObjects(response);
       //console.debug("error while creating object");
     }
   },

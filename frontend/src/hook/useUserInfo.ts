@@ -20,6 +20,9 @@ const DEFAULT: UserInfo = {
   username: "",
   firstName: "",
   lastName: "",
+  createdAt: "",
+  lastModifiedAt: "",
+  email: "",
   projects: [],
 };
 

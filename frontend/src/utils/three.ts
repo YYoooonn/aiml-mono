@@ -18,18 +18,18 @@ export function getRandNumber(input: number) {
 }
 
 export function getRandPos(input: number, seed?: number): Position["position"] {
-  if(seed){
+  if (seed) {
     return [
       (seededRandom(seed) - 0.5) * input,
       (seededRandom(seed + 1) - 0.5) * input,
       (seededRandom(seed + 2) - 0.5) * input,
     ];
-  }else{
+  } else {
     return [
       Math.random() * input,
       Math.random() * input,
       Math.random() * input,
-    ]
+    ];
   }
 }
 
@@ -38,27 +38,28 @@ export function getRandColor() {
 }
 
 export function getRandRotation(seed?: number): Position["position"] {
-  if(seed){return [
-    seededRandom(seed) * 3,
-    seededRandom(seed + 1) * 3,
-    seededRandom(seed + 2) * 3,
-  ]}else{
-    return [Math.random()*3, Math.random()*3, Math.random()*3]
+  if (seed) {
+    return [
+      seededRandom(seed) * 3,
+      seededRandom(seed + 1) * 3,
+      seededRandom(seed + 2) * 3,
+    ];
+  } else {
+    return [Math.random() * 3, Math.random() * 3, Math.random() * 3];
   }
 }
 
-export function createRandomObject(){
-  const randomBox = mergeVertices(new BoxGeometry(1, 1, 1))
-  const randomMaterial = new MeshNormalMaterial()
-  const randPosition = getRandPos(5)
-  const randRot = getRandRotation()
-  return{
-    geometry : randomBox,
-    material : randomMaterial,
+export function createRandomObject() {
+  const randomBox = mergeVertices(new BoxGeometry(1, 1, 1));
+  const randomMaterial = new MeshNormalMaterial();
+  const randPosition = getRandPos(5);
+  const randRot = getRandRotation();
+  return {
+    geometry: randomBox,
+    material: randomMaterial,
     others: {
       position: randPosition,
-      rotation: randRot
-    }
-
-  }
+      rotation: randRot,
+    },
+  };
 }

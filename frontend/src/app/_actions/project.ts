@@ -59,6 +59,7 @@ export async function fetchProjects(username: string) {
 interface BaseProjectProp {
   title: string;
   subtitle: string;
+  public: boolean;
 }
 
 export async function createProject(username: string, props: BaseProjectProp) {
@@ -67,7 +68,7 @@ export async function createProject(username: string, props: BaseProjectProp) {
       method: "POST",
       body: JSON.stringify({
         username: username,
-        projectInfo: { title: props.title, subtitle: props.subtitle },
+        projectInfo: props,
       }),
     });
     const data = await res.json();

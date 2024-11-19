@@ -75,3 +75,16 @@ export const projectDataSubtitle = style({
   ...theme.textStyle.subtitle2,
   padding: 0,
 });
+
+export const buttonContainer = style({
+  display: "flex",
+  height: "12px",
+  position: "relative",
+  borderColor: theme.color.black,
+  ":hover": {
+    cursor: "pointer",
+    borderStyle: "solid",
+    borderWidth: "1.5px",
+    background: theme.color.gray2,
+  },
+});

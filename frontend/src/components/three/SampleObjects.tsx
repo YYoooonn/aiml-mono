@@ -31,18 +31,16 @@ export default function SampleObjects({ id }: { id: string }) {
 
   return (
     <group>
-    <Instances geometry={sampleBoxGeometry} material={sampleMaterial}>
-      {positions.map((pos, i) => {
-        return (
-          <ObjectInstance key={i} position={pos} rotation={rotations[i]} />
-        );
-      })}
-    </Instances>
-
+      <Instances geometry={sampleBoxGeometry} material={sampleMaterial}>
+        {positions.map((pos, i) => {
+          return (
+            <ObjectInstance key={i} position={pos} rotation={rotations[i]} />
+          );
+        })}
+      </Instances>
     </group>
   );
 }
-
 
 function ObjectInstance({
   position,

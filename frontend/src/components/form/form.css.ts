@@ -1,4 +1,4 @@
-import { style } from "@vanilla-extract/css";
+import { createVar, style } from "@vanilla-extract/css";
 import { theme } from "@/styles/theme.css";
 
 export const formContainer = style({
@@ -59,4 +59,32 @@ export const buttonSubmit = style({
   ":hover": {
     border: "2px solid",
   },
+});
+
+export const checkboxContainer = style({
+  display: "flex",
+  justifyContent: "space-between",
+  overflowX: "hidden",
+  padding: "4px",
+  flexDirection: "column",
+  minWidth: "100%",
+});
+
+export const isCheck = createVar();
+export const checkbox = style({
+  display: "block",
+  width: "24px",
+  height: "24px",
+  marginTop: "4px",
+  border: "1px dashed",
+  backgroundColor: `rgb(0,0,0,${isCheck})`,
+  ":hover": {
+    border: "2px solid",
+    cursor: "pointer",
+  },
+});
+
+export const checkboxTitle = style({
+  display: "block",
+  width: "50%",
 });

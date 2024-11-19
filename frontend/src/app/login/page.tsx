@@ -51,7 +51,7 @@ export default function Login() {
         redirectUser(data["username"]);
       }
     } catch (err) {
-      console.debug(err)
+      console.debug(err);
       setError("login error, please try again");
     }
   };

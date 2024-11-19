@@ -22,12 +22,16 @@ interface ObjectInfo {
 interface Project {
   projectId: string;
   title: string;
-  subtitle: string;
+  subtitle: string?;
   objects: ObjectInfo[];
+  isPublic: boolean;
+
   // TODO: not implemented yet
-  // lastModifiedAt: string;
-  // createdAt: string;
-  // createdBy: string;
+  participants: []; // FIXME
+  lastModifiedAt: string;
+  createdAt: string;
+  createdBy: string;
+  objects: ObjectInfo[];
 }
 
 // GET user/profile
@@ -36,5 +40,8 @@ interface UserInfo {
   username: string;
   firstName: string;
   lastName: string;
+  createdAt: string;
+  lastModifiedAt: string; // 안보내도 됨
+  email: string | undefined; // <==== 없어도 되지 않나?
   projects: Project[];
 }

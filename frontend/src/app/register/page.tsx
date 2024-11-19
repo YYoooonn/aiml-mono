@@ -13,6 +13,7 @@ export default function Register() {
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
   const resetInfo = useUserInfo((state) => state.reset);
 
   useEffect(() => {
@@ -49,6 +50,13 @@ export default function Register() {
         },
         dispatcher: setLastName,
       },
+      {
+        form: {
+          label: "email",
+          type: "text",
+        },
+        dispatcher: setEmail,
+      },
     ],
     error: error,
     buttonMessage: "register",
@@ -62,6 +70,7 @@ export default function Register() {
         password: password,
         firstName: firstname,
         lastName: lastname,
+        email: email,
       };
 
       const data = await fetchRegister(registerData);

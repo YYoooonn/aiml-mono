@@ -31,7 +31,6 @@ export default function DefaultCanvas({ id }: { id: string }) {
   //   }
   // }
 
-  
   return (
     <div className={styles.CanvasContainer}>
       <Canvas frameloop="demand">

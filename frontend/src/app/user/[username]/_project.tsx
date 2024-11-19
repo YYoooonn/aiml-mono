@@ -43,6 +43,7 @@ function NewProjectModule({
   const [isOpened, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
+  const [isPrivate, setIsPrivate] = useState(false);
   const [error, setError] = useState("");
 
   const handleClick = (e: MouseEvent) => {
@@ -61,6 +62,10 @@ function NewProjectModule({
         form: { label: "subtitle", type: "text" },
         dispatcher: setSubtitle,
       },
+      {
+        form: { label: "private", type: "checkbox" },
+        dispatcher: setIsPrivate,
+      },
     ],
     error: error,
     buttonMessage: "create new project",
@@ -69,7 +74,11 @@ function NewProjectModule({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const creationData = { title: title, subtitle: subtitle };
+      const creationData = {
+        title: title,
+        subtitle: subtitle,
+        public: !isPrivate,
+      };
       const data = await createProject(username, creationData);
 
       if (data.hasOwnProperty("error")) {

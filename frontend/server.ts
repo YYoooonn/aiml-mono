@@ -81,15 +81,17 @@ app.prepare().then(() => {
   });
 
   // FIXME using any type
-  let usersChat: {[key: string] : Array<{socketId : string, username: string}>} = {"default" : []};
+  let usersChat: {
+    [key: string]: Array<{ socketId: string; username: string }>;
+  } = { default: [] };
 
   function getChatUsersArray(roomId: string) {
-    if(!usersChat[roomId]){
-      return []
+    if (!usersChat[roomId]) {
+      return [];
     }
     return usersChat[roomId].map((id) => ({
-      username : id.username,
-    }))
+      username: id.username,
+    }));
   }
 
   const chat = io.of("/chat");
@@ -127,15 +129,15 @@ app.prepare().then(() => {
 
     socket.on("join", (msg: { username: string; type: string }) => {
       // console.debug("join", msg);
-      if(!(roomId in usersChat)){
-        usersChat[roomId] = []
+      if (!(roomId in usersChat)) {
+        usersChat[roomId] = [];
       }
-      const found = socket.id in usersChat[roomId]
+      const found = socket.id in usersChat[roomId];
       if (msg.type === "join" && !found) {
         chat.to(roomId).emit("chatMessage", `${msg.username} joined the room`);
-        usersChat[roomId].push({socketId: socket.id, username : msg.username})
+        usersChat[roomId].push({ socketId: socket.id, username: msg.username });
         chat.to(roomId).emit("users", getChatUsersArray(roomId));
-        console.log(usersChat[roomId])
+        console.log(usersChat[roomId]);
       }
     });
 
@@ -144,9 +146,11 @@ app.prepare().then(() => {
       console.log("disconnect to room namespace");
       socket.leave(roomId);
 
-      const user = usersChat[roomId].find((val) => val.socketId === socket.id);
+      const user = usersChat[roomId]?.find((val) => val.socketId === socket.id);
       chat.to(roomId).emit("chatMessage", `${user?.username} leaved the room`);
-      usersChat[roomId] = usersChat[roomId].filter((ele) => ele.socketId !== socket.id);
+      usersChat[roomId] = usersChat[roomId].filter(
+        (ele) => ele.socketId !== socket.id,
+      );
       chat.to(roomId).emit("users", getChatUsersArray(roomId));
     });
   });

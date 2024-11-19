@@ -86,7 +86,7 @@ export function ChatSocket(props: SocketProps) {
   const onKeyDownSubmit = (e: React.KeyboardEvent) => {
     // 엔터 두번 발생시
     if (e.key === "Enter" && message) {
-      if(!e.nativeEvent.isComposing){
+      if (!e.nativeEvent.isComposing) {
         socket.emit("chatMessage", { username, message });
         setMessage("");
       }

@@ -31,7 +31,7 @@ export const pageModalContainer = style({
 
 export const pageModalInWrapper = style({
   height: "80vh",
-  width: "80%"
+  width: "80%",
 });
 
 export const buttonExit = style({

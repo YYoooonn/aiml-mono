@@ -29,7 +29,7 @@ export default function Page({ params }: { params: { projectId: string } }) {
     e.preventDefault();
     alert("currently for test purpose");
     // submitModel(params.projectId)
-    console.log("object submitted")
+    console.log("object submitted");
   };
 
   return (

@@ -1,11 +1,16 @@
+import Link from "next/link";
 import * as styles from "./page.css";
-import LeftAisle from "@/components/aisle/leftAisle";
-import RightAisle from "@/components/aisle/rightAisle";
 
 export default function Home() {
   return (
     <>
-      <h1> Welcome </h1>
+      <h1> Landing </h1>
+      <div className={styles.button}>
+        <Link href={"/login"}>Click to login</Link>
+      </div>
+      <div className={styles.button}>
+        <Link href={"/register"}>Click to register</Link>
+      </div>
     </>
   );
 }

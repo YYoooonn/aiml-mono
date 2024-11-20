@@ -7,11 +7,11 @@ import * as constants from "@/styles/constants";
 const AisleContainer = {
   display: "flex",
   color: "black",
-  width: constants.AISLEWIDTH,
+  minWidth: constants.AISLEWIDTH,
   padding: "4px",
   alignSelf: "top",
   "@media": {
-    [breakpoints.mobile]: { width: 0, padding: 0 },
+    [breakpoints.lowTablet]: { display: "none" },
   },
   ...theme.textStyle.test1,
 };
@@ -20,14 +20,14 @@ export const leftAisleContainer = style({
   overflowX: "hidden",
   flexDirection: "column",
   float: "left",
+  borderRight: "1px solid",
   ...AisleContainer,
-  ...bordertest,
 });
 
 export const rightAisleContainer = style({
   overflowX: "hidden",
   flexDirection: "column",
   float: "right",
+  borderLeft: "1px solid",
   ...AisleContainer,
-  ...bordertest,
 });

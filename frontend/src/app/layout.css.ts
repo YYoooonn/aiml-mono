@@ -14,8 +14,8 @@ export const layoutContainer = style({
 });
 
 export const pageContentContainer = style({
-  width: "100%",
-  height: "100%",
+  minWidth: "100%",
+  minHeight: "100vh",
   display: "flex",
   ...bordertest,
 });
@@ -23,8 +23,8 @@ export const pageContentContainer = style({
 export const mainContentContainer = style({
   width: `calc(100% - 2 * ${constants.AISLEWIDTH})`,
   padding: "8px",
-  ...bordertest,
   "@media": {
+    [breakpoints.lowTablet]: { width: "100%" },
     [breakpoints.mobile]: { width: "100%" },
   },
 });

@@ -1,54 +1,100 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import redirectUser from "@/hook/redirectUser";
+import { navigate } from "../_actions/navigate";
+import Form from "@/components/form/BaseForm";
+import { fetchRegister, fetchLogin } from "../_actions/user";
+import { useUserInfo } from "@/hook/useUserInfo";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const resetInfo = useUserInfo((state) => state.reset);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  useEffect(() => {
+    resetInfo();
+  }, []);
+
+  const props = {
+    props: [
+      {
+        form: {
+          label: "username",
+          type: "text",
+        },
+        dispatcher: setUsername,
+      },
+      {
+        form: {
+          label: "password",
+          type: "text",
+        },
+        dispatcher: setPassword,
+      },
+      {
+        form: {
+          label: "first name",
+          type: "text",
+        },
+        dispatcher: setFirstName,
+      },
+      {
+        form: {
+          label: "last name",
+          type: "text",
+        },
+        dispatcher: setLastName,
+      },
+      {
+        form: {
+          label: "email",
+          type: "text",
+        },
+        dispatcher: setEmail,
+      },
+    ],
+    error: error,
+    buttonMessage: "register",
+  };
+
+  const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
-      const loginData = { username: username, password: password };
-      const response = await fetch("/api/register", {
-        method: "POST",
-        body: JSON.stringify(loginData),
-      });
-      if (!response.ok) {
-        throw new Error(`client - client server status : ${response.status}`);
-      }
-      const data = await response.json();
-      // TODO : store token in local storage
-      console.log(data);
+      const registerData = {
+        username: username,
+        password: password,
+        firstName: firstname,
+        lastName: lastname,
+        email: email,
+      };
+
+      const data = await fetchRegister(registerData);
       if (data.hasOwnProperty("error")) {
-        alert(data["error"]);
+        // error message from backend
+        setError("Error: ".concat(data["error"]));
+      } else {
+        // XXX login process, need to integrate with Login
+        const res = await fetchLogin({
+          username: registerData.username,
+          password: registerData.password,
+        });
+        if (res.hasOwnProperty("error")) {
+          // ERROR : handle error - alert
+          alert(res["error"]);
+          navigate("/login");
+        } else {
+          redirectUser(username);
+        }
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      setError("Unprecedented error, please try again");
     }
   };
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">회원가입</button>
-      </form>
-      <div style={{ color: "red" }}></div>
-    </div>
-  );
+  return <Form propsWithDispatch={props} handleSubmit={handleSubmit} />;
 }

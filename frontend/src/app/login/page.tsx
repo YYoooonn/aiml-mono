@@ -1,13 +1,32 @@
 "use client";
 
 import { useState } from "react";
+import redirectUser from "@/hook/redirectUser";
+import Form from "@/components/form/BaseForm";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  // TODO storing tokens
-  // const [token, setToken] = useState("");
+  const [error, setError] = useState("");
+  const props = {
+    props: [
+      {
+        form: {
+          label: "username",
+          type: "text",
+        },
+        dispatcher: setUsername,
+      },
+      {
+        form: {
+          label: "password",
+          type: "password",
+        },
+        dispatcher: setPassword,
+      },
+    ],
+    error: error,
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,38 +37,24 @@ export default function Login() {
         body: JSON.stringify(loginData),
       });
       if (!response.ok) {
+        // ERROR : client - client server
         throw new Error(`client - client server status : ${response.status}`);
       }
-      const data = await response.json();
-      // TODO : store token in local storage, need to remove log
-      console.log(data);
+      const data = await response.json().then((r) => {
+        return JSON.parse(r);
+      });
       if (data.hasOwnProperty("error")) {
-        alert(data["error"]);
+        // ERROR : handle error - alert
+        // alert(data["error"]);
+        setError("Error: ".concat(data["error"]));
+      } else {
+        redirectUser(data["username"]);
       }
     } catch (err) {
-      console.log(err);
+      console.debug(err);
+      setError("login error, please try again");
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username:</label>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <button type="submit">로그인</button>
-    </form>
-  );
+  return <Form propsWithDispatch={props} handleSubmit={handleSubmit} />;
 }

@@ -1,5 +1,5 @@
 import { ApiResponseHeader } from "@/utils/headers";
-import userApiRequest from "@/utils/userApiRequest";
+import { userApiRequest } from "@/utils/userApiRequest";
 import { NextRequest, NextResponse } from "next/server";
 import { createCookie } from "@/app/_actions/auth";
 
@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
   try {
     const requestBody = await req.json();
     const response = await userApiRequest("auth/login", "POST", requestBody);
+    console.debug(response);
     if (!response.ok) {
       // TODO : RestfulAPI - difference in status message
       const res = await response.text();

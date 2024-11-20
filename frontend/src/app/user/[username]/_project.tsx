@@ -77,7 +77,7 @@ function NewProjectModule({
       const creationData = {
         title: title,
         subtitle: subtitle,
-        public: !isPrivate,
+        isPublic: !isPrivate,
       };
       const data = await createProject(username, creationData);
 

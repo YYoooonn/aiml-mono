@@ -10,21 +10,19 @@ interface ProjectAction {
   addtoObjects: (object: ObjectInfo) => void;
 }
 
-type ProjectState = Omit<Project & UserInfo & ProjectAction, "projects">;
+type ProjectState = Omit<Project & ProjectAction, "projects">;
 
-export const DEFAULT: Omit<Project & UserInfo, "projects"> = {
-  userId: "",
-  username: "",
-  firstName: "",
-  lastName: "",
+const DEFAULT: Omit<Project, "projects"> = {
   projectId: "",
   title: "",
   subtitle: "",
   objects: [],
   // TODO not implemented yet
-  //   lastModifiedAt: "",
-  //   createdAt: "",
-  //   createdBy: ""
+  lastModifiedAt: "",
+  createdAt: "",
+  createdBy: "",
+  isPublic: true,
+  participants: [],
 };
 
 export const useProjectInfo = create<ProjectState>()(

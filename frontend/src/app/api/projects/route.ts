@@ -1,15 +1,22 @@
 import { ApiResponseHeader } from "@/utils/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { getCookie } from "@/app/_actions/auth";
-import userAuthRequest from "@/utils/userAuthRequest";
+import { userAuthRequest } from "@/utils/userApiRequest";
 // import userSampleRequest from "@/utils/userSampleRequest";
 
 export const dynamic = "force-dynamic";
 
-// GET Projects
-export async function POST(req: NextRequest) {
+// XXX GET PROJECTS - 필요한가?
+export async function GET() {}
+
+// POST Project
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { projectId: string } },
+) {
   try {
     const token = await getCookie();
+
     // 401 error , token not valid - redirect login
     if (!token) {
       return NextResponse.json(
@@ -20,12 +27,13 @@ export async function POST(req: NextRequest) {
         },
       );
     }
-    const requestBody = await req.json();
 
+    const requestBody = await req.json();
     const response = await userAuthRequest(
-      `users/${requestBody["username"]}/projects`,
-      "GET",
+      `users/projects`,
+      "POST",
       token,
+      requestBody["projectInfo"],
     );
     if (!response.ok) {
       // TODO : RestfulAPI - difference in status message
@@ -40,7 +48,7 @@ export async function POST(req: NextRequest) {
     }
 
     const responseData = await response.json();
-    //console.debug("response data from fetching projects", responseData);
+    //console.debug("response data from creating projects", responseData);
     return NextResponse.json(responseData, {
       status: 200,
       headers: ApiResponseHeader,

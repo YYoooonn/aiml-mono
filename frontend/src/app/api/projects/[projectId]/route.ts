@@ -1,13 +1,16 @@
 import { ApiResponseHeader } from "@/utils/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { getCookie } from "@/app/_actions/auth";
-import userAuthRequest from "@/utils/userAuthRequest";
+import { userAuthRequest } from "@/utils/userApiRequest";
 // import userSampleRequest from "@/utils/userSampleRequest";
 
 export const dynamic = "force-dynamic";
 
-// GET Project
-export async function POST(req: NextRequest) {
+// GET PROJECT
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { projectId: string } },
+) {
   try {
     const token = await getCookie();
 
@@ -21,13 +24,10 @@ export async function POST(req: NextRequest) {
         },
       );
     }
-
-    const requestBody = await req.json();
     const response = await userAuthRequest(
-      `users/${requestBody["username"]}/projects`,
-      "POST",
+      `projects/${params.projectId}`,
+      "GET",
       token,
-      requestBody["projectInfo"],
     );
     if (!response.ok) {
       // TODO : RestfulAPI - difference in status message
@@ -51,3 +51,15 @@ export async function POST(req: NextRequest) {
     //console.debug(err);
   }
 }
+
+// DELETE PROJECT :: TODO
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { projectId: string } },
+) {}
+
+// TODO - authentication
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { projectId: string } },
+) {}

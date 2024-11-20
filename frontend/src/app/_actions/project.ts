@@ -1,4 +1,4 @@
-import { ObjectInfo } from "@/@types/api";
+import { ObjectInfo, Project } from "@/@types/api";
 
 export async function createObject(
   projectId: string,
@@ -25,9 +25,8 @@ export async function createObject(
 // GET project
 export async function fetchProject(username: string, projectId: string) {
   try {
-    const res = await fetch("/api/projects/project", {
-      method: "POST",
-      body: JSON.stringify({ username: username, projectId: projectId }),
+    const res = await fetch(`/api/projects/${projectId}`, {
+      method: "GET",
     });
     const data = await res.json();
     console.debug(data);
@@ -39,7 +38,7 @@ export async function fetchProject(username: string, projectId: string) {
   }
 }
 
-// GET projects
+// GET projects : not used
 export async function fetchProjects(username: string) {
   try {
     const res = await fetch("/api/projects", {
@@ -59,12 +58,12 @@ export async function fetchProjects(username: string) {
 interface BaseProjectProp {
   title: string;
   subtitle: string;
-  public: boolean;
+  isPublic: boolean;
 }
 
 export async function createProject(username: string, props: BaseProjectProp) {
   try {
-    const res = await fetch("/api/postproject", {
+    const res = await fetch("/api/projects", {
       method: "POST",
       body: JSON.stringify({
         username: username,

@@ -9,15 +9,17 @@ interface UserBaseInfo {
 interface RegisterInfo extends UserBaseInfo {
   firstName: string;
   lastName: string;
+  email?: string;
 }
 
 export async function fetchRegister(props: RegisterInfo) {
   try {
-    const res = await fetch("/api/register", {
+    const res = await fetch("/api/user", {
       method: "POST",
       body: JSON.stringify(props),
     });
     const data = await res.json();
+    console.log(data);
     return data;
   } catch (e) {
     //console.debug("Error from registration :");
@@ -51,8 +53,30 @@ export async function fetchUserInfo(username: UserBaseInfo["username"]) {
   try {
     // XXX use cookie here or from client-server
     const res = await fetch("/api/user", {
-      method: "POST",
-      body: JSON.stringify({ username: username }),
+      method: "GET",
+    });
+    const data = await res.json();
+    // console.debug(data);
+    if (data["username"] && username === data["username"]) {
+      return data;
+    } else {
+      deleteCookie();
+      throw new Error("authentication failed");
+    }
+  } catch (e) {
+    //console.debug("Error from fetching userinfo :");
+    //console.debug(e);
+    alert("Access invalid, please login again");
+    navigate("/");
+    return { error: "Access invalid, please login again" };
+  }
+}
+
+export async function deleteUser(username: UserBaseInfo["username"]) {
+  try {
+    // XXX use cookie here or from client-server
+    const res = await fetch("/api/user", {
+      method: "DELETE",
     });
     const data = await res.json();
     // console.debug(data);

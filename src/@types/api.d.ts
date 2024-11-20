@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { BoxGeometry, BufferGeometry, Material } from "three";
 
 interface RegisterResponse extends NextResponse {
   // encoded password response
@@ -10,7 +11,37 @@ interface LoginResponse {
   body: { token: string };
 }
 
+interface ObjectInfo {
+  objectId: string;
+  // to be fixed
+  geometry: BufferGeometry;
+  material: Material;
+  others: any;
+}
+
+interface Project {
+  projectId: string;
+  title: string;
+  subtitle: string?;
+  objects: ObjectInfo[];
+  isPublic: boolean;
+
+  // TODO: not implemented yet
+  participants: []; // FIXME
+  lastModifiedAt: string;
+  createdAt: string;
+  createdBy: string;
+  objects: ObjectInfo[];
+}
+
+// GET user/profile
 interface UserInfo {
+  userId: string;
   username: string;
-  password: string;
+  firstName: string;
+  lastName: string;
+  createdAt: string;
+  lastModifiedAt: string; // 안보내도 됨
+  email: string | undefined; // <==== 없어도 되지 않나?
+  projects: Project[];
 }

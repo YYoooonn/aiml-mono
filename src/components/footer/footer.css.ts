@@ -8,6 +8,6 @@ export const footerContainer = style({
   flexDirection: "column",
   gap: "32px",
   padding: "8px",
-  ...bordertest,
+  borderTop: "1px solid",
   ...theme.textStyle.heading4,
 });

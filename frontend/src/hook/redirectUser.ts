@@ -1,10 +1,10 @@
 import { navigate } from "@/app/_actions/navigate";
 
-export default async function pushUser(username: string) {
+export default async function redirectUser(username: string) {
   //console.debug("push user");
   try {
     if (username) {
-      navigate(`/user/${username}`);
+      await navigate(`/user/${username}`);
     } else {
       throw new Error("error while pushing user");
     }

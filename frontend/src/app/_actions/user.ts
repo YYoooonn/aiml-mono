@@ -19,7 +19,6 @@ export async function fetchRegister(props: RegisterInfo) {
       body: JSON.stringify(props),
     });
     const data = await res.json();
-    console.log(data);
     return data;
   } catch (e) {
     //console.debug("Error from registration :");
@@ -38,6 +37,7 @@ export async function fetchLogin(props: UserBaseInfo) {
       }),
     });
     const data = await res.json();
+    console.debug(data)
     if (data["token"]) {
       createCookie(data["token"]);
     }
@@ -56,8 +56,8 @@ export async function fetchUserInfo(username: UserBaseInfo["username"]) {
       method: "GET",
     });
     const data = await res.json();
-    // console.debug(data);
-    if (data["username"] && username === data["username"]) {
+    console.log(data);
+    if (data["username"]) {
       return data;
     } else {
       deleteCookie();
@@ -65,7 +65,7 @@ export async function fetchUserInfo(username: UserBaseInfo["username"]) {
     }
   } catch (e) {
     //console.debug("Error from fetching userinfo :");
-    //console.debug(e);
+    console.debug(e);
     alert("Access invalid, please login again");
     navigate("/");
     return { error: "Access invalid, please login again" };
@@ -80,7 +80,7 @@ export async function deleteUser(username: UserBaseInfo["username"]) {
     });
     const data = await res.json();
     // console.debug(data);
-    if (data["username"] && username === data["username"]) {
+    if (data["username"]) {
       return data;
     } else {
       deleteCookie();
@@ -88,7 +88,7 @@ export async function deleteUser(username: UserBaseInfo["username"]) {
     }
   } catch (e) {
     //console.debug("Error from fetching userinfo :");
-    //console.debug(e);
+    console.debug(e);
     alert("Access invalid, please login again");
     navigate("/");
     return { error: "Access invalid, please login again" };

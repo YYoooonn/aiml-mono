@@ -42,8 +42,7 @@ export async function fetchProject(username: string, projectId: string) {
 export async function fetchProjects(username: string) {
   try {
     const res = await fetch("/api/projects", {
-      method: "POST",
-      body: JSON.stringify({ username: username }),
+      method: "GET"
     });
     const data = await res.json();
     //console.debug(data);
@@ -63,19 +62,15 @@ interface BaseProjectProp {
 
 export async function createProject(username: string, props: BaseProjectProp) {
   try {
+    console.debug(props)
     const res = await fetch("/api/projects", {
       method: "POST",
-      body: JSON.stringify({
-        username: username,
-        projectInfo: props,
-      }),
+      body: JSON.stringify(props),
     });
     const data = await res.json();
     //console.debug(data);
     return data;
   } catch (e) {
-    //console.debug("Error from creating project :");
-    //console.debug(e);
     return { error: "error from creating project process" };
   }
 }

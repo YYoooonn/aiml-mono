@@ -9,7 +9,6 @@ export const dynamic = "force-dynamic";
 // GET USER PROFILE
 export async function GET(req: NextRequest) {
   try {
-    const request = await req.json();
     const token = await getCookie();
     const response = await userAuthRequest("users/profile", "GET", token);
     console.debug(response);
@@ -18,8 +17,7 @@ export async function GET(req: NextRequest) {
       const res = await response.text();
       //console.debug(res);
       return NextResponse.json(
-        { error: res },
-        {
+        { error: res,
           status: 200,
           headers: ApiResponseHeader,
         },
@@ -31,13 +29,15 @@ export async function GET(req: NextRequest) {
       headers: ApiResponseHeader,
     });
   } catch (err) {
-    //console.debug(err);
+    console.debug(err)
+    return NextResponse.json({error: "Unprecedented Error"});
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
     const requestBody = await req.json();
+    console.debug(requestBody)
     const response = await userApiRequest(
       "users/register",
       "POST",
@@ -48,8 +48,7 @@ export async function POST(req: NextRequest) {
       // TODO : RestfulAPI - difference in status message
       const res = await response.text();
       return NextResponse.json(
-        { error: res },
-        {
+        { error: res,
           status: 200,
           headers: ApiResponseHeader,
         },
@@ -65,7 +64,8 @@ export async function POST(req: NextRequest) {
       headers: ApiResponseHeader,
     });
   } catch (err) {
-    console.error(err);
+    console.debug(err)
+    return NextResponse.json({error: "Unprecedented Error"});
   }
 }
 
@@ -77,8 +77,8 @@ export async function DELETE(req: NextRequest) {
       // TODO : RestfulAPI - difference in status message
       const res = await response.text();
       return NextResponse.json(
-        { error: res },
         {
+          error: res,
           status: 200,
           headers: ApiResponseHeader,
         },
@@ -91,6 +91,7 @@ export async function DELETE(req: NextRequest) {
       headers: ApiResponseHeader,
     });
   } catch (err) {
-    console.error(err);
+    console.debug(err)
+    return NextResponse.json({error: "Unprecedented Error"});
   }
 }

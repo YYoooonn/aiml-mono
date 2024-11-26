@@ -6,12 +6,10 @@ import { userAuthRequest } from "@/utils/userApiRequest";
 
 export const dynamic = "force-dynamic";
 
-// XXX GET PROJECTS - 필요한가?
-// export async function GET() {}
-
-// POST Project
-export async function POST(
-  req: NextRequest
+// GET PROJECT
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { projectId: string } },
 ) {
   try {
     const token = await getCookie();
@@ -26,13 +24,10 @@ export async function POST(
         },
       );
     }
-
-    const requestBody = await req.json();
     const response = await userAuthRequest(
-      'projects',
-      "POST",
+      `projects/${params.projectId}`,
+      "GET",
       token,
-      requestBody,
     );
     if (!response.ok) {
       // TODO : RestfulAPI - difference in status message
@@ -56,3 +51,15 @@ export async function POST(
     //console.debug(err);
   }
 }
+
+// DELETE PROJECT :: TODO
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { projectId: string } },
+) {}
+
+// TODO - authentication
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { projectId: string } },
+) {}

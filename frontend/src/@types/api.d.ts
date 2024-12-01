@@ -42,6 +42,6 @@ interface UserInfo {
   lastName: string;
   createdAt: string;
   lastModifiedAt: string; // 안보내도 됨
-  email: string | undefined; // <==== 없어도 되지 않나?
+  email?: string | undefined; // <==== 없어도 되지 않나?
   projects: Project[];
 }

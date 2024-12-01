@@ -1,5 +1,5 @@
 import { ApiResponseHeader } from "@/utils/headers";
-import userApiRequest from "@/utils/userApiRequest";
+import { userApiRequest } from "@/utils/userApiRequest";
 import { NextRequest, NextResponse } from "next/server";
 import { createCookie } from "@/app/_actions/auth";
 

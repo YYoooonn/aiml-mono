@@ -3,6 +3,7 @@
 import { useState } from "react";
 import redirectUser from "@/hook/redirectUser";
 import Form from "@/components/form/BaseForm";
+import { fetchLogin } from "../_actions/user";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -32,23 +33,13 @@ export default function Login() {
     e.preventDefault();
     try {
       const loginData = { username: username, password: password };
-      const response = await fetch("/api/login", {
-        method: "POST",
-        body: JSON.stringify(loginData),
-      });
-      if (!response.ok) {
-        // ERROR : client - client server
-        throw new Error(`client - client server status : ${response.status}`);
-      }
-      const data = await response.json().then((r) => {
-        return JSON.parse(r);
-      });
+      const data = await fetchLogin(loginData)
       if (data.hasOwnProperty("error")) {
         // ERROR : handle error - alert
         // alert(data["error"]);
         setError("Error: ".concat(data["error"]));
       } else {
-        redirectUser(data["username"]);
+        redirectUser(loginData.username);
       }
     } catch (err) {
       console.debug(err);

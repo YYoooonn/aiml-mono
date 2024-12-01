@@ -2,7 +2,7 @@ import { ApiResponseHeader } from "@/utils/headers";
 import { NextRequest, NextResponse } from "next/server";
 // import { getCookie } from "@/app/_actions/auth";
 // import userAuthRequest from "@/utils/userAuthRequest";
-import userApiRequest from "@/utils/userApiRequest";
+import { userApiRequest } from "@/utils/userApiRequest";
 // import userSampleRequest from "@/utils/userSampleRequest";
 
 export const dynamic = "force-dynamic";

@@ -74,6 +74,7 @@ export default function Register() {
       };
 
       const data = await fetchRegister(registerData);
+      console.log(data);
       if (data.hasOwnProperty("error")) {
         // error message from backend
         setError("Error: ".concat(data["error"]));

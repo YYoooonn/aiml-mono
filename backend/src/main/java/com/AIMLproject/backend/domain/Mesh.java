@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -39,7 +40,7 @@ public class Mesh {
 	// private Long lastModifiedBy;
 
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	private Project project;
 
 	// Info

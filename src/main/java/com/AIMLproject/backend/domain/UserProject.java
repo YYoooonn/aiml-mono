@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,37 +20,41 @@ import lombok.Setter;
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class UserProject {
 
 	@Id
 	@GeneratedValue
-	private Long userId;
+	private Long userProjectId;
 
 	// Audit
 	@CreatedDate
 	private LocalDateTime createdAt;
 	@LastModifiedDate
 	private LocalDateTime lastModifiedAt;
+	// @CreatedBy
+	// private Long createdBy;
+	// @LastModifiedBy
+	// private Long lastModifiedBy;
+
+	@JsonIgnore
+	@ManyToOne
+	private User user;
+	@JsonIgnore
+	@ManyToOne
+	private Project project;
 
 	// Auth
-	private String username;
-	@JsonIgnore
-	private String encodedPassword;
+	private Boolean isOwner;
+	private Boolean readOnly;
 
-	// Info
-	private String firstName;
-	private String lastName;
-	private String email;
-
-	public User(String username, String encodedPassword, String firstName, String lastName, String email) {
-		this.username = username;
-		this.encodedPassword = encodedPassword;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
+	public UserProject(User user, Project project, Boolean isOwner, Boolean readOnly) {
+		this.user = user;
+		this.project = project;
+		this.isOwner = isOwner;
+		this.readOnly = readOnly;
 	}
 
-	public User() {
+	public UserProject() {
 
 	}
 }

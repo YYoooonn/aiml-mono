@@ -1,6 +1,6 @@
 import { ObjectInfo } from "@/@types/api";
 import { sampleBoxGeometry } from "@/assets/geometry";
-import { sampleMaterial } from "@/assets/material";
+import { blackMaterial, sampleMaterial } from "@/assets/material";
 import { useModelInfo } from "@/hook/useModelInfo";
 import { useProjectInfo } from "@/hook/useProjectInfo";
 import { randomPositions, randomRotations } from "@/utils/three";
@@ -31,7 +31,7 @@ export default function SampleObjects({ id }: { id: string }) {
 
   return (
     <group>
-      <Instances geometry={sampleBoxGeometry} material={sampleMaterial}>
+      <Instances geometry={sampleBoxGeometry} material={blackMaterial}>
         {positions.map((pos, i) => {
           return (
             <ObjectInstance key={i} position={pos} rotation={rotations[i]} />

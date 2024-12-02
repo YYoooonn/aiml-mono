@@ -6,7 +6,10 @@ import { Canvas } from "@react-three/fiber";
 import RootCamera from "./Camera";
 import SampleObjects from "./SampleObjects";
 import { Center, OrbitControls } from "@react-three/drei";
-import { useProjectInfo } from "@/hook/useProjectInfo";
+// import { useProjectInfo } from "@/hook/useProjectInfo";
+// import { ProjectSocket } from "../socket/ProjectSocket";
+import CamTracker from "./CamTracker";
+import { UserCams } from "./UserCams";
 
 export default function DefaultCanvas({ id }: { id: string }) {
   // FIXME test
@@ -33,13 +36,17 @@ export default function DefaultCanvas({ id }: { id: string }) {
 
   return (
     <div className={styles.CanvasContainer}>
-      <Canvas frameloop="demand">
-        <color attach="background" args={["#DDDDDD"]} />
+      <Canvas frameloop="demand" shadows>
+        <ambientLight intensity={1} />
+        <directionalLight />
+        <color attach="background" args={["#000000"]} />
         <SampleObjects id={id} />
-        <OrbitControls enableZoom={false} />
+        <OrbitControls enableZoom={true} />
         {/* <RootCamera /> */}
         {/* <CameraSocket /> */}
+        <UserCams />
         <ambientLight intensity={2} color={"#FFFFFF"} />
+        <CamTracker />
       </Canvas>
     </div>
   );

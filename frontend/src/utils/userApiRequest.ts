@@ -16,13 +16,13 @@ export async function userApiRequest(
   method: "GET" | "POST" | "DELETE" | "PATCH" = "GET",
   body?: object,
 ) {
-  console.debug(`${process.env.BACKEND_API_BASE + endpoint}`)
+  console.debug(`${process.env.BACKEND_API_BASE + endpoint}`);
   const response = await fetch(`${process.env.BACKEND_API_BASE + endpoint}`, {
     method: method,
     headers: HeaderInfo(),
     body: JSON.stringify(body),
   });
-  return response
+  return response;
 }
 
 export async function userAuthRequest(

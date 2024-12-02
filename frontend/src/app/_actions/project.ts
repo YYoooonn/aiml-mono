@@ -42,7 +42,7 @@ export async function fetchProject(username: string, projectId: string) {
 export async function fetchProjects(username: string) {
   try {
     const res = await fetch("/api/projects", {
-      method: "GET"
+      method: "GET",
     });
     const data = await res.json();
     //console.debug(data);
@@ -62,7 +62,7 @@ interface BaseProjectProp {
 
 export async function createProject(username: string, props: BaseProjectProp) {
   try {
-    console.debug(props)
+    console.debug(props);
     const res = await fetch("/api/projects", {
       method: "POST",
       body: JSON.stringify(props),

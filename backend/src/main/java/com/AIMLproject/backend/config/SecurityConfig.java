@@ -36,6 +36,8 @@ public class SecurityConfig {
 			.authorizeHttpRequests(authz -> authz
 				.requestMatchers(HttpMethod.GET, "/api/projects/{projectId}")
 				.permitAll()
+				.requestMatchers(HttpMethod.GET, "/api/projects/{projectId}/objects/{objectId}")
+				.permitAll()
 				.requestMatchers("/api/auth/login", "/api/users/register")
 				.permitAll()
 				.anyRequest()

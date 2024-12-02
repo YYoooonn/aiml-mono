@@ -1,73 +1,60 @@
 package com.AIMLproject.backend.domain;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Project {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Long projectId;
 
-	@Column(nullable = false)
-	private String title;
+	// Audit // to do: how to audit CreatedBy and LastModifiedBy
+	@CreatedDate
+	private LocalDateTime createdAt;
+	@LastModifiedDate
+	private LocalDateTime lastModifiedAt;
+	// @CreatedBy
+	// private Long createdBy;
+	// @LastModifiedBy
+	// private Long lastModifiedBy;
 
-	@Column(nullable = true)
-	private String subtitle;
+	@JsonIgnore
+	@ManyToOne
+	private User user;
 
-	@Column(nullable = false)
+	// Auth
 	private Boolean isPublic;
 
-	@CreatedDate
-	private Date createdAt;
+	// Info
+	private String title;
+	private String subtitle;
 
-	@LastModifiedDate
-	private Date lastModifiedAt;
-
-	@CreatedBy
-	private String createdBy; // username
-
-	@LastModifiedBy
-	private String lastModifiedBy; // username
-
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn
-	private List<Participant> participants;
-
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn
-	private List<Obj> objects;
-
-	public Project(String title, String subtitle, String username) {
+	public Project(User user, Boolean isPublic, String title, String subtitle) {
+		this.user = user;
+		this.isPublic = isPublic;
 		this.title = title;
 		this.subtitle = subtitle;
-		this.isPublic = true;
-		this.createdBy = username;
-		this.lastModifiedBy = username;
-		this.participants = new ArrayList<>(List.of(new Participant(username, true, false)));
-		this.objects = new ArrayList<>();
 	}
 
 	public Project() {
+
 	}
 }

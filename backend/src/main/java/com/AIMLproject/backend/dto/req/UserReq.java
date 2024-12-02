@@ -3,7 +3,7 @@ package com.AIMLproject.backend.dto.req;
 import lombok.Getter;
 
 @Getter
-public class RegisterReq {
+public class UserReq {
 	private String username;
 	private String password;
 	private String firstName;

@@ -15,7 +15,7 @@ public class JwtUtil {
 	private final String secretKey = "${jwt.secret.key}";
 
 	public String generateToken(UserDetails userDetails) {
-		long expirationMillis = 3000 * 60 * 60;
+		long expirationMillis = 1000 * 60 * 60 * 24; // 24 hours
 		return Jwts.builder()
 			.setSubject(userDetails.getUsername())
 			.setIssuedAt(new Date(System.currentTimeMillis()))
@@ -23,6 +23,10 @@ public class JwtUtil {
 			.signWith(SignatureAlgorithm.HS256, secretKey.getBytes())
 			.compact();
 	}
+
+	/**
+	 * to do: handle exception
+	 */
 
 	public Claims extractClaims(String token) {
 		return Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token).getBody();

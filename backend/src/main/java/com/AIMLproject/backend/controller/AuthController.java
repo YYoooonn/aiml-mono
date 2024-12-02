@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.AIMLproject.backend.dto.req.LoginReq;
+import com.AIMLproject.backend.dto.req.UserReq;
 import com.AIMLproject.backend.service.AuthService;
 
 @RestController
@@ -25,7 +25,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/auth/login")
-	public ResponseEntity<Map<String, String>> login(@RequestBody LoginReq req) {
+	public ResponseEntity<Map<String, String>> login(@RequestBody UserReq req) {
 		String token = authService.generateToken(req.getUsername(), req.getPassword());
 		Map<String, String> res = new HashMap<>();
 		res.put("token", token);

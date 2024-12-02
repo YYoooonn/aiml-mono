@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.AIMLproject.backend.domain.Participant;
 import com.AIMLproject.backend.domain.Project;
 import com.AIMLproject.backend.domain.User;
+import com.AIMLproject.backend.domain.UserProject;
+import com.AIMLproject.backend.repository.MeshRepository;
 import com.AIMLproject.backend.repository.ProjectRepository;
+import com.AIMLproject.backend.repository.UserProjectRepository;
 import com.AIMLproject.backend.repository.UserRepository;
 
 @Service
@@ -17,67 +19,93 @@ public class ProjectService {
 
 	private final UserRepository userRepository;
 	private final ProjectRepository projectRepository;
+	private final UserProjectRepository userProjectRepository;
+	private final MeshRepository meshRepository;
 
 	@Autowired
-	public ProjectService(UserRepository userRepository, ProjectRepository projectRepository) {
+	public ProjectService(UserRepository userRepository, ProjectRepository projectRepository,
+		UserProjectRepository userProjectRepository, MeshRepository meshRepository) {
 		this.userRepository = userRepository;
 		this.projectRepository = projectRepository;
+		this.userProjectRepository = userProjectRepository;
+		this.meshRepository = meshRepository;
 	}
 
-	public Project addProject(String title, String subtitle, String username) {
-		User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
-		Project savedProject = projectRepository.save(new Project(title, subtitle, username));
-		user.getProjects().add(savedProject);
-		userRepository.save(user);
-		return savedProject;
+	public List<UserProject> findInvolvedProjectsByUser(User user) {
+		return userProjectRepository.findByUser(user);
 	}
 
-	public List<Project> getAllProjects(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("to do"));
-		return user.getProjects();
+	public List<Project> findAllProjectsByUser(User user) {
+		return projectRepository.findByUser(user);
 	}
 
-	public Project getProject(Long projectId, String username) throws RuntimeException {
-		Project project = projectRepository.findById(projectId)
-			.orElseThrow(() -> new RuntimeException("Project not found"));
-		if (!project.getCreatedBy().equals(username) && !project.getIsPublic()) {
-			if (username == null) { // 비회원 차단
+	public Project loadProjectById(Long projectId) throws RuntimeException {
+		return projectRepository.findById(projectId)
+			.orElseThrow(() -> new RuntimeException("해당 프로젝트의 id는 존재하지도 않음.")); // to do: handle exception
+	}
+
+	public Project getProject(User user, Long projectId) throws RuntimeException {
+		Project project = loadProjectById(projectId);
+		if (!project.getIsPublic()) {
+			if (user == null) { // 비회원 차단
 				throw new RuntimeException("Unauthorized access: Project not public");
 			}
-			boolean isParticipant = project.getParticipants().stream()
-				.anyMatch(participant -> participant.getUsername().equals(username));
-			if (!isParticipant) { // 비참여자 차단
-				throw new RuntimeException("Unauthorized access: User not participant");
+			if (!userProjectRepository.existsByUserAndProject(user, project)) {
+				throw new RuntimeException("Unauthorized access: 당신은 참여자가 아닙니다.");
 			}
 		}
 		return project;
 	}
 
-	public void deleteProject(Long projectId, String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
-		user.getProjects().removeIf(project -> project.getProjectId().equals(projectId)); // to do: if not exist
-		userRepository.save(user);
+	public Project addProject(User user, String title, String subtitle, Boolean isPublic) {
+		Project savedProject = projectRepository.save(new Project(user, isPublic, title, subtitle));
+		userProjectRepository.save(new UserProject(user, savedProject, true, false));
+		return savedProject;
+	}
+
+	public Project updateProject(User user, Long projectId, String title, String subTitle, Boolean isPublic) throws
+		RuntimeException {
+
+		Project project = loadProjectById(projectId);
+
+		if (!user.equals(project.getUser())) {
+			throw new RuntimeException("딴사람 프로젝트임"); // to do: handle Exception
+		}
+		if (title != null) {
+			project.setTitle(title);
+		}
+		if (subTitle != null) {
+			project.setSubtitle(subTitle);
+		}
+		if (isPublic != null) {
+			project.setIsPublic(isPublic);
+		}
+
+		return projectRepository.save(project);
+	}
+
+	public void deleteProject(User user, Long projectId) throws UsernameNotFoundException {
+		Project project = loadProjectById(projectId);
+		if (!user.equals(project.getUser())) {
+			throw new RuntimeException("딴사람 프로젝트임"); // to do: handle Exception
+		}
 		projectRepository.deleteById(projectId);
 	}
 
-	public void authorizeProject(Long projectId, Boolean authorization, String username) throws
-		RuntimeException {
+	public void inviteUser(User invitor, Long projectId, Long inviteeId, Boolean readOnly) throws RuntimeException {
 		Project project = projectRepository.findById(projectId)
-			.orElseThrow(() -> new RuntimeException("Project not found"));
-		if (!project.getCreatedBy().equals(username)) {
-			throw new RuntimeException("Unauthorized access");
+			.orElseThrow(() -> new RuntimeException("해당 아이디의 프로젝트 없음."));
+		if (!project.getUser().equals(invitor)) {
+			throw new RuntimeException("프로젝트 초대 권한이 없습ㄴ니다.");
 		}
-		project.setIsPublic(authorization);
-		projectRepository.save(project);
-	}
+		User invitee = userRepository.findById(inviteeId).orElseThrow(() -> new RuntimeException(
+			"초대하려는 사람의 아이디가 없습니다."
+		));
 
-	public void inviteUser(String invitorUsername, Long projectId, String inviteeUsername) throws RuntimeException {
-		Project project = projectRepository.findById(projectId)
-			.orElseThrow(() -> new RuntimeException("Project not found"));
-		if (!project.getCreatedBy().equals(invitorUsername)) {
-			throw new RuntimeException("Unauthorized access");
+		if (userProjectRepository.existsByUserAndProject(invitee, project)) {
+			throw new RuntimeException("이미 참여하고 있는 사람입니다.");
 		}
-		project.getParticipants().add(new Participant(inviteeUsername, false, false));
-		projectRepository.save(project);
+
+		userProjectRepository.save(new UserProject(invitee, project, false, readOnly));
 	}
 }

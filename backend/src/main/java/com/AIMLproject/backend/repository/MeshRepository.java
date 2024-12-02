@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.AIMLproject.backend.domain.Mesh;
 import com.AIMLproject.backend.domain.Project;
-import com.AIMLproject.backend.domain.User;
 
-public interface ProjectRepository extends JpaRepository<Project, Long> {
-	List<Project> findByUser(User user);
+public interface MeshRepository extends JpaRepository<Mesh, Long> {
+	List<Mesh> findByProject(Project project);
 }

@@ -105,12 +105,13 @@ public class ProjectController {
 		@PathVariable Long projectId, @RequestBody MeshReq req) {
 		User user = userService.findUserByUsername(userDetails.getUsername());
 		Project project = projectService.getProject(user, projectId);
+
 		Mesh object = meshService.createObject(project, req.getMatrix(), req.getGeometry(), req.getMaterial());
 		MeshRes res = new MeshRes(object);
 		return ResponseEntity.ok(res);
 	}
 
-	@PutMapping("/projectId/{projectId}/objects/{objectId}")
+	@PutMapping("/projects/{projectId}/objects/{objectId}")
 	public ResponseEntity<?> updateObject(@AuthenticationPrincipal UserDetails userDetails,
 		@PathVariable Long projectId, @PathVariable Long objectId, @RequestBody MeshReq req) {
 		User user = userService.findUserByUsername(userDetails.getUsername());
@@ -121,7 +122,7 @@ public class ProjectController {
 		return ResponseEntity.ok(res);
 	}
 
-	@DeleteMapping("/projectId/{projectId}/objects/{objectId}")
+	@DeleteMapping("/projects/{projectId}/objects/{objectId}")
 	public ResponseEntity<Void> deleteObject(@AuthenticationPrincipal UserDetails userDetails,
 		@PathVariable Long projectId, @PathVariable Long objectId) {
 		User user = userService.findUserByUsername(userDetails.getUsername());

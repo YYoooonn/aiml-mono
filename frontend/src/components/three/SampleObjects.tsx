@@ -1,7 +1,6 @@
 import { ObjectInfo } from "@/@types/api";
 import { sampleBoxGeometry } from "@/assets/geometry";
 import { blackMaterial, sampleMaterial } from "@/assets/material";
-import { useModelInfo } from "@/hook/useModelInfo";
 import { useProjectInfo } from "@/hook/useProjectInfo";
 import { randomPositions, randomRotations } from "@/utils/three";
 import { Instance, Instances } from "@react-three/drei";

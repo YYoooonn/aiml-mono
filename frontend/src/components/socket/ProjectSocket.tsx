@@ -8,8 +8,10 @@ import { useEffect, useState } from "react";
 import { socket } from "@/sockets/project";
 import { useCameraInfo } from "@/hook/useCameraInfo";
 import { useParticipants } from "@/hook/useParticipants";
+import { useProjectInfo } from "@/hook/useProjectInfo";
+import { useSelected } from "@/hook/useSelected";
 
-type Position = Array<number>;
+type Position = [x: number, y: number, z: number];
 type Rotation = Array<number | string | undefined>;
 
 interface UserCamera {
@@ -34,6 +36,8 @@ export function ProjectSocket(props: SocketProps) {
   const participants = useParticipants((state) => state.participants);
   const setParticipant = useParticipants((state) => state.setParticipant);
   const setParticipants = useParticipants((state) => state.setParticipants);
+  const getObjects = useProjectInfo((state) => state.getObjects);
+  const selected = useSelected((state) => state.selected);
 
   const [isDragging, setIsDragging] = useState(false);
 
@@ -41,10 +45,11 @@ export function ProjectSocket(props: SocketProps) {
   useEffect(() => {
     const handleMouseDown = () => setIsDragging(true);
     const handleMouseUp = () => setIsDragging(false);
+    // FIXME
+    // const handleWheelMove = (e) => setWheel(e)
 
     const handleMouseMove = () => {
       if (isDragging) {
-        console.debug(username, camPosition);
         socket.emit("updateCam", {
           userId: socket.id,
           username: username,
@@ -57,6 +62,7 @@ export function ProjectSocket(props: SocketProps) {
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mouseup", handleMouseUp);
     window.addEventListener("mousemove", handleMouseMove);
+    // window.addEventListener("wheel", handleWheelMove);
 
     return () => {
       window.removeEventListener("mousedown", handleMouseDown);
@@ -64,6 +70,12 @@ export function ProjectSocket(props: SocketProps) {
       window.removeEventListener("mousemove", handleMouseMove);
     };
   }, [camPosition, isDragging]);
+
+  // useEffect(() => {
+  //   console.log("EMIT UPDATE PROJECT")
+  //   socket.emit("updatePRJT", "hello")
+  //   return () => {}
+  // }, [selected])
 
   useEffect(() => {
     function onConnect() {
@@ -112,11 +124,19 @@ export function ProjectSocket(props: SocketProps) {
 
     socket.on("updateCam", onSetCameraPosition);
 
+    // USER update
     function onUsers(newUsers: Array<string>) {
-      console.debug(newUsers);
       setParticipants(newUsers.filter((val) => val !== socket.id));
     }
     socket.on("users", onUsers);
+
+    // UPDATE call
+    function onUpdateCall(data: any) {
+      console.debug("UPDATE CALL");
+      console.log(data);
+      getObjects();
+    }
+    socket.on("updatePRJT", onUpdateCall);
 
     return () => {
       socket.off("connect", onConnect);
@@ -127,7 +147,7 @@ export function ProjectSocket(props: SocketProps) {
   }, [username]);
 
   return (
-    <div className={styles.chatContainer}>
+    <div className={styles.projectContainer}>
       <div className={styles.chatHeaderContainer}>
         <p>Status: {isConnected ? "connected" : "disconnected"}</p>
         <p>Transport : {transport}</p>
@@ -136,6 +156,7 @@ export function ProjectSocket(props: SocketProps) {
       <div>
         <div className={styles.userHeaderContainer}>
           <h3>Users</h3>
+          <p>{username}</p>
           {participants &&
             Object.values(participants).map((val, i) => (
               <p key={i}>

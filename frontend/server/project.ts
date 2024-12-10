@@ -45,7 +45,7 @@ export const ProjectSocket = (io: Server, name: string) => {
     //
     namespace.to(roomId).emit("users", getUsers(roomId));
     // debug
-    console.debug(userCamPosition[roomId]);
+    // console.debug(userCamPosition[roomId]);
 
     // on camera update
     socket.on(
@@ -65,6 +65,12 @@ export const ProjectSocket = (io: Server, name: string) => {
       },
     );
 
+    socket.on("updatePRJT", () => {
+      namespace.to(roomId).emit("updatePRJT");
+      console.debug("SOCKET UPDATE CALL from ", socket.id);
+      console.debug("UPDATE CALL FROM SERVER SOCKET");
+    });
+
     socket.on(
       "join",
       (data: {
@@ -73,7 +79,6 @@ export const ProjectSocket = (io: Server, name: string) => {
         position: Position;
         rotation: Rotation;
       }) => {
-        console.debug("join", data);
         if (!(roomId in userCamPosition)) {
           userCamPosition[roomId] = {};
         }
@@ -89,7 +94,6 @@ export const ProjectSocket = (io: Server, name: string) => {
             rotation: data.rotation,
           };
           namespace.to(roomId).emit("users", getUsers(roomId));
-          console.debug(userCamPosition[roomId]);
         }
       },
     );
@@ -99,7 +103,7 @@ export const ProjectSocket = (io: Server, name: string) => {
       console.log("disconnect to room namespace");
       socket.leave(roomId);
 
-      if (socket.id in userCamPosition[roomId]) {
+      if (roomId in userCamPosition && socket.id in userCamPosition[roomId]) {
         delete userCamPosition[roomId][socket.id];
       }
 

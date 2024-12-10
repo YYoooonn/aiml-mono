@@ -27,7 +27,7 @@ export async function userApiRequest(
 
 export async function userAuthRequest(
   endpoint: string,
-  method: "GET" | "POST" | "DELETE" | "PATCH" = "GET",
+  method: "GET" | "POST" | "DELETE" | "PUT" | "PATCH" = "GET",
   token?: string,
   body?: object,
 ) {

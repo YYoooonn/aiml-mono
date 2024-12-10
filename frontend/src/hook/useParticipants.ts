@@ -3,7 +3,7 @@
 import { create } from "zustand";
 
 interface UserCamera {
-  position: Array<number>;
+  position: [x: number, y: number, z: number];
   fov?: number;
   aspect?: number;
   far?: number;

@@ -67,6 +67,38 @@ export async function POST(req: NextRequest) {
   }
 }
 
+// XXX ERROR
+export async function PUT(req: NextRequest) {
+  try {
+    const requestBody = await req.json();
+    const token = await getCookie();
+    const response = await userAuthRequest(
+      "users/profile",
+      "PUT",
+      token,
+      requestBody,
+    );
+    if (!response.ok) {
+      // TODO : RestfulAPI - difference in status message
+      const res = await response.text();
+      return NextResponse.json({
+        error: res,
+        status: 200,
+        headers: ApiResponseHeader,
+      });
+    }
+    const responseData = await response.json();
+    console.debug("put", response);
+    return NextResponse.json(JSON.stringify(responseData), {
+      status: 200,
+      headers: ApiResponseHeader,
+    });
+  } catch (err) {
+    console.debug(err);
+    return NextResponse.json({ error: "Unprecedented Error" });
+  }
+}
+
 export async function DELETE(req: NextRequest) {
   try {
     const token = await getCookie();

@@ -5,6 +5,11 @@ interface UserBaseInfo {
   username: string;
   password: string;
 }
+export interface UpdateInfo {
+  firstName: string;
+  lastName: string;
+  email?: string;
+}
 
 interface RegisterInfo extends UserBaseInfo {
   firstName: string;
@@ -19,6 +24,22 @@ export async function fetchRegister(props: RegisterInfo) {
       body: JSON.stringify(props),
     });
     const data = await res.json();
+    return data;
+  } catch (e) {
+    //console.debug("Error from registration :");
+    //console.debug(e);
+    return { error: "Unprecedented Error: please try again" };
+  }
+}
+
+export async function updateUserInfo(props: UpdateInfo) {
+  try {
+    const res = await fetch("/api/user", {
+      method: "PUT",
+      body: JSON.stringify(props),
+    });
+    const data = await res.json();
+    console.debug("update", data);
     return data;
   } catch (e) {
     //console.debug("Error from registration :");
@@ -56,7 +77,6 @@ export async function fetchUserInfo(username: UserBaseInfo["username"]) {
       method: "GET",
     });
     const data = await res.json();
-    console.log(data);
     if (data["username"]) {
       return data;
     } else {

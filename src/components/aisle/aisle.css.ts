@@ -31,3 +31,10 @@ export const rightAisleContainer = style({
   borderLeft: "1px solid",
   ...AisleContainer,
 });
+
+export const clickText = style({
+  ":hover": {
+    cursor: "pointer",
+    color: "red",
+  },
+});

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 // import { userStore } from "@/hook/useUserStore";
 // import { fetchUserInfo } from "@/app/_actions/user";
 import { Projects } from "./_project";

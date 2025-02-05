@@ -6,7 +6,7 @@ export default function Home() {
     <>
       <h1> Landing </h1>
       <div className={styles.button}>
-        <Link href={"/login"}>Click to login</Link>
+        <Link href={"/redirect"}>Click to login</Link>
       </div>
       <div className={styles.button}>
         <Link href={"/register"}>Click to register</Link>

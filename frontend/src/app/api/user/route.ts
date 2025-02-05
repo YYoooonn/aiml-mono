@@ -16,12 +16,11 @@ export async function GET(req: NextRequest) {
       // TODO : RestfulAPI - difference in status message
       const res = await response.text();
       //console.debug(res);
-      return NextResponse.json(
-        { error: res,
-          status: 200,
-          headers: ApiResponseHeader,
-        },
-      );
+      return NextResponse.json({
+        error: res,
+        status: 200,
+        headers: ApiResponseHeader,
+      });
     }
     const responseData = await response.json();
     return NextResponse.json(responseData, {
@@ -29,15 +28,15 @@ export async function GET(req: NextRequest) {
       headers: ApiResponseHeader,
     });
   } catch (err) {
-    console.debug(err)
-    return NextResponse.json({error: "Unprecedented Error"});
+    console.debug(err);
+    return NextResponse.json({ error: "Unprecedented Error" });
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
     const requestBody = await req.json();
-    console.debug(requestBody)
+    console.debug(requestBody);
     const response = await userApiRequest(
       "users/register",
       "POST",
@@ -47,12 +46,11 @@ export async function POST(req: NextRequest) {
     if (!response.ok) {
       // TODO : RestfulAPI - difference in status message
       const res = await response.text();
-      return NextResponse.json(
-        { error: res,
-          status: 200,
-          headers: ApiResponseHeader,
-        },
-      );
+      return NextResponse.json({
+        error: res,
+        status: 200,
+        headers: ApiResponseHeader,
+      });
     }
     const responseData = await response.json();
     if (responseData.hasOwnProperty("token")) {
@@ -64,8 +62,40 @@ export async function POST(req: NextRequest) {
       headers: ApiResponseHeader,
     });
   } catch (err) {
-    console.debug(err)
-    return NextResponse.json({error: "Unprecedented Error"});
+    console.debug(err);
+    return NextResponse.json({ error: "Unprecedented Error" });
+  }
+}
+
+// XXX ERROR
+export async function PUT(req: NextRequest) {
+  try {
+    const requestBody = await req.json();
+    const token = await getCookie();
+    const response = await userAuthRequest(
+      "users/profile",
+      "PUT",
+      token,
+      requestBody,
+    );
+    if (!response.ok) {
+      // TODO : RestfulAPI - difference in status message
+      const res = await response.text();
+      return NextResponse.json({
+        error: res,
+        status: 200,
+        headers: ApiResponseHeader,
+      });
+    }
+    const responseData = await response.json();
+    console.debug("put", response);
+    return NextResponse.json(JSON.stringify(responseData), {
+      status: 200,
+      headers: ApiResponseHeader,
+    });
+  } catch (err) {
+    console.debug(err);
+    return NextResponse.json({ error: "Unprecedented Error" });
   }
 }
 
@@ -76,13 +106,11 @@ export async function DELETE(req: NextRequest) {
     if (!response.ok) {
       // TODO : RestfulAPI - difference in status message
       const res = await response.text();
-      return NextResponse.json(
-        {
-          error: res,
-          status: 200,
-          headers: ApiResponseHeader,
-        },
-      );
+      return NextResponse.json({
+        error: res,
+        status: 200,
+        headers: ApiResponseHeader,
+      });
     }
     const responseData = await response.json();
     await deleteCookie();
@@ -91,7 +119,7 @@ export async function DELETE(req: NextRequest) {
       headers: ApiResponseHeader,
     });
   } catch (err) {
-    console.debug(err)
-    return NextResponse.json({error: "Unprecedented Error"});
+    console.debug(err);
+    return NextResponse.json({ error: "Unprecedented Error" });
   }
 }

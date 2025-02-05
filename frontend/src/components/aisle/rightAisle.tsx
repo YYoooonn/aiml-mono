@@ -4,7 +4,7 @@ import RightAisleCotents from "./RightAisleContent";
 export default function RightAisle() {
   return (
     <div className={styles.rightAisleContainer}>
-      right aisle
+      "right aisle"
       <RightAisleCotents />
     </div>
   );

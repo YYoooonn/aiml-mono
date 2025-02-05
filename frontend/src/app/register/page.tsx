@@ -74,7 +74,7 @@ export default function Register() {
       };
 
       const data = await fetchRegister(registerData);
-      console.log(data);
+      console.debug(data);
       if (data.hasOwnProperty("error")) {
         // error message from backend
         setError("Error: ".concat(data["error"]));
@@ -87,7 +87,6 @@ export default function Register() {
         if (res.hasOwnProperty("error")) {
           // ERROR : handle error - alert
           alert(res["error"]);
-          navigate("/login");
         } else {
           redirectUser(username);
         }

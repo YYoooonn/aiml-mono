@@ -109,7 +109,7 @@ public class ProjectController {
 		MeshRes res = new MeshRes(object);
 		return ResponseEntity.ok(res);
 	}
-  
+
 	@PutMapping("/projects/{projectId}/objects/{objectId}")
 	public ResponseEntity<?> updateObject(@AuthenticationPrincipal UserDetails userDetails,
 		@PathVariable Long projectId, @PathVariable Long objectId, @RequestBody MeshReq req) {

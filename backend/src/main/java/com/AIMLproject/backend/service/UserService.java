@@ -65,6 +65,16 @@ public class UserService {
 		userRepository.delete(user);
 	}
 
+	public void setImageFileName(User user, String imageFileName) {
+		user.setImageFileName(imageFileName);
+		userRepository.save(user);
+	}
+
+	public void deleteFile(User user) {
+		user.setImageFileName(null);
+		userRepository.save(user);
+	}
+
 	public void checkInvitorIsOwner(User invitor, Project project) {
 
 		/**
@@ -74,9 +84,6 @@ public class UserService {
 		 *
 		 *
 		 *
-
-
-
 		 */
 
 	}

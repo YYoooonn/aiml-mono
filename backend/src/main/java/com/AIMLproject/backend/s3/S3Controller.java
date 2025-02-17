@@ -72,10 +72,10 @@ public class S3Controller {
 		String randomFileName = UUID.randomUUID().toString();
 		String savedFileName = String.format("%s.%s", randomFileName, imageExtension);
 
-		user.setImageFileName(savedFileName);
-
 		String preSignedUrl = s3Service.getPutPreSignedUrl("profiles", savedFileName, imageExtension,
 			contentLength);
+
+		userService.setImageFileName(user, savedFileName);
 
 		Map<String, String> res = new HashMap<>();
 		res.put("preSignedUrl", preSignedUrl);
@@ -109,7 +109,8 @@ public class S3Controller {
 			return ResponseEntity.status(404).body("File not found");
 		}
 
-		s3Service.deleteFile("profiles", user.getImageFileName());
+		s3Service.deleteFile("profiles", imageFileName);
+		userService.deleteFile(user);
 
 		return ResponseEntity.ok("File deleted successfully");
 	}

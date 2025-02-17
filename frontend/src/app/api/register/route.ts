@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
       "POST",
       requestBody,
     );
+    console.log(response);
     if (!response.ok) {
       // TODO : RestfulAPI - difference in status message
       const res = await response.text();

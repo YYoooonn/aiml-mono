@@ -10,9 +10,7 @@ export const dynamic = "force-dynamic";
 // export async function GET() {}
 
 // POST Project
-export async function POST(
-  req: NextRequest
-) {
+export async function POST(req: NextRequest) {
   try {
     const token = await getCookie();
 
@@ -29,7 +27,7 @@ export async function POST(
 
     const requestBody = await req.json();
     const response = await userAuthRequest(
-      'projects',
+      "projects",
       "POST",
       token,
       requestBody,

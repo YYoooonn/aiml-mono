@@ -5,6 +5,7 @@ import { assignInlineVars } from "@vanilla-extract/dynamic";
 interface FormProp {
   label: string;
   type: string;
+  value?: string;
   visible?: boolean;
 }
 
@@ -15,7 +16,7 @@ interface PropwithDispatch {
 
 interface PropswithDispatch {
   props: PropwithDispatch[];
-  error: string;
+  error?: string;
   buttonMessage?: string;
 }
 
@@ -67,7 +68,7 @@ export default function Form({
 
 function TextInput(props: {
   prop: PropwithDispatch;
-  error: string;
+  error?: string;
   onSubmit: (e: React.KeyboardEvent) => void;
 }) {
   return (
@@ -77,9 +78,10 @@ function TextInput(props: {
         className={styles.formInput}
         style={props.error ? { borderColor: "red", color: "red" } : {}}
         type={props.prop.form.type}
+        value={props.prop.form.value}
         onChange={(e) => props.prop.dispatcher(e.target.value)}
         onKeyDown={props.onSubmit}
-      ></input>
+      />
     </div>
   );
 }
@@ -87,7 +89,7 @@ function TextInput(props: {
 function CheckboxInput(props: {
   prop: PropwithDispatch;
   i: number;
-  error: string;
+  error?: string;
 }) {
   const [check, setCheck] = useState(false);
   return (

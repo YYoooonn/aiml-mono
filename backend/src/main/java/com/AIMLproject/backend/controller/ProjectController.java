@@ -105,7 +105,6 @@ public class ProjectController {
 		@PathVariable Long projectId, @RequestBody MeshReq req) {
 		User user = userService.findUserByUsername(userDetails.getUsername());
 		Project project = projectService.getProject(user, projectId);
-
 		Mesh object = meshService.createObject(project, req.getMatrix(), req.getGeometry(), req.getMaterial());
 		MeshRes res = new MeshRes(object);
 		return ResponseEntity.ok(res);

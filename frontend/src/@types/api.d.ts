@@ -11,12 +11,17 @@ interface LoginResponse {
   body: { token: string };
 }
 
-interface ObjectInfo {
+interface ObjectConstructor {
+  geometry: string;
+  material: string;
+  matrix: number[];
+}
+
+interface ObjectInfo extends ObjectConstructor {
   objectId: string;
   // to be fixed
-  geometry: BufferGeometry;
-  material: Material;
-  others: any;
+  createdAt?: string;
+  lastModifiedAt?: string;
 }
 
 interface Project {

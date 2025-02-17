@@ -75,6 +75,7 @@ public class UserService {
 		userRepository.save(user);
 	}
 
+
 	public void checkInvitorIsOwner(User invitor, Project project) {
 
 		/**

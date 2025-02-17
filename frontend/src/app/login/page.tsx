@@ -33,7 +33,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const loginData = { username: username, password: password };
-      const data = await fetchLogin(loginData)
+      const data = await fetchLogin(loginData);
       if (data.hasOwnProperty("error")) {
         // ERROR : handle error - alert
         // alert(data["error"]);

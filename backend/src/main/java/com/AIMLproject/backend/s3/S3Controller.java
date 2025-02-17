@@ -108,7 +108,6 @@ public class S3Controller {
 		if (imageFileName == null) {
 			return ResponseEntity.status(404).body("File not found");
 		}
-
 		s3Service.deleteFile("profiles", imageFileName);
 		userService.deleteFile(user);
 

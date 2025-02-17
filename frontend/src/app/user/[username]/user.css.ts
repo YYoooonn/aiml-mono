@@ -61,6 +61,14 @@ export const newProjectItem = style({
   },
 });
 
+export const disabledProjectItem = style({
+  ...baseProjectItem,
+  position: "relative",
+  background: "rgba(87, 87, 87, 0.2)",
+  borderColor: theme.color.black,
+  opacity: 0.5,
+});
+
 export const projectData = style({
   ...theme.textStyle.subtitle1,
   textAlign: "right",

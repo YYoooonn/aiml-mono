@@ -95,11 +95,6 @@ export function ChatSocket(props: SocketProps) {
 
   return (
     <div className={styles.chatContainer}>
-      <div className={styles.chatHeaderContainer}>
-        <p>Status: {isConnected ? "connected" : "disconnected"}</p>
-        <p>Transport : {transport}</p>
-      </div>
-
       <div className={styles.chatMessageContainer}>
         <div className={styles.chatInputContainer}>
           <input
@@ -116,18 +111,16 @@ export function ChatSocket(props: SocketProps) {
       </div>
 
       <div>
-        <div className={styles.userHeaderContainer}>
-          <h3>Users</h3>
-          {users && users.map((user) => <p key={uuidv4()}>{user}</p>)}
-        </div>
         <div>
           <div className={styles.chatMessageHeader}>messages</div>
-          {logs &&
-            logs.map((log) => (
-              <p className={styles.textStyle} key={uuidv4()}>
-                {log}
-              </p>
-            ))}
+          <div className={styles.chatLogContainer}>
+            {logs &&
+              logs.toReversed().map((log) => (
+                <p className={styles.textStyle} key={uuidv4()}>
+                  {log}
+                </p>
+              ))}
+          </div>
         </div>
       </div>
     </div>

@@ -2,6 +2,30 @@ import { style } from "@vanilla-extract/css";
 import { breakpoints } from "@/styles/breakpoints";
 import { theme } from "@/styles/theme.css";
 
+export const projectContainer = style({
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  pointerEvents: "auto",
+  overflowY: "auto",
+  color: "white",
+  backgroundColor: "black",
+  minHeight: "20vh",
+  width: "100%",
+  zIndex: 100,
+  selectors: {
+    "&::before": {
+      content: "''",
+      position: "absolute",
+      inset: 0,
+      pointerEvents: "none",
+    },
+  },
+  "@media": {
+    [breakpoints.lowTablet]: { padding: 0 },
+  },
+});
+
 export const chatContainer = style({
   position: "relative",
   display: "flex",
@@ -10,7 +34,6 @@ export const chatContainer = style({
   overflowY: "auto",
   color: "black",
   backgroundColor: "transparent",
-  minHeight: "80vh",
   width: "100%",
   zIndex: 100,
   selectors: {
@@ -87,6 +110,13 @@ export const chatInput = style({
 
 export const textStyle = style({
   ...theme.textStyle.medium,
+});
+
+export const chatLogContainer = style({
+  maxHeight: "65vh",
+  overflowX: "auto",
+  overflowY: "auto",
+  wordWrap: "break-word",
 });
 
 export const buttonSubmit = style({

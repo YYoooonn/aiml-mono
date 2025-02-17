@@ -1,4 +1,4 @@
-import { createCookie, deleteCookie } from "./auth";
+import { createCookie, deleteCookie, getCookie } from "./auth";
 import { navigate } from "./navigate";
 
 interface UserBaseInfo {
@@ -15,6 +15,10 @@ interface RegisterInfo extends UserBaseInfo {
   firstName: string;
   lastName: string;
   email?: string;
+}
+
+export async function hasCookie() {
+  return getCookie().then((c) => (c ? true : false));
 }
 
 export async function fetchRegister(props: RegisterInfo) {
@@ -70,7 +74,7 @@ export async function fetchLogin(props: UserBaseInfo) {
   }
 }
 
-export async function fetchUserInfo(username: UserBaseInfo["username"]) {
+export async function fetchUserInfo(username?: UserBaseInfo["username"]) {
   try {
     // XXX use cookie here or from client-server
     const res = await fetch("/api/user", {
@@ -86,8 +90,8 @@ export async function fetchUserInfo(username: UserBaseInfo["username"]) {
   } catch (e) {
     //console.debug("Error from fetching userinfo :");
     console.debug(e);
-    alert("Access invalid, please login again");
-    navigate("/");
+    // alert("Access invalid, please login again");
+    navigate("/login");
     return { error: "Access invalid, please login again" };
   }
 }

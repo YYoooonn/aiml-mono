@@ -158,7 +158,8 @@ function SliderEditor({
       value === "POSITION"
         ? position[MAPDETAIL[detail]]
         : value === "ROTATION"
-          ? 0 : scale[MAPDETAIL[detail]];
+          ? 0
+          : scale[MAPDETAIL[detail]];
     setStart(valStart);
   }, [detail]);
   const [slide, setSlide] = useState(start); // Default value is 50

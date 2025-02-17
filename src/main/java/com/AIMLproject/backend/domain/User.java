@@ -40,7 +40,7 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String imageFileName; // to DO
+	private String imageFileName; // to do
 
 	public User(String username, String encodedPassword, String firstName, String lastName, String email) {
 		this.username = username;

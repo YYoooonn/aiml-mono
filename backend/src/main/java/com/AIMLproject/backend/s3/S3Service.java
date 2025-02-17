@@ -3,6 +3,7 @@ package com.AIMLproject.backend.s3;
 import java.time.Duration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import software.amazon.awssdk.services.s3.S3Client;
@@ -21,7 +22,8 @@ public class S3Service {
 	private final S3Client s3Client;
 	private final S3Presigner preSigner;
 
-	private String bucket = "${spring.cloud.aws.s3.bucket}";
+	@Value("${spring.cloud.aws.s3.bucket}")
+	private String bucket;
 
 	@Autowired
 	public S3Service(S3Client s3Client, S3Presigner preSigner) {

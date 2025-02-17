@@ -6,6 +6,10 @@ import Form from "@/components/form/BaseForm";
 import { fetchLogin } from "../_actions/user";
 
 export default function Login() {
+  return <LoginForm />;
+}
+
+function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

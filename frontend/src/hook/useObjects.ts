@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { UserInfo, Project, ObjectInfo, ObjectConstructor } from "@/@types/api";
-import { fetchUserInfo, updateUserInfo, UpdateInfo } from "@/app/_actions/user";
+import { updateUserInfo, UpdateInfo } from "@/app/_actions/user";
 import { Matrix4 } from "three";
 import { convertMatrix } from "@/utils/calc";
 import { createObject, deleteObject } from "@/app/_actions/project";

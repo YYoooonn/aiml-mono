@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { UserInfo, Project, ObjectInfo, ObjectConstructor } from "@/@types/api";
-import { fetchUserInfo, updateUserInfo, UpdateInfo } from "@/app/_actions/user";
+import { updateUserInfo, UpdateInfo } from "@/app/_actions/user";
 import { Matrix4, Vector3 } from "three";
 import {
   convertMatrix,
@@ -23,7 +23,7 @@ export interface SelectedInfo {
   rotation: [x: number, y: number, z: number];
 }
 
-export interface ObjectActions extends SelectedInfo{
+export interface ObjectActions extends SelectedInfo {
   setScale: ({ detail, value }: { detail: string; value: number }) => void;
   setPosition: ({ detail, value }: { detail: string; value: number }) => void;
   setRotation: ({ detail, value }: { detail: string; value: number }) => void;
@@ -35,13 +35,12 @@ export interface ObjectActions extends SelectedInfo{
   updateMaterial: (material: string) => void;
 }
 
-
-const DEFAULT : SelectedInfo  = {
+const DEFAULT: SelectedInfo = {
   selected: undefined,
   position: [0, 0, 0],
   scale: [1, 1, 1],
   rotation: [0, 0, 0],
-}
+};
 
 export const useSelected = create<ObjectActions>()((set, get) => ({
   selected: undefined,
@@ -50,10 +49,10 @@ export const useSelected = create<ObjectActions>()((set, get) => ({
   rotation: [0, 0, 0],
   fetch: async (projectId) => {},
   setSelected: (objectInfo) => {
-    if(objectInfo === get().selected){
-      get().resetSelected()
-    } else{
-      set({selected: objectInfo})
+    if (objectInfo === get().selected) {
+      get().resetSelected();
+    } else {
+      set({ selected: objectInfo });
       const infos = toMatrix4decompose(objectInfo.matrix);
       set({
         scale: infos.scale as any,
@@ -63,7 +62,12 @@ export const useSelected = create<ObjectActions>()((set, get) => ({
     }
   },
   resetSelected: () => {
-    set({selected: DEFAULT.selected, position: DEFAULT.position, scale: DEFAULT.scale, rotation: DEFAULT.rotation} );
+    set({
+      selected: DEFAULT.selected,
+      position: DEFAULT.position,
+      scale: DEFAULT.scale,
+      rotation: DEFAULT.rotation,
+    });
   },
   removeSelected: async (projectId: string) => {
     const objectInfo = get().selected;

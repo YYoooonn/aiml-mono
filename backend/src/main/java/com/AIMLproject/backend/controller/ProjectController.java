@@ -3,6 +3,7 @@ package com.AIMLproject.backend.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.AIMLproject.backend.domain.Mesh;
@@ -105,7 +107,6 @@ public class ProjectController {
 		@PathVariable Long projectId, @RequestBody MeshReq req) {
 		User user = userService.findUserByUsername(userDetails.getUsername());
 		Project project = projectService.getProject(user, projectId);
-
 		Mesh object = meshService.createObject(project, req.getMatrix(), req.getGeometry(), req.getMaterial());
 		MeshRes res = new MeshRes(object);
 		return ResponseEntity.ok(res);
@@ -130,4 +131,26 @@ public class ProjectController {
 		meshService.deleteObject(project, objectId);
 		return ResponseEntity.ok().build();
 	}
+
+	@GetMapping("/projects/search")
+	public ResponseEntity<Page<Project>> readPublicProjects(@RequestParam String keyword,
+		@RequestParam(defaultValue = "0") int pageNumber,
+		@RequestParam(defaultValue = "10") int pageSize) {
+		Page<Project> projects = projectService.getPublicProjects(keyword, pageNumber, pageSize);
+		// Res res = new Res(projects);
+		return ResponseEntity.ok(projects);
+	}
+	/*
+	@PostMapping("/projects/invite")
+	public ResponseEntity<> invitation
+	{}
+
+	@GetMapping("/invitations")
+
+	@PutMapping("/invitations/{invitationId}")
+	public ResponseEntity<?> respondInvitation(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long invitationId) {
+		User user = userService.findUserByUsername(userDetails.getUsername());
+
+
+	} */
 }

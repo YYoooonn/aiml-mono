@@ -7,7 +7,6 @@ import * as styles from "./aisle.css";
 import Modal from "../modal/Modal";
 import Form from "../form/BaseForm";
 import { redirect, usePathname } from "next/navigation";
-import { navigate } from "@/app/_actions/navigate";
 import redirectUser from "@/hook/redirectUser";
 
 export default function LeftAisleContent() {

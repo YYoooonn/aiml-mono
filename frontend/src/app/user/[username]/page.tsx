@@ -14,11 +14,9 @@ export default function Page({ params }: { params: { username: string } }) {
   }, []);
 
   return (
-    <>
-      <div>
-        <div className={styles.projectPageHeader}>Projects</div>
-        <Projects />
-      </div>
-    </>
+    <div className={styles.userPageContainer}>
+      <div className={styles.projectPageHeader}>Workspaces</div>
+      <Projects />
+    </div>
   );
 }

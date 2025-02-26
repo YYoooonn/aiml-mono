@@ -75,7 +75,7 @@ public class ProjectService {
 			throw new RuntimeException("딴사람 프로젝트임"); // to do: handle Exception
 		}
 		if (title != null) {
-			project.setTitle(title
+			project.setTitle(title);
 		}
 		if (subTitle != null) {
 			project.setSubtitle(subTitle);
@@ -83,14 +83,6 @@ public class ProjectService {
 		if (isPublic != null) {
 			project.setIsPublic(isPublic);
 		}
-		}
-		if (subTitle != null) {
-			project.setSubtitle(subTitle);
-		}
-		if (isPublic != null) {
-			project.setIsPublic(isPublic);
-		}
-
 		return projectRepository.save(project);
 	}
 

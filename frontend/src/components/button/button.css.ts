@@ -11,3 +11,15 @@ export const rootButton = style({
   ...bordertest,
   ...theme.textStyle.heading4,
 });
+
+export const logoutButton = style({
+  margin: "1px",
+  marginLeft: "auto",
+  gap: "2px",
+  border: "1px solid",
+  ...theme.textStyle.subtitle1,
+  ":hover": {
+    cursor: "pointer",
+    color: theme.color.red,
+  },
+});

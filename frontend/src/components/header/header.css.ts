@@ -4,7 +4,7 @@ import { bordertest } from "../test.css";
 
 export const headerContainer = style({
   display: "flex",
-  flexDirection: "column",
+  flexDirection: "row",
   gap: "32px",
   padding: "8px",
   borderBottom: "1px solid",

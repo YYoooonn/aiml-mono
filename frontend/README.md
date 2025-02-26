@@ -34,5 +34,5 @@ docker push yyoooonn/aimlfrontnginx
 docker pull yyoooonn/aimlfront
 docker pull yyoooonn/aimlfrontnginx
 
-docker-compose build
+docker-compose up -d
 ```

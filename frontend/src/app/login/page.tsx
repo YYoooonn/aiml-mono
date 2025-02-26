@@ -6,6 +6,10 @@ import Form from "@/components/form/BaseForm";
 import { fetchLogin } from "../_actions/user";
 
 export default function Login() {
+  return <LoginForm />;
+}
+
+function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -33,7 +37,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const loginData = { username: username, password: password };
-      const data = await fetchLogin(loginData)
+      const data = await fetchLogin(loginData);
       if (data.hasOwnProperty("error")) {
         // ERROR : handle error - alert
         // alert(data["error"]);

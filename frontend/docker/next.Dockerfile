@@ -1,5 +1,12 @@
 FROM node:18-alpine
 
+# https://github.com/pnpm/pnpm/issues/9029
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN npm install -g corepack
+RUN corepack enable
+RUN corepack prepare pnpm@9.4.0 --activate 
+
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
@@ -19,6 +26,7 @@ COPY next.config.mjs .
 COPY tsconfig.json .
 COPY tsconfig.server.json .
 COPY server.ts .
+COPY server ./server
 COPY .env.production.local .
 
 # Environment variables must be present at build time

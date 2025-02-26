@@ -7,7 +7,7 @@ import Form from "@/components/form/BaseForm";
 import { useState, useEffect } from "react";
 import { useUserInfo } from "@/hook/useUserInfo";
 import { createProject } from "@/app/_actions/project";
-import { Dispatch, SetStateAction } from "react";
+import { assignInlineVars } from "@vanilla-extract/dynamic";
 
 interface ProjectPropValid {
   index: number;
@@ -36,9 +36,11 @@ function ProjectModule({ index, project, userId }: ProjectPropValid) {
 function NewProjectModule({
   addProject,
   username,
+  valid,
 }: {
   addProject: (project: Project) => void;
   username: string;
+  valid: boolean;
 }) {
   const [isOpened, setOpen] = useState(false);
   const [title, setTitle] = useState("");
@@ -49,7 +51,12 @@ function NewProjectModule({
   const handleClick = (e: MouseEvent) => {
     e.preventDefault();
     //console.debug("handle click");
-    setOpen(!isOpened);
+    if (valid) {
+      setOpen(!isOpened);
+    } else {
+      // project limitation 3
+      alert("Currently Project Limited to 3");
+    }
   };
 
   const formProps = {
@@ -100,7 +107,10 @@ function NewProjectModule({
 
   return (
     <>
-      <div className={styles.newProjectItem} onClick={handleClick}>
+      <div
+        className={valid ? styles.newProjectItem : styles.disabledProjectItem}
+        onClick={handleClick}
+      >
         <div className={styles.newProjectData}>CREATE NEW PROJECT</div>
       </div>
       <Modal
@@ -116,13 +126,13 @@ function NewProjectModule({
 }
 
 export function Projects() {
-  const projects = useUserInfo((state) => state.projects);
+  const userProjects = useUserInfo((state) => state.projects);
   const addProject = useUserInfo((state) => state.addProject);
   const username = useUserInfo((state) => state.username);
 
   return (
     <div className={styles.projectContainer}>
-      {projects.map((project, i) => {
+      {userProjects?.map((project, i) => {
         return (
           <ProjectModule
             key={i}
@@ -132,7 +142,11 @@ export function Projects() {
           />
         );
       })}
-      <NewProjectModule addProject={addProject} username={username} />
+      <NewProjectModule
+        addProject={addProject}
+        username={username}
+        valid={userProjects?.length < 3}
+      />
     </div>
   );
 }

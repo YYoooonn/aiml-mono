@@ -4,6 +4,7 @@ import Form from "@/components/form/BaseForm";
 import redirectUser from "@/hook/redirectUser";
 import { useUserInfo } from "@/hook/useUserInfo";
 import { useState } from "react";
+import * as styles from "./edit.css";
 
 export default function Page() {
   const userState = useUserInfo((state) => state);
@@ -44,7 +45,7 @@ export default function Page() {
     }
   };
   return (
-    <div>
+    <div className={styles.userEditContainer}>
       <div>edit page</div>
       <Form propsWithDispatch={formProps} handleSubmit={handleSubmit} />
     </div>

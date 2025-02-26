@@ -4,9 +4,14 @@ import { useState } from "react";
 import redirectUser from "@/hook/redirectUser";
 import Form from "@/components/form/BaseForm";
 import { fetchLogin } from "../_actions/user";
+import * as styles from "./login.css";
 
 export default function Login() {
-  return <LoginForm />;
+  return (
+    <div className={styles.loginPageContainer}>
+      <LoginForm />
+    </div>
+  );
 }
 
 function LoginForm() {

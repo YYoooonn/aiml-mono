@@ -5,10 +5,9 @@ import { bordertest } from "../test.css";
 import * as constants from "@/styles/constants";
 
 const AisleContainer = {
-  display: "flex",
+  display: "block",
   color: "black",
   minWidth: constants.AISLEWIDTH,
-  padding: "4px",
   alignSelf: "top",
   "@media": {
     [breakpoints.lowTablet]: { display: "none" },
@@ -18,9 +17,17 @@ const AisleContainer = {
 
 export const leftAisleContainer = style({
   overflowX: "hidden",
+  position: "absolute",
   flexDirection: "column",
+  height: `calc(100vh - ${constants.FOOTERHEIGHT} - ${constants.HEADERHEIGHT})`,
+  // minHeight: "calc(100% - 16px)",
   float: "left",
-  borderRight: "1px solid",
+  marginLeft: "32px",
+  padding: "16px",
+  borderRadius: "16px",
+  // XXX TEST COLOR
+  backgroundColor: theme.color.purple,
+  zIndex: 9999,
   ...AisleContainer,
 });
 

@@ -25,9 +25,7 @@ export default function RootLayout({
         <main className={styles.layoutContainer}>
           <Header />
           <div className={styles.pageContentContainer}>
-            <LeftAisle />
             <div className={styles.mainContentContainer}>{children}</div>
-            <RightAisle />
           </div>
           <Footer />
         </main>

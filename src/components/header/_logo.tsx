@@ -11,7 +11,7 @@ export default function Logo() {
   };
   return (
     <div onClick={onClick} className={styles.logo}>
-      AIML Project
+      "LOGO"
     </div>
   );
 }

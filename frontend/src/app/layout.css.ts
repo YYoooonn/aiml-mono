@@ -2,10 +2,11 @@ import { style } from "@vanilla-extract/css";
 import { bordertest } from "@/components/test.css";
 import { breakpoints } from "@/styles/breakpoints";
 import * as constants from "@/styles/constants";
+import { theme } from "@/styles/theme.css";
 
 export const layoutContainer = style({
   minHeight: "100vh",
-  minWidth: "100wh",
+  width: "100vw",
   position: "fixed",
   inset: 0,
   pointerEvents: "auto",
@@ -15,14 +16,13 @@ export const layoutContainer = style({
 
 export const pageContentContainer = style({
   minWidth: "100%",
-  minHeight: "100vh",
-  display: "flex",
-  ...bordertest,
+  // TODO: SUBTRACT ONLY HEADER?
+  minHeight: `calc(100vh - ${constants.HEADERHEIGHT} - ${constants.FOOTERHEIGHT})`,
 });
 
 export const mainContentContainer = style({
-  width: `calc(100% - 2 * ${constants.AISLEWIDTH})`,
-  padding: "8px",
+  width: "100%",
+  height: "100%",
   "@media": {
     [breakpoints.lowTablet]: { width: "100%" },
     [breakpoints.mobile]: { width: "100%" },

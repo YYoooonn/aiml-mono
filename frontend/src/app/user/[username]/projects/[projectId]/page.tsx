@@ -1,13 +1,13 @@
 "use client";
 
 import { EditorModal } from "@/components/editor/Editor";
-import Slider from "@/components/slider/Slider";
 import DefaultCanvas from "@/components/three/Canvas";
 import { useChat } from "@/hook/useChat";
 import { useObjects } from "@/hook/useObjects";
 import { useProjectInfo } from "@/hook/useProjectInfo";
 import { useUserInfo } from "@/hook/useUserInfo";
 import { useEffect, useState } from "react";
+import * as styles from "./page.css";
 
 export default function Page({ params }: { params: { projectId: string } }) {
   const setChatOn = useChat((isChatOn) => isChatOn.setChatOn);
@@ -28,9 +28,8 @@ export default function Page({ params }: { params: { projectId: string } }) {
   }, []);
 
   return (
-    <div>
-      <div>workspace : {params.projectId}</div>
-      <EditorModal />
+    <div className={styles.projectPageContainer}>
+      {/* <EditorModal /> */}
       <DefaultCanvas id={params.projectId} />
     </div>
   );

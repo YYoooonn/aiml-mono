@@ -1,7 +1,7 @@
 import { globalStyle } from "@vanilla-extract/css";
 
 globalStyle("*", {
-  fontFamily: "var(--font-inter-plex-sans)",
+  fontFamily: "var(--font-radjhani)",
   boxSizing: "border-box",
   padding: 0,
   margin: 0,

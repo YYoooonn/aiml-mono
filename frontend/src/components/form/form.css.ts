@@ -9,6 +9,7 @@ export const formContainer = style({
   width: "80%",
   minWidth: "150px",
   border: "1.5px solid",
+  backgroundColor: theme.color.black,
   ...theme.textStyle.subtitle1,
 });
 
@@ -29,12 +30,13 @@ export const formLabel = style({
 });
 
 export const formInput = style({
-  overflowX: "hidden",
+  overflow: "hidden",
   flexDirection: "column",
   float: "left",
   width: "70%",
   padding: 0,
   paddingTop: "8px",
+  color: theme.color.ivory,
   borderTop: "none",
   borderLeft: "none",
   borderRight: "none",

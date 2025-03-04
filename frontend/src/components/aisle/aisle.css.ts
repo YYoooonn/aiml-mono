@@ -16,7 +16,7 @@ const AisleContainer = {
 };
 
 export const leftAisleContainer = style({
-  overflowX: "hidden",
+  overflow: "hidden",
   position: "fixed",
   top: constants.HEADERHEIGHT,
   flexDirection: "column",

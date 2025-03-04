@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
   try {
     const token = await getCookie();
     const response = await userAuthRequest("users/profile", "GET", token);
-    console.debug(response);
+    // console.debug(response);
     if (!response.ok) {
       // TODO : RestfulAPI - difference in status message
       const res = await response.text();

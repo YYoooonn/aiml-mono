@@ -7,7 +7,6 @@ import Form from "@/components/form/BaseForm";
 import { useState, useEffect } from "react";
 import { useUserInfo } from "@/hook/useUserInfo";
 import { createProject } from "@/app/_actions/project";
-import { assignInlineVars } from "@vanilla-extract/dynamic";
 
 interface ProjectPropValid {
   index: number;
@@ -126,13 +125,11 @@ function NewProjectModule({
 }
 
 export function Projects() {
-  const userProjects = useUserInfo((state) => state.projects);
-  const addProject = useUserInfo((state) => state.addProject);
-  const username = useUserInfo((state) => state.username);
+  const { username, projects, addProject } = useUserInfo();
 
   return (
     <div className={styles.projectContainer}>
-      {userProjects?.map((project, i) => {
+      {projects?.map((project, i) => {
         return (
           <ProjectModule
             key={i}
@@ -145,7 +142,7 @@ export function Projects() {
       <NewProjectModule
         addProject={addProject}
         username={username}
-        valid={userProjects?.length < 3}
+        valid={projects?.length < 3}
       />
     </div>
   );

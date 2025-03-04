@@ -6,6 +6,7 @@ export const pageModalContainer = style({
   position: "absolute",
   display: "flex",
   inset: 0,
+  maxWidth: "752px",
   margin: `40px 40px`,
   padding: "12px 12px",
   pointerEvents: "auto",
@@ -13,7 +14,6 @@ export const pageModalContainer = style({
   color: "black",
   backgroundColor: "white",
   height: "80vh",
-  width: "80wh",
   zIndex: 100,
   border: "1px solid black",
   selectors: {

@@ -106,3 +106,22 @@ export async function createProject(username: string, props: BaseProjectProp) {
     return { error: "error from creating project process" };
   }
 }
+
+interface ArchiveProps {
+  keyword: string;
+  pageNumber: number;
+  pageSize: number;
+}
+
+export async function getArchives(archiveProps: ArchiveProps) {
+  try {
+    const res = await fetch("api/archive", {
+      method: "POST",
+      body: JSON.stringify(archiveProps),
+    });
+    const data = await res.json();
+    return JSON.parse(data);
+  } catch (e) {
+    return { error: "error from getting public projects" };
+  }
+}

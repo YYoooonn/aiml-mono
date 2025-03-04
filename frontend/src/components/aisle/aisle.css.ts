@@ -6,7 +6,7 @@ import * as constants from "@/styles/constants";
 
 const AisleContainer = {
   display: "block",
-  color: "black",
+  // color: "black",
   minWidth: constants.AISLEWIDTH,
   alignSelf: "top",
   "@media": {
@@ -17,16 +17,21 @@ const AisleContainer = {
 
 export const leftAisleContainer = style({
   overflowX: "hidden",
-  position: "absolute",
+  position: "fixed",
+  top: constants.HEADERHEIGHT,
   flexDirection: "column",
   height: `calc(100vh - ${constants.FOOTERHEIGHT} - ${constants.HEADERHEIGHT})`,
   // minHeight: "calc(100% - 16px)",
   float: "left",
   marginLeft: "32px",
   padding: "16px",
+  border: "solid",
   borderRadius: "16px",
   // XXX TEST COLOR
-  backgroundColor: theme.color.purple,
+  borderColor: `rgba(242, 241, 234, 0.3)`,
+  borderWidth: "2px",
+  backgroundColor: theme.color.black,
+  color: theme.color.white,
   zIndex: 9999,
   ...AisleContainer,
 });

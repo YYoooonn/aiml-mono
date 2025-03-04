@@ -35,7 +35,12 @@ export default function Home() {
           <Link href={"/register"}>Click to register</Link>
         </div>
       </section>
-      <section className={styles.landingSectionContainer}>pg4:</section>
+      <section className={styles.landingSectionContainer}>
+        pg4:
+        <div className={styles.button}>
+          <Link href={"/archive"}>Go to Archive</Link>
+        </div>
+      </section>
     </FullPageScroll>
   );
 }

@@ -92,7 +92,7 @@ interface BaseProjectProp {
   isPublic: boolean;
 }
 
-export async function createProject(username: string, props: BaseProjectProp) {
+export async function createProject(props: BaseProjectProp, username?: string) {
   try {
     console.debug(props);
     const res = await fetch("/api/projects", {

@@ -63,3 +63,10 @@ export const profileImg = style({
   backgroundColor: theme.color.ivory,
   cursor: "pointer",
 });
+
+export const modalTest = style({
+  display: "flex",
+  color: "black",
+  backgroundColor: "white",
+  ...theme.textStyle.heading1
+})

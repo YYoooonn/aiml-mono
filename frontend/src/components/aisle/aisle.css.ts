@@ -36,6 +36,52 @@ export const leftAisleContainer = style({
   ...AisleContainer,
 });
 
+
+const baseAisleBlock = {
+  display: "flex",
+  alignItems: "center",
+  marginBottom: "8px",
+  height: "24px",
+}
+
+export const leftAisleBlock = style({
+  ...baseAisleBlock
+})
+
+export const leftAisleSearchBlock = style({
+  ...baseAisleBlock,
+  backgroundColor: theme.color.gray5,
+  borderRadius: "99px"
+})
+
+
+export const leftAisleIcon = style({
+  width: "16px",
+  height: "16px",
+  marginRight: "8px",
+  marginLeft: "4px",
+  border: "1px solid white",
+  borderRadius: "99px"
+})
+
+export const leftAisleText = style({
+  position: "relative",
+  display: "block",
+  height: "100%",
+  alignItems: "center",
+  ...theme.textStyle.body1
+})
+
+export const projectListContainer = style({
+  ...baseAisleBlock,
+  marginLeft: "32px"
+})
+
+export const projectList = style({
+  paddingBottom: "8px",
+  ...theme.textStyle.body1
+})
+
 export const rightAisleContainer = style({
   overflowX: "hidden",
   flexDirection: "column",

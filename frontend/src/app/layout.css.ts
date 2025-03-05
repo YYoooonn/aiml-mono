@@ -30,6 +30,14 @@ export const mainContentContainer = style({
   },
 });
 
-export const backgroundImage = style({
+export const backgroundContainer = style({
+  position: "absolute",
+  width: "100vw",
+  height: "calc(100vh + 12px)",
+  overflow: "hidden",
   zIndex: -100,
+})
+
+export const backgroundImage = style({
+  objectFit: "cover"
 });

@@ -21,7 +21,7 @@ RUN \
   fi
 
 COPY src ./src
-COPY public ./public
+COPY ./public ./public
 COPY next.config.mjs .
 COPY tsconfig.json .
 COPY tsconfig.server.json .

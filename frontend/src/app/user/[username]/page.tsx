@@ -8,9 +8,9 @@ import * as styles from "./user.css";
 import { useUserInfo } from "@/hook/useUserInfo";
 
 export default function Page({ params }: { params: { username: string } }) {
-  const fetchUserInfo = useUserInfo((state) => state.fetch);
+  const {fetch} = useUserInfo();
   useEffect(() => {
-    fetchUserInfo(params.username);
+    fetch(params.username);
   }, []);
 
   return (

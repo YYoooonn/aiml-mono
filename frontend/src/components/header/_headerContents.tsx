@@ -3,6 +3,8 @@
 import { navigate } from "@/app/_actions/navigate";
 import * as styles from "./header.css";
 import { useUserInfo } from "@/hook/useUserInfo";
+import { useModals } from "@/hook/useModals";
+import { NewCardModule, NewProjectForm } from "../card/CardModule";
 
 export function Logo() {
   const onClick = (e: React.MouseEvent) => {
@@ -39,4 +41,21 @@ export function Profile() {
   );
 }
 
-export function OpenModal() {}
+
+export function Modal() {
+  const { open } = useModals()
+
+  const handleClick = () => {
+    open(ModalTest)
+  }
+
+  return(
+    <div className={styles.headerLink} onClick={handleClick}>Modal</div>
+  )
+}
+
+
+function ModalTest() {
+
+  return <div className={styles.modalTest}>modal opened</div>
+}

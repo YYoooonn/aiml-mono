@@ -28,14 +28,14 @@ export default function RootLayout({
           </div>
           <Footer />
         </main>
-      <div className={styles.backgroundContainer}>
-        <Image
-          className={styles.backgroundImage}
-          src={"/image/background.png"}
-          alt="img"
-          fill
-        />
-      </div>
+        <div className={styles.backgroundContainer}>
+          <Image
+            className={styles.backgroundImage}
+            src={"/image/background.png"}
+            alt="img"
+            fill
+          />
+        </div>
       </body>
     </html>
   );

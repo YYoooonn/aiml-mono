@@ -1,17 +1,17 @@
-import {create} from "zustand"
+import { create } from "zustand";
 
 export interface ModalComponentProps<P = Record<string, unknown>> {
-  Component: React.FC<P>
-  props?: P
+  Component: React.FC<P>;
+  props?: P;
 }
 
 interface ModalState {
-  modals: ModalComponentProps[]
+  modals: ModalComponentProps[];
   open: <P extends Record<string, unknown>>(
     Component: React.FC<P>,
     props?: P,
-  ) => void
-  close: () => void
+  ) => void;
+  close: () => void;
 }
 
 export const useModalStore = create<ModalState>((set) => ({
@@ -27,4 +27,4 @@ export const useModalStore = create<ModalState>((set) => ({
     set((state) => ({
       modals: state.modals.slice(0, -1),
     })),
-}))
+}));

@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 
 export function UserCams() {
   const { nodes } = useGLTF(urlCam);
-  console.log(nodes);
   const cameras = useParticipants((state) => state.cameras);
 
   return (

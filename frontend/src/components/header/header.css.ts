@@ -64,9 +64,47 @@ export const profileImg = style({
   cursor: "pointer",
 });
 
-export const modalTest = style({
+export const profileDropdown = style({
+  position: "absolute",
   display: "flex",
+  width: "200px",
+  height: "84px",
+  backgroundColor: theme.color.ivory,
+  color: theme.color.black,
+  right: 0,
+  top: `calc(${constants.HEADERHEIGHT} - 16px)`,
+});
+
+export const profileInnerWrapper = style({
+  width: "100%",
+  height: "100%",
+  padding: "8px 20px 8px 20px",
+});
+
+export const dropdownList = style({
+  width: "100%",
+  textAlign: "center",
+  display: "block",
+  ...theme.textStyle.subtitle2,
+});
+
+export const dropdownButtonWrapper = style({
+  display: "flex",
+});
+
+export const dropdownButton = style({
+  width: "50%",
+  height: "100%",
+  textAlign: "center",
+  display: "block",
+  ":hover": {
+    cursor: "pointer",
+  },
+});
+
+export const modalTest = style({
+  display: "block",
   color: "black",
   backgroundColor: "white",
-  ...theme.textStyle.heading1
-})
+  ...theme.textStyle.heading1,
+});

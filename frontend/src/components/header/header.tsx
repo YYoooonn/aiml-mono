@@ -1,6 +1,5 @@
 import * as styles from "./header.css";
-import { Logo, Modal, Profile } from "./_headerContents";
-import { LogoutButton } from "../button/LogoutButton";
+import { Logo, Profile } from "./_headerContents";
 import Link from "next/link";
 
 export default function Header() {
@@ -21,7 +20,6 @@ export default function Header() {
           <Link href={"/contact"} className={styles.headerLink}>
             Contact
           </Link>
-          <Modal />
           <Profile />
         </div>
       </div>

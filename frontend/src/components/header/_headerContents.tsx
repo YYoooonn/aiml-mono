@@ -3,8 +3,8 @@
 import { navigate } from "@/app/_actions/navigate";
 import * as styles from "./header.css";
 import { useUserInfo } from "@/hook/useUserInfo";
-import { useModals } from "@/hook/useModals";
-import { NewCardModule, NewProjectForm } from "../card/CardModule";
+import useComponentVisible from "@/hook/useComponentVisible";
+import Link from "next/link";
 
 export function Logo() {
   const onClick = (e: React.MouseEvent) => {
@@ -20,42 +20,70 @@ export function Logo() {
 }
 
 export function Profile() {
-  const { username, logout } = useUserInfo();
+  const { username, email, logout } = useUserInfo();
+  const { ref, isComponentVisible, setIsComponentVisible } =
+    useComponentVisible();
   const handleLogout = () => {
     logout();
-    console.log("logged out");
+    setIsComponentVisible(false);
     navigate("/");
-  };
-  const handleClick = () => {
-    alert("profile clicked");
   };
 
   return (
-    <div className={styles.headerLink}>
+    <>
       {username ? (
-        <div onClick={handleLogout}>Logout</div>
+        <div className={styles.headerLink}>
+          <div
+            className={styles.profileImg}
+            onClick={() => setIsComponentVisible(!isComponentVisible)}
+          ></div>
+        </div>
       ) : (
-        <div className={styles.profileImg} onClick={handleClick}></div>
+        <>
+          <Link href={"/register"} className={styles.headerLink}>
+            SignIn
+          </Link>
+          <Link href={"/login"} className={styles.headerLink}>
+            LogIn
+          </Link>
+        </>
       )}
-    </div>
+      {isComponentVisible ? (
+        <div className={styles.profileDropdown} ref={ref}>
+          <ProfileDropdown
+            username={username}
+            email={email}
+            handleLogout={handleLogout}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+    </>
   );
 }
 
-
-export function Modal() {
-  const { open } = useModals()
-
-  const handleClick = () => {
-    open(ModalTest)
-  }
-
-  return(
-    <div className={styles.headerLink} onClick={handleClick}>Modal</div>
-  )
-}
-
-
-function ModalTest() {
-
-  return <div className={styles.modalTest}>modal opened</div>
+function ProfileDropdown({
+  handleLogout,
+  username,
+  email,
+}: {
+  handleLogout: () => void;
+  username?: string;
+  email?: string;
+}) {
+  return (
+    <div className={styles.profileInnerWrapper}>
+      <div className={styles.dropdownList}>{username}</div>
+      <div className={styles.dropdownList}>{email ? email : "empty email"}</div>
+      <div className={styles.dropdownList}>
+        <div className={styles.dropdownButtonWrapper}>
+          <div className={styles.dropdownButton}>EDIT PROFILE</div>
+          <div className={styles.dropdownButton} onClick={handleLogout}>
+            SIGN OUT
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

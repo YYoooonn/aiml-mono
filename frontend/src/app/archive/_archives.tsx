@@ -1,9 +1,7 @@
 import * as styles from "./archive.css";
-import {CardModule} from "@/components/card/CardModule";
-
+import { CardModule } from "@/components/card/CardModule";
 
 export function Archives({ archives }: { archives: ProjectProps[] }) {
-
   return (
     <div className={styles.archiveContainer}>
       {archives ? (
@@ -16,4 +14,3 @@ export function Archives({ archives }: { archives: ProjectProps[] }) {
     </div>
   );
 }
-

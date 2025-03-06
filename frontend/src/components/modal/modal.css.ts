@@ -7,15 +7,15 @@ export const modalBackgroundWrapper = style({
   width: "100vw",
   height: "100vh",
   zIndex: 999,
-})
+});
 
 export const modalWrapper = style({
   position: "absolute",
   left: "50%",
   transform: "translate(-50%, 0)",
-  top:"84px",
-  backgroundColor: theme.color.black
-})
+  top: "84px",
+  backgroundColor: theme.color.black,
+});
 
 export const pageModalContainer = style({
   position: "absolute",
@@ -50,13 +50,13 @@ export const pageModalContainer = style({
 export const pageModalInWrapper = style({
   height: "100%",
   width: "100%",
-  padding: "12px"
+  padding: "12px",
 });
 
 export const modalHeader = style({
   width: "100%",
-  display:"flex"
-})
+  display: "flex",
+});
 
 export const buttonExit = style({
   display: "block",

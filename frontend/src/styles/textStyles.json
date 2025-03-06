@@ -28,6 +28,11 @@
     "fontSize": "24px",
     "lineHeight": "28px"
   },
+  "body1Bold": {
+    "fontWeight": "600",
+    "fontSize": "16px",
+    "lineHeight": "152%"
+  },
   "body1": {
     "fontWeight": "500",
     "fontSize": "16px",

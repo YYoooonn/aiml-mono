@@ -27,7 +27,7 @@ const baseCardImage = {
   border: "solid 1px",
   backgroundColor: theme.color.white,
   opacity: "50%",
-}
+};
 
 export const cardImage = style({
   ...baseCardImage,
@@ -51,11 +51,11 @@ export const cardSubtitle = style({
 
 export const formModalContainer = style({
   width: "80vw",
-  maxWidth : "424px",
+  maxWidth: "424px",
   padding: "20px",
   paddingTop: "12px",
-  color: theme.color.ivory
-})
+  color: theme.color.ivory,
+});
 
 export const formInputBlock = style({
   display: "flex",
@@ -64,13 +64,13 @@ export const formInputBlock = style({
   width: "100%",
   height: "64px",
   marginBottom: "24px",
-  ...theme.textStyle.body1
-})
+  ...theme.textStyle.body1,
+});
 
 export const formTag = style({
   display: "block",
-  width : "100%"
-})
+  width: "100%",
+});
 
 export const formInput = style({
   display: "block",
@@ -86,7 +86,7 @@ export const formInput = style({
     border: "none",
     background: theme.color.ivory,
   },
-})
+});
 
 export const boolButtonBlock = style({
   display: "flex",
@@ -95,9 +95,8 @@ export const boolButtonBlock = style({
   width: "100%",
   height: "64px",
   marginBottom: "24px",
-  ...theme.textStyle.body1
-})
-
+  ...theme.textStyle.body1,
+});
 
 const baseButton = {
   height: "32px",
@@ -105,7 +104,7 @@ const baseButton = {
   borderRadius: "4px",
   cursor: "pointer",
   borderColor: theme.color.ivory,
-}
+};
 
 export const buttonSelected = style({
   ...baseButton,
@@ -113,8 +112,8 @@ export const buttonSelected = style({
   textAlign: "center",
   border: "1px solid",
   backgroundColor: theme.color.ivory,
-  color: theme.color.black
-})
+  color: theme.color.black,
+});
 
 export const buttonUnselected = style({
   ...baseButton,
@@ -123,7 +122,7 @@ export const buttonUnselected = style({
   border: "1px solid",
   backgroundColor: theme.color.black,
   color: theme.color.ivory,
-})
+});
 
 export const submitButton = style({
   ...baseButton,
@@ -137,4 +136,4 @@ export const submitButton = style({
     borderColor: theme.color.neonGreen,
     backgroundColor: theme.color.neonGreen,
   },
-})
+});

@@ -1,3 +1,3 @@
-export default function About () {
-    return(<>About</>)
+export default function About() {
+  return <>About</>;
 }

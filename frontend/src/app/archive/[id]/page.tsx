@@ -1,5 +1,4 @@
-import DefaultCanvas from "@/components/three/Canvas";
-import * as styles from "./archiveCanvs.css";
+import ArchiveCanvas from "./_canvas";
 
 export default async function Archive({
   params,
@@ -8,9 +7,5 @@ export default async function Archive({
 }) {
   const { id } = await params;
 
-  return (
-    <div className={styles.archivePageContainer}>
-      <DefaultCanvas id={id} />
-    </div>
-  );
+  return <ArchiveCanvas id={id} />;
 }

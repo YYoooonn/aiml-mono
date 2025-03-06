@@ -36,8 +36,8 @@ export const backgroundContainer = style({
   height: "calc(100vh + 12px)",
   overflow: "hidden",
   zIndex: -100,
-})
+});
 
 export const backgroundImage = style({
-  objectFit: "cover"
+  objectFit: "cover",
 });

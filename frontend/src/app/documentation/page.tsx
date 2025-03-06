@@ -1,3 +1,3 @@
-export default function Documentation () {
-    return(<>Documentation</>)
+export default function Documentation() {
+  return <>Documentation</>;
 }

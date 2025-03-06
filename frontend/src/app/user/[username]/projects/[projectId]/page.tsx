@@ -1,7 +1,7 @@
 "use client";
 
 import { EditorModal } from "@/components/editor/Editor";
-import DefaultCanvas from "@/components/three/Canvas";
+import { DefaultCanvas } from "@/components/three/Canvas";
 import { useChat } from "@/hook/useChat";
 import { useObjects } from "@/hook/useObjects";
 import { useProjectInfo } from "@/hook/useProjectInfo";

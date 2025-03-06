@@ -18,5 +18,5 @@ const DEFAULT = {
 };
 
 export default function Workspace({ id }: { id: string }) {
-  return <div className={styles.WorkspaceContainer}></div>;
+  return <div className={styles.workspaceContainer}></div>;
 }

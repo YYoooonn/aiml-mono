@@ -28,12 +28,11 @@ export const projectContainer = style({
 
 export const chatContainer = style({
   position: "relative",
-  display: "flex",
+  display: "block",
   flexDirection: "column",
   pointerEvents: "auto",
   overflowY: "auto",
-  color: "black",
-  backgroundColor: "transparent",
+  color: theme.color.ivory,
   width: "100%",
   zIndex: 100,
   selectors: {
@@ -47,10 +46,6 @@ export const chatContainer = style({
   "@media": {
     [breakpoints.lowTablet]: { padding: 0 },
   },
-});
-
-export const chatInWrapper = style({
-  height: "80vh",
 });
 
 export const chatHeaderContainer = style({
@@ -67,7 +62,6 @@ export const userHeaderContainer = style({
 });
 
 export const chatMessageContainer = style({
-  position: "relative",
   minWidth: "100%",
 });
 
@@ -77,12 +71,15 @@ export const chatMessageHeader = style({
 });
 
 export const chatInputContainer = style({
-  display: "block",
+  display: "flex",
+  position : "relative",
+  alignItems: "center",
   overflowX: "hidden",
-  paddingTop: "12px",
-  flexDirection: "column",
+  flexDirection: "row",
   float: "left",
   minWidth: "100%",
+  padding: "2px",
+  backgroundColor: theme.color.ivory30,
   ...theme.textStyle.subtitle1,
 });
 
@@ -90,45 +87,47 @@ export const chatInput = style({
   overflowX: "hidden",
   flexDirection: "column",
   float: "left",
-  width: "80%",
-  padding: 0,
-  paddingTop: "4px",
-  borderTop: "none",
-  borderLeft: "none",
-  borderRight: "none",
-  borderBottom: "1.5px dashed",
-  background: "transparent",
+  width: "100%",
+  border: "none",
+  color: theme.color.ivory,
+  backgroundColor: "transparent",
   ...theme.textStyle.subtitle2,
   ":focus": {
     outline: "none",
-    borderTop: "none",
-    borderLeft: "none",
-    borderRight: "none",
-    borderBottomStyle: "solid",
+    border: "none"
+  },
+});
+
+export const buttonSubmit = style({
+  display: "block",
+  marginLeft: "auto",
+  marginRight: 0,
+  overflowX: "hidden",
+  float: "right",
+  width: "12px",
+  height: "12px",
+  border: "1px solid",
+  borderRadius: "12px",
+  textAlign: "center",
+  backgroundColor: theme.color.ivory30,
+  ...theme.textStyle.medium,
+  ":hover": {
+    backgroundColor: theme.color.ivory,
   },
 });
 
 export const textStyle = style({
   ...theme.textStyle.medium,
+  width: "100%",
 });
 
 export const chatLogContainer = style({
-  maxHeight: "65vh",
+  display: "block",
+  height: "100%",
+  maxWidth: "100%",
   overflowX: "auto",
   overflowY: "auto",
   wordWrap: "break-word",
-});
-
-export const buttonSubmit = style({
-  overflowX: "hidden",
-  float: "left",
-  width: "20%",
-  border: "1px dashed",
-  textAlign: "center",
-  ...theme.textStyle.medium,
-  ":hover": {
-    border: "2px solid",
-  },
 });
 
 export const buttonExit = style({

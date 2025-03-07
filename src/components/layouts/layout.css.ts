@@ -15,3 +15,11 @@ export const LeftAislePageContainer = style({
     [breakpoints.lowTablet]: { marginLeft: 0, width: "100%" },
   },
 });
+
+export const defaultLayoutContainer = style({
+  display: "block",
+  position: "relative",
+  padding: "16px",
+  width: "100%",
+  height: "100%",
+});

@@ -7,8 +7,9 @@ export const footerContainer = style({
   display: "flex",
   flexDirection: "column",
   height: constants.FOOTERHEIGHT,
+  bottom: 0,
   gap: "32px",
   padding: "8px",
-  borderTop: "1px solid",
+  backgroundColor: theme.color.black,
   ...theme.textStyle.heading4,
 });

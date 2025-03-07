@@ -2,20 +2,38 @@ import { style } from "@vanilla-extract/css";
 import { breakpoints } from "@/styles/breakpoints";
 import { theme } from "@/styles/theme.css";
 
+export const modalBackgroundWrapper = style({
+  position: "absolute",
+  width: "100vw",
+  height: "100vh",
+  zIndex: 999,
+});
+
+export const modalWrapper = style({
+  position: "absolute",
+  left: "50%",
+  transform: "translate(-50%, 0)",
+  top: "84px",
+  backgroundColor: theme.color.black,
+});
+
 export const pageModalContainer = style({
   position: "absolute",
   display: "flex",
+  top: "50%",
+  left: "50%",
   inset: 0,
-  margin: `40px 40px`,
-  padding: "12px 12px",
+  width: "90vw",
+  maxWidth: "752px",
+  minHeight: "432px",
+  margin: "84px auto",
   pointerEvents: "auto",
   overflowY: "auto",
-  color: "black",
-  backgroundColor: "white",
-  height: "80vh",
-  width: "80wh",
-  zIndex: 100,
-  border: "1px solid black",
+  color: "white",
+  backgroundColor: "black",
+  zIndex: 1000,
+  border: "2px solid",
+  borderColor: theme.color.ivory30,
   selectors: {
     "&::before": {
       content: "''",
@@ -30,15 +48,26 @@ export const pageModalContainer = style({
 });
 
 export const pageModalInWrapper = style({
-  height: "80vh",
-  width: "80%",
+  height: "100%",
+  width: "100%",
+  padding: "12px",
+});
+
+export const modalHeader = style({
+  width: "100%",
+  display: "flex",
 });
 
 export const buttonExit = style({
   display: "block",
-
+  float: "right",
+  height: "16px",
+  width: "16px",
+  marginLeft: "auto",
+  marginRight: 0,
+  backgroundColor: theme.color.red70,
   ":hover": {
-    color: "red",
+    backgroundColor: theme.color.red,
     cursor: "pointer",
   },
 });

@@ -26,7 +26,7 @@ export default function Home() {
       <section className={styles.landingSectionContainer}>
         pg2:
         <div className={styles.button}>
-          <Link href={"/redirect"}>Click to login</Link>
+          <Link href={"/login"}>Click to login</Link>
         </div>
       </section>
       <section className={styles.landingSectionContainer}>

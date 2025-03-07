@@ -104,9 +104,7 @@ export function ChatSocket(props: SocketProps) {
             onKeyDown={onKeyDownSubmit}
             placeholder="enter message"
           />
-          <div className={styles.buttonSubmit} onClick={onClickSubmitBtn}>
-            submit
-          </div>
+          <div className={styles.buttonSubmit} onClick={onClickSubmitBtn} />
         </div>
       </div>
 
@@ -116,9 +114,9 @@ export function ChatSocket(props: SocketProps) {
           <div className={styles.chatLogContainer}>
             {logs &&
               logs.toReversed().map((log) => (
-                <p className={styles.textStyle} key={uuidv4()}>
+                <div className={styles.textStyle} key={uuidv4()}>
                   {log}
-                </p>
+                </div>
               ))}
           </div>
         </div>

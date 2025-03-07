@@ -1,11 +1,18 @@
-import { IBM_Plex_Sans } from "next/font/google";
+import { IBM_Plex_Sans, Rajdhani } from "next/font/google";
 import localFont from "next/font/local";
 
-export const interPlexSans = IBM_Plex_Sans({
+// export const interPlexSans = IBM_Plex_Sans({
+//   subsets: ["latin"],
+//   display: "swap",
+//   weight: "700",
+//   variable: "--font-inter-plex-sans",
+// });
+
+export const rajdhani = Rajdhani({
   subsets: ["latin"],
   display: "swap",
-  weight: "700",
-  variable: "--font-inter-plex-sans",
+  weight: ["500", "600", "700"],
+  variable: "--font-radjhani",
 });
 
 export const geistSans = localFont({

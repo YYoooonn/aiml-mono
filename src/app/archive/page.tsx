@@ -8,6 +8,7 @@ import { Archives } from "./_archives";
 export default function Archive() {
   const [pageNum, setPageNum] = useState(0);
   const [keyword, setKeyword] = useState("");
+  // XXX type
   const [archives, setArchives] = useState<Array<any>>([]);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function Archive() {
 
   return (
     <div>
-      <div className={styles.archiveTitle}>archives</div>
+      {/* <div className={styles.archiveTitle}>archives</div> */}
       <Archives archives={archives} />
     </div>
   );

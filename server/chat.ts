@@ -29,7 +29,7 @@ export const ChatSocket = (io: Server, name: string) => {
     const roomId = referer
       ? referer.split("/")[referer.split("/").length - 1].replace(/\?.+/, "")
       : "default";
-    //console.debug(roomId);
+    console.debug("roomid", roomId);
 
     // join room
     socket.join(roomId);
@@ -74,7 +74,7 @@ export const ChatSocket = (io: Server, name: string) => {
       namespace
         .to(roomId)
         .emit("chatMessage", `${user?.username} leaved the room`);
-      usersRoom[roomId] = usersRoom[roomId].filter(
+      usersRoom[roomId] = usersRoom[roomId]?.filter(
         (ele) => ele.socketId !== socket.id,
       );
       namespace.to(roomId).emit("users", getRoomUsersArray(roomId));

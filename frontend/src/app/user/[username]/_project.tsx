@@ -1,6 +1,6 @@
 import * as styles from "./user.css";
 import { useUserInfo } from "@/hook/useUserInfo";
-import { CardModule, NewCardModule } from "@/components/card/CardModule";
+import { WorkspaceCard, NewCardModule } from "@/components/card/CardModule";
 
 export function Projects() {
   const { username, projects, addProject } = useUserInfo();
@@ -17,7 +17,7 @@ export function Projects() {
   return (
     <div className={styles.projectContainer}>
       {props?.map((p, i) => {
-        return <CardModule key={i} props={p} />;
+        return <WorkspaceCard key={i} props={p} />;
       })}
       <NewCardModule addProject={addProject} valid={projects?.length < 3} />
     </div>

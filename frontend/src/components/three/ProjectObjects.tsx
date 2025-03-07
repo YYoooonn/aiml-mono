@@ -27,20 +27,24 @@ export function ProjectObjects({
 }: {
   objectInfos?: ObjectInfo[];
 }) {
-  const pObjects = objectInfos
-    ? objectInfos
-    : []
-  
-  const {setSelected, resetSelected, selected, scale, rotation, position} = useSelected();
+  const pObjects = objectInfos ? objectInfos : [];
+
+  const { setSelected, resetSelected, selected, scale, rotation, position } =
+    useSelected();
 
   // unmount시 selected 제거
   useEffect(() => {
-    return () => resetSelected()
-  }, [])
+    return () => resetSelected();
+  }, []);
 
   return (
     <group>
-      <SelectedObject selected={selected} scale={scale} rotation={rotation} position={position}/>
+      <SelectedObject
+        selected={selected}
+        scale={scale}
+        rotation={rotation}
+        position={position}
+      />
       {pObjects.map((obj, i) => {
         return (
           <MeshObject
@@ -54,8 +58,8 @@ export function ProjectObjects({
   );
 }
 
-function SelectedObject(props : SelectedInfo) {
-  const {selected, scale, rotation, position} = props;
+function SelectedObject(props: SelectedInfo) {
+  const { selected, scale, rotation, position } = props;
   if (!selected) {
     return <></>;
   }
@@ -105,8 +109,8 @@ function MeshObject({ obj, handleSelected }: MeshProps) {
 
   // XXX temporary for error catch
   // projectId 53
-  const newRotation = rotation.map((d) => isNaN(d) ? 0 : d) as any
-  
+  const newRotation = rotation.map((d) => (isNaN(d) ? 0 : d)) as any;
+
   // FIXME
   switch (obj.geometry) {
     case "BoxGeometry":

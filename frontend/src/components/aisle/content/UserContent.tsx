@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useUserInfo } from "@/hook/useUserInfo";
 import * as styles from "./content.css";
@@ -22,7 +22,6 @@ export default function UserContent() {
       <div className={styles.projectListContainer}>
         {showList &&
           projects.map((p, i) => {
-            console.log(p.title);
             return (
               <div key={i} className={styles.projectList}>
                 {p.title}

@@ -12,7 +12,7 @@ interface UserActions {
   addProject: (project: Project) => void;
   reset: () => void;
   logout: () => void;
-  fetch: (username: string) => Promise<void>;
+  fetch: (username?: string) => Promise<{success: boolean, username: string|undefined}>;
   update: (data: UpdateInfo) => Promise<void>;
   getProjects: () => Project[];
 }
@@ -47,7 +47,8 @@ export const useUserInfo = create<UserState>()((set, get) => ({
     //console.debug(response);
     if (!response["error"]) {
       set(response);
-    }
+      return {success: true, username: response.username}
+    } return {success: false, username: undefined}
   },
   update: async (data) => {
     const response = await updateUserInfo(data);

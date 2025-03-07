@@ -13,7 +13,7 @@ export default function ArchiveCanvas({ id }: { id: string }) {
   useEffect(() => {
     fetch(id).then((r) => {
       setObjts(r.objects);
-      console.log(r.objects.length > 0 ? "not empty": "empty")
+      console.log(r.objects.length > 0 ? "not empty" : "empty");
     });
   }, []);
 

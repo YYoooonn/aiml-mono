@@ -6,7 +6,6 @@ import ArchiveContent from "./ArchiveContent";
 import WorkspaceContent from "./WorksapceContent";
 
 export default function LeftAisleContent() {
-
   const pathname = usePathname().split("/")[1];
 
   if (pathname === "user") {
@@ -14,7 +13,7 @@ export default function LeftAisleContent() {
   } else if (pathname === "archive") {
     return <ArchiveContent />;
   } else if (pathname === "workspace") {
-    return <WorkspaceContent />
+    return <WorkspaceContent />;
   }
   return <></>;
 }

@@ -5,6 +5,7 @@ import * as styles from "./header.css";
 import { useUserInfo } from "@/hook/useUserInfo";
 import useComponentVisible from "@/hook/useComponentVisible";
 import Link from "next/link";
+import redirectUser from "@/hook/redirectUser";
 
 export function Logo() {
   const onClick = (e: React.MouseEvent) => {
@@ -23,10 +24,16 @@ export function Profile() {
   const { username, email, logout } = useUserInfo();
   const { ref, isComponentVisible, setIsComponentVisible } =
     useComponentVisible();
+
   const handleLogout = () => {
     logout();
     setIsComponentVisible(false);
     navigate("/");
+  };
+
+  const handleNavigate = () => {
+    setIsComponentVisible(false);
+    redirectUser(username);
   };
 
   return (
@@ -41,7 +48,7 @@ export function Profile() {
       ) : (
         <>
           <Link href={"/register"} className={styles.headerLink}>
-            SignIn
+            SignUp
           </Link>
           <Link href={"/login"} className={styles.headerLink}>
             LogIn
@@ -54,6 +61,7 @@ export function Profile() {
             username={username}
             email={email}
             handleLogout={handleLogout}
+            handleNavigate={handleNavigate}
           />
         </div>
       ) : (
@@ -65,17 +73,21 @@ export function Profile() {
 
 function ProfileDropdown({
   handleLogout,
+  handleNavigate,
   username,
   email,
 }: {
   handleLogout: () => void;
-  username?: string;
+  handleNavigate: () => void;
+  username: string;
   email?: string;
 }) {
   return (
     <div className={styles.profileInnerWrapper}>
       <div className={styles.dropdownList}>{username}</div>
-      <div className={styles.dropdownList}>{email ? email : "empty email"}</div>
+      <div className={styles.dropdownListSelectable} onClick={handleNavigate}>
+        MY WORKSPACE
+      </div>
       <div className={styles.dropdownList}>
         <div className={styles.dropdownButtonWrapper}>
           <div className={styles.dropdownButton}>EDIT PROFILE</div>

@@ -16,29 +16,28 @@ export async function GET(
     const token = await getCookie();
 
     // 401 error , token not valid - redirect login
-    const response = token? await userAuthRequest(
-      `projects/${params.projectId}`,
-      "GET",
-      token,
-    ) : await userApiRequest(
-      `projects/${params.projectId}`,
-      "GET",
-    )
+    const response = token
+      ? await userAuthRequest(`projects/${params.projectId}`, "GET", token)
+      : await userApiRequest(`projects/${params.projectId}`, "GET");
 
-    if(response.ok){
+    if (response.ok) {
       const responseData = await response.json();
       return NextResponse.json(responseData, {
         status: 200,
         headers: ApiResponseHeader,
       });
     } else {
-      const err = await response.text()
-      throw error(err)}
+      const err = await response.text();
+      throw error(err);
+    }
   } catch (err) {
-    return NextResponse.json({error : err}, {
-      status: 200,
-      headers: ApiResponseHeader,
-    });
+    return NextResponse.json(
+      { error: err },
+      {
+        status: 200,
+        headers: ApiResponseHeader,
+      },
+    );
   }
 }
 

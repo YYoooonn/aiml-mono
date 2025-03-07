@@ -72,7 +72,7 @@ export const chatMessageHeader = style({
 
 export const chatInputContainer = style({
   display: "flex",
-  position : "relative",
+  position: "relative",
   alignItems: "center",
   overflowX: "hidden",
   flexDirection: "row",
@@ -94,7 +94,7 @@ export const chatInput = style({
   ...theme.textStyle.subtitle2,
   ":focus": {
     outline: "none",
-    border: "none"
+    border: "none",
   },
 });
 

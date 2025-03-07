@@ -1,6 +1,7 @@
-import { createVar, keyframes, style } from "@vanilla-extract/css";
+import { style } from "@vanilla-extract/css";
 import { theme } from "@/styles/theme.css";
 import * as constants from "@/styles/constants";
+import { breakpoints } from "@/styles/breakpoints";
 
 export const headerContainer = style({
   position: "fixed",
@@ -17,16 +18,24 @@ export const headerContainer = style({
   backgroundColor: theme.color.black,
   color: theme.color.white,
   ...theme.textStyle.body1,
+  "@media": {
+    [breakpoints.lowTablet]: { padding: "16px 16px 16px 16px" },
+  },
 });
 
 export const logo = style({
   width: "max-content",
-  padding: "8px",
+  height: constants.HEADERHEIGHT,
+  padding: "4px",
+  alignContent: "center",
+  ...theme.textStyle.logo,
   ":hover": {
     cursor: "pointer",
     color: theme.color.red,
   },
-  ...theme.textStyle.logo,
+  "@media": {
+    [breakpoints.lowTablet]: { padding: 0 },
+  },
 });
 
 export const headerBlock = style({
@@ -70,6 +79,7 @@ export const profileDropdown = style({
   width: "200px",
   height: "84px",
   backgroundColor: theme.color.ivory,
+  borderRadius: "16px",
   color: theme.color.black,
   right: 0,
   top: `calc(${constants.HEADERHEIGHT} - 16px)`,
@@ -81,15 +91,29 @@ export const profileInnerWrapper = style({
   padding: "8px 20px 8px 20px",
 });
 
-export const dropdownList = style({
+const baseDropdwonList = {
   width: "100%",
-  textAlign: "center",
   display: "block",
   ...theme.textStyle.subtitle2,
+};
+
+export const dropdownList = style({
+  textAlign: "center",
+  ...baseDropdwonList,
+});
+
+export const dropdownListSelectable = style({
+  textAlign: "center",
+  ...baseDropdwonList,
+  ":hover": {
+    cursor: "pointer",
+    color: theme.color.red,
+  },
 });
 
 export const dropdownButtonWrapper = style({
   display: "flex",
+  alignItems: "center",
 });
 
 export const dropdownButton = style({
@@ -99,6 +123,7 @@ export const dropdownButton = style({
   display: "block",
   ":hover": {
     cursor: "pointer",
+    color: theme.color.red,
   },
 });
 

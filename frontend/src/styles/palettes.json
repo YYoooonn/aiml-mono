@@ -1,7 +1,9 @@
 {
   "black": "#000000",
   "white": "#FFFFFF",
-  "ivory": "#F2F1EA",
+  "ivory": "rgba(242, 241, 234, 1)",
+  "ivory80": "rgba(242, 241, 234, 0.8)",
+  "ivory70": "rgba(242, 241, 234, 0.7)",
   "ivory30": "rgba(242, 241, 234, 0.3)",
   "neonGreen": "#00FF00",
 

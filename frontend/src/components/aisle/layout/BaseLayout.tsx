@@ -1,6 +1,6 @@
 import * as styles from "./layout.css";
 
-export function BaseLayout({children} : React.PropsWithChildren) {
+export function BaseLayout({ children }: React.PropsWithChildren) {
   return (
     <div className={styles.leftAisleInnerWrapper}>
       <BaseSideNav />
@@ -8,7 +8,6 @@ export function BaseLayout({children} : React.PropsWithChildren) {
     </div>
   );
 }
-
 
 function BaseSideNav() {
   return (

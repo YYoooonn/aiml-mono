@@ -1,5 +1,4 @@
 import { style } from "@vanilla-extract/css";
-import { bordertest } from "@/components/test.css";
 import { breakpoints } from "@/styles/breakpoints";
 import * as constants from "@/styles/constants";
 import { theme } from "@/styles/theme.css";
@@ -31,10 +30,10 @@ export const mainContentContainer = style({
 });
 
 export const backgroundContainer = style({
-  position: "absolute",
+  position: "fixed",
   width: "100vw",
   height: "calc(100vh + 12px)",
-  overflow: "hidden",
+  overflow: "none",
   zIndex: -100,
 });
 

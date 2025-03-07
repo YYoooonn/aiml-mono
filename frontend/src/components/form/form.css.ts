@@ -1,6 +1,31 @@
 import { createVar, style } from "@vanilla-extract/css";
 import { theme } from "@/styles/theme.css";
 
+export const baseFormContainer = style({
+  padding: "12px",
+  width: "90vw",
+  maxWidth: "780px",
+  position: "absolute",
+  display: "block",
+  wordWrap: "break-word",
+  top: "16px",
+  left: "50%",
+  transform: "translate(-50%, 0)",
+  // XXX test value
+  backgroundColor: theme.color.black,
+  color: theme.color.ivory,
+});
+
+export const newProjectFormContainer = style({
+  width: "80vw",
+  maxWidth: "780px",
+  padding: "20px",
+  paddingTop: "12px",
+  color: theme.color.ivory,
+});
+
+// XXX DEPRECIATED BELOW
+
 export const formContainer = style({
   display: "flex",
   flexDirection: "column",

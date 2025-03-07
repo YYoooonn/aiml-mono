@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { geistSans, interPlexSans } from "@/assets/fonts";
+import { geistSans, rajdhani } from "@/assets/fonts";
 import { Header, Footer, LeftAisle, RightAisle } from "@/components/components";
 import "@/styles/global.css";
 import * as styles from "./layout.css";
+import Image from "next/image";
+import ModalContainer from "@/components/modal/Modal";
 
 export const metadata: Metadata = {
   title: "AIML Project",
@@ -15,13 +17,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${interPlexSans.variable} ${geistSans.variable}`}
-    >
+    <html lang="en" className={`${rajdhani.variable} ${geistSans.variable}`}>
       <head></head>
       <body>
-        <div id="newProjectModal" />
+        <ModalContainer />
         <main className={styles.layoutContainer}>
           <Header />
           <div className={styles.pageContentContainer}>
@@ -29,6 +28,14 @@ export default function RootLayout({
           </div>
           <Footer />
         </main>
+        <div className={styles.backgroundContainer}>
+          <Image
+            className={styles.backgroundImage}
+            src={"/image/background.png"}
+            alt="img"
+            fill
+          />
+        </div>
       </body>
     </html>
   );

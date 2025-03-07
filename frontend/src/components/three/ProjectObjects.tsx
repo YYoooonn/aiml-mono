@@ -3,8 +3,9 @@
 import { ObjectInfo } from "@/@types/api";
 import { useObjects } from "@/hook/useObjects";
 import { useProjectInfo } from "@/hook/useProjectInfo";
-import { useSelected } from "@/hook/useSelected";
+import { SelectedInfo, useSelected } from "@/hook/useSelected";
 import { toMatrix4, toMatrix4decompose } from "@/utils/calc";
+import { Center, Text3D } from "@react-three/drei";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import * as THREE from "three";
 
@@ -21,22 +22,35 @@ interface MeshObjectProps {
   handleSelected: () => void;
 }
 
-export function ProjectObjects() {
-  const pObjects = useProjectInfo((state) => state.objects);
-  const setSelected = useSelected((state) => state.setSelected);
-  const handleSelected = (obj: ObjectInfo) => {
-    setSelected(obj);
-  };
+export function ProjectObjects({
+  objectInfos,
+}: {
+  objectInfos?: ObjectInfo[];
+}) {
+  const pObjects = objectInfos ? objectInfos : [];
+
+  const { setSelected, resetSelected, selected, scale, rotation, position } =
+    useSelected();
+
+  // unmount시 selected 제거
+  useEffect(() => {
+    return () => resetSelected();
+  }, []);
 
   return (
     <group>
-      <SelectedObject />
+      <SelectedObject
+        selected={selected}
+        scale={scale}
+        rotation={rotation}
+        position={position}
+      />
       {pObjects.map((obj, i) => {
         return (
           <MeshObject
             key={i}
             obj={obj}
-            handleSelected={() => handleSelected(obj)}
+            handleSelected={() => setSelected(obj)}
           />
         );
       })}
@@ -44,11 +58,8 @@ export function ProjectObjects() {
   );
 }
 
-function SelectedObject() {
-  const selected = useSelected((state) => state.selected);
-  const scale = useSelected((state) => state.scale);
-  const rotation = useSelected((state) => state.rotation);
-  const position = useSelected((state) => state.position);
+function SelectedObject(props: SelectedInfo) {
+  const { selected, scale, rotation, position } = props;
   if (!selected) {
     return <></>;
   }
@@ -95,11 +106,16 @@ function SelectedObject() {
 
 function MeshObject({ obj, handleSelected }: MeshProps) {
   const { position, scale, rotation } = toMatrix4decompose(obj.matrix);
+
+  // XXX temporary for error catch
+  // projectId 53
+  const newRotation = rotation.map((d) => (isNaN(d) ? 0 : d)) as any;
+
   // FIXME
   switch (obj.geometry) {
     case "BoxGeometry":
       return (
-        <group scale={scale} position={position} rotation={rotation}>
+        <group scale={scale} position={position} rotation={newRotation}>
           <BoxObject
             id={obj.objectId}
             material={obj.material}
@@ -109,7 +125,7 @@ function MeshObject({ obj, handleSelected }: MeshProps) {
       );
     case "SphereGeometry":
       return (
-        <group scale={scale} position={position} rotation={rotation}>
+        <group scale={scale} position={position} rotation={newRotation}>
           <SphereObject
             id={obj.objectId}
             material={obj.material}
@@ -119,7 +135,7 @@ function MeshObject({ obj, handleSelected }: MeshProps) {
       );
     case "ConeGeometry":
       return (
-        <group scale={scale} position={position} rotation={rotation}>
+        <group scale={scale} position={position} rotation={newRotation}>
           <ConeObject
             id={obj.objectId}
             material={obj.material}

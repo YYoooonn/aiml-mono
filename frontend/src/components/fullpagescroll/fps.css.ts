@@ -5,7 +5,7 @@ import * as constants from "@/styles/constants";
 export const outerContainer = style({
   height: `calc(100vh - ${constants.HEADERHEIGHT})`,
   width: "100%",
-  overflowY: "hidden",
+  overflow: "hidden",
 });
 
 export const dotOuterContainer = style({

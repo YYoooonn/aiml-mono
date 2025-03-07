@@ -9,11 +9,10 @@ import { Center, OrbitControls } from "@react-three/drei";
 import CamTracker from "./CamTracker";
 import { UserCams } from "./UserCams";
 import { ProjectObjects } from "./ProjectObjects";
-import { useProjectInfo } from "@/hook/useProjectInfo";
-import { useSelected } from "@/hook/useSelected";
-import { Suspense } from "react";
+import SampleObjects from "./SampleObjects";
+import { ObjectInfo } from "@/@types/api";
 
-export default function DefaultCanvas({ id }: { id: string }) {
+export function DefaultCanvas({ id }: { id: string }) {
   return (
     <div className={styles.CanvasContainer}>
       <Canvas frameloop="demand" shadows>
@@ -30,5 +29,43 @@ export default function DefaultCanvas({ id }: { id: string }) {
         <CamTracker />
       </Canvas>
     </div>
+  );
+}
+
+// XXX WORKSPACE PROPS
+const DEFAULT = {
+  ambientLight: {
+    intensity: 1,
+  },
+  directionalLight: {
+    intensity: 5,
+    position: [5, 10, 10] as [x: number, y: number, z: number],
+  },
+  background: {
+    color: "#000000",
+  },
+  orbit: {
+    enableZoom: true,
+  },
+};
+
+export function ProjectCanvas({ objts }: { objts: ObjectInfo[] }) {
+  return (
+    <Canvas frameloop="demand" shadows>
+      <ambientLight intensity={DEFAULT.ambientLight.intensity} />
+      <directionalLight
+        intensity={DEFAULT.directionalLight.intensity}
+        position={DEFAULT.directionalLight.position}
+      />
+      <color attach="background" args={[DEFAULT.background.color]} />
+      {/* <SampleObjects id={id} /> */}
+
+      <ProjectObjects objectInfos={objts} />
+
+      <OrbitControls enableZoom={true} />
+      <UserCams />
+      <ambientLight intensity={2} color={"#FFFFFF"} />
+      <CamTracker />
+    </Canvas>
   );
 }

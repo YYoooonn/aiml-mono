@@ -1,6 +1,12 @@
 {
+  "logo": {
+    "fontFamily": "var(--font-radjhani)",
+    "fontWeight": "700",
+    "fontSize": "24px",
+    "lineHeight": "150%"
+  },
   "heading1": {
-    "fontFamily": "var(--font-inter-plex-sans)",
+    "fontFamily": "var(--font-radjhani)",
     "fontWeight": "700",
     "fontSize": "64px",
     "lineHeight": "150px"
@@ -11,19 +17,24 @@
     "lineHeight": "auto"
   },
   "heading3": {
-    "fontFamily": "var(--font-inter-plex-sans)",
+    "fontFamily": "var(--font-radjhani)",
     "fontWeight": "700",
     "fontSize": "32px",
     "lineHeight": "28px"
   },
   "heading4": {
-    "fontFamily": "var(--font-inter-plex-sans)",
+    "fontFamily": "var(--font-radjhani)",
     "fontWeight": "600",
     "fontSize": "24px",
     "lineHeight": "28px"
   },
+  "body1Bold": {
+    "fontWeight": "600",
+    "fontSize": "16px",
+    "lineHeight": "152%"
+  },
   "body1": {
-    "fontWeight": "400",
+    "fontWeight": "500",
     "fontSize": "16px",
     "lineHeight": "152%"
   },

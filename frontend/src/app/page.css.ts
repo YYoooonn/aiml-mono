@@ -28,11 +28,13 @@ export const button = style({
 
 export const landingSectionContainer = style({
   position: "relative",
+  color: theme.color.ivory,
   width: "100%",
   height: "100%",
   padding: "8px",
   display: "flex",
   paddingLeft: "40px",
+  ...theme.textStyle.logo,
 });
 
 // @media (prefers-color-scheme: dark) {

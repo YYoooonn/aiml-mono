@@ -10,7 +10,7 @@ import {
 import { persist } from "zustand/middleware";
 
 export interface ProjectAction {
-  fetch: (projectId: Project["projectId"]) => Promise<void>;
+  fetch: (projectId: Project["projectId"]) => Promise<Project>;
   getObjects: () => Promise<void>;
   addtoObjects: (object: ObjectInfo) => void;
   createObject: (objectInfo: ObjectConstructor) => Promise<void>;
@@ -50,6 +50,9 @@ export const useProjectInfo = create<ProjectState>()((set, get) => ({
     const response = await fetchProject(projectId);
     if (!response["error"]) {
       set(response);
+      return response;
+    } else {
+      return DEFAULT;
     }
   },
   createObject: async (objectInfo) => {

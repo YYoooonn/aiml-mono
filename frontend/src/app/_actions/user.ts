@@ -62,7 +62,6 @@ export async function fetchLogin(props: UserBaseInfo) {
       }),
     });
     const data = await res.json();
-    console.debug(data);
     if (data["token"]) {
       createCookie(data["token"]);
     }

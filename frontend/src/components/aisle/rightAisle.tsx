@@ -1,5 +1,5 @@
 import * as styles from "./aisle.css";
-import RightAisleCotents from "./RightAisleContent";
+import RightAisleCotents from "./content/RightAisleContent";
 
 export default function RightAisle() {
   return (

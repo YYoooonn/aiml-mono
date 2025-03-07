@@ -61,7 +61,6 @@ export async function fetchProject(projectId: string) {
       method: "GET",
     });
     const data = await res.json();
-    console.debug(data);
     return data;
   } catch (e) {
     //console.debug("Error from fetching project :");
@@ -92,7 +91,7 @@ interface BaseProjectProp {
   isPublic: boolean;
 }
 
-export async function createProject(username: string, props: BaseProjectProp) {
+export async function createProject(props: BaseProjectProp, username?: string) {
   try {
     console.debug(props);
     const res = await fetch("/api/projects", {

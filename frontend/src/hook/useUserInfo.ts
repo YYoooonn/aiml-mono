@@ -5,6 +5,7 @@ import { persist } from "zustand/middleware";
 import { UserInfo, Project } from "@/@types/api";
 import { fetchUserInfo, updateUserInfo, UpdateInfo } from "@/app/_actions/user";
 import { deleteCookie } from "@/app/_actions/auth";
+import { navigate } from "@/app/_actions/navigate";
 
 interface UserActions {
   // setUser: (user: UserStoreState) => void;
@@ -12,7 +13,7 @@ interface UserActions {
   addProject: (project: Project) => void;
   reset: () => void;
   logout: () => void;
-  fetch: (username?: string) => Promise<{success: boolean, username: string|undefined}>;
+  fetch: (username: string) => Promise<void>;
   update: (data: UpdateInfo) => Promise<void>;
   getProjects: () => Project[];
 }
@@ -43,12 +44,8 @@ export const useUserInfo = create<UserState>()((set, get) => ({
   },
   fetch: async (username) => {
     set(DEFAULT);
-    const response = await fetchUserInfo(username);
-    //console.debug(response);
-    if (!response["error"]) {
-      set(response);
-      return {success: true, username: response.username}
-    } return {success: false, username: undefined}
+    const response = await fetchUserInfo();
+    !response.error && response.username === username ? set(response) : deleteCookie().then(() => {alert("Unauthorized, please login again");navigate("/login")})
   },
   update: async (data) => {
     const response = await updateUserInfo(data);

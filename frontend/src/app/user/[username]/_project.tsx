@@ -1,9 +1,9 @@
 import * as styles from "./user.css";
-import { useUserInfo } from "@/hook/useUserInfo";
 import { WorkspaceCard, NewCardModule } from "@/components/card/CardModule";
+import { Project } from "@/@types/api";
 
-export function Projects() {
-  const { username, projects, addProject } = useUserInfo();
+export function Projects({projects, addProject}: {projects: Project[], addProject: (project: Project) => void}) {
+
   const props = projects.map((p) => {
     return {
       createdAt: p.createdAt,
@@ -14,6 +14,7 @@ export function Projects() {
       title: p.title,
     };
   });
+
   return (
     <div className={styles.projectContainer}>
       {props?.map((p, i) => {

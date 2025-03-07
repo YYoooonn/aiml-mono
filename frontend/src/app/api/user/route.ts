@@ -8,14 +8,29 @@ export const dynamic = "force-dynamic";
 
 // GET USER PROFILE
 export async function GET(req: NextRequest) {
+  // if(!req.cookies.has("aimljwt")){
+  //   console.log("GET USER ROUTE REQUEST")
+  //   return NextResponse.json({
+  //     status: 401,
+  //     headers: ApiResponseHeader,
+  //   })
+  // }
+
+  // const res = userAuthRequest("users/profile", "GET", req.cookies.get("aimljwt")?.value)
+  // .then((r) => r.ok ? NextResponse.json(r) : )
+  // .catch((e) => {
+  //   console.debug(e)
+  //   return NextResponse.json(e)
+  // })
+
+  // return res
+
   try {
-    const token = await getCookie();
-    const response = await userAuthRequest("users/profile", "GET", token);
+    const response = await userAuthRequest("users/profile", "GET", req.cookies.get("aimljwt")?.value);
     // console.debug(response);
     if (!response.ok) {
       // TODO : RestfulAPI - difference in status message
       const res = await response.text();
-      //console.debug(res);
       return NextResponse.json({
         error: res,
         status: 200,
@@ -29,7 +44,7 @@ export async function GET(req: NextRequest) {
     });
   } catch (err) {
     console.debug(err);
-    return NextResponse.json({ error: "Unprecedented Error" });
+    return NextResponse.json(err);
   }
 }
 

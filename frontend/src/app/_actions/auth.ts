@@ -15,6 +15,10 @@ export async function createCookie(data: string) {
   // console.log("Cookie from aimljwt", cookies().get("aimljwt"));
 }
 
+export async function hasCookie(){
+  return cookies().has("aimljwt");
+}
+
 export async function getCookie() {
   return cookies().get("aimljwt")?.value;
 }

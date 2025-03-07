@@ -26,7 +26,11 @@ export async function GET(req: NextRequest) {
   // return res
 
   try {
-    const response = await userAuthRequest("users/profile", "GET", req.cookies.get("aimljwt")?.value);
+    const response = await userAuthRequest(
+      "users/profile",
+      "GET",
+      req.cookies.get("aimljwt")?.value,
+    );
     // console.debug(response);
     if (!response.ok) {
       // TODO : RestfulAPI - difference in status message

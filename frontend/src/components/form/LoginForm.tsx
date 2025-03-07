@@ -24,7 +24,7 @@ export default function LoginForm() {
         // alert(data["error"]);
         setError("Error: ".concat(data["error"]));
       } else {
-        await navigate(`/user/${username}`)
+        await navigate(`/user/${username}`);
       }
     } catch (err) {
       console.log(err);

@@ -45,7 +45,12 @@ export const useUserInfo = create<UserState>()((set, get) => ({
   fetch: async (username) => {
     set(DEFAULT);
     const response = await fetchUserInfo();
-    !response.error && response.username === username ? set(response) : deleteCookie().then(() => {alert("Unauthorized, please login again");navigate("/login")})
+    !response.error && response.username === username
+      ? set(response)
+      : deleteCookie().then(() => {
+          alert("Unauthorized, please login again");
+          navigate("/login");
+        });
   },
   update: async (data) => {
     const response = await updateUserInfo(data);

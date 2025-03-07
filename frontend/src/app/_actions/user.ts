@@ -56,7 +56,7 @@ export async function fetchLogin(props: UserBaseInfo) {
         password: props.password,
       }),
     });
-    const data = await res.json()
+    const data = await res.json();
     if (data["token"]) {
       await createCookie(data["token"]);
     }
@@ -71,9 +71,9 @@ export async function fetchLogin(props: UserBaseInfo) {
 export async function fetchUserInfo(username?: UserBaseInfo["username"]) {
   try {
     // XXX check cookie
-    const valid =  await hasCookie()
-    if(!valid) {
-      throw new Error("authentication : no token available")
+    const valid = await hasCookie();
+    if (!valid) {
+      throw new Error("authentication : no token available");
     }
     // XXX use cookie here or from client-server
     const res = await fetch("/api/user", {

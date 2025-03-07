@@ -2,8 +2,13 @@ import * as styles from "./user.css";
 import { WorkspaceCard, NewCardModule } from "@/components/card/CardModule";
 import { Project } from "@/@types/api";
 
-export function Projects({projects, addProject}: {projects: Project[], addProject: (project: Project) => void}) {
-
+export function Projects({
+  projects,
+  addProject,
+}: {
+  projects: Project[];
+  addProject: (project: Project) => void;
+}) {
   const props = projects.map((p) => {
     return {
       createdAt: p.createdAt,

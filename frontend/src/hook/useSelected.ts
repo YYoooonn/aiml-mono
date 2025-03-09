@@ -43,10 +43,7 @@ const DEFAULT: SelectedInfo = {
 };
 
 export const useSelected = create<ObjectActions>()((set, get) => ({
-  selected: undefined,
-  position: [0, 0, 0],
-  scale: [1, 1, 1],
-  rotation: [0, 0, 0],
+  ...DEFAULT,
   fetch: async (projectId) => {},
   setSelected: (objectInfo) => {
     if (objectInfo === get().selected) {
@@ -62,12 +59,7 @@ export const useSelected = create<ObjectActions>()((set, get) => ({
     }
   },
   resetSelected: () => {
-    set({
-      selected: DEFAULT.selected,
-      position: DEFAULT.position,
-      scale: DEFAULT.scale,
-      rotation: DEFAULT.rotation,
-    });
+    set(DEFAULT);
   },
   removeSelected: async (projectId: string) => {
     const objectInfo = get().selected;
@@ -111,7 +103,6 @@ export const useSelected = create<ObjectActions>()((set, get) => ({
     if (get().selected) {
       const selected = get().selected;
       const matrix = toMatrix(get().position, get().rotation, get().scale);
-      console.log(matrix);
       if (selected) {
         get().setSelected({ ...selected, matrix });
         await updateObject(selected.objectId, projectId, { matrix: matrix });

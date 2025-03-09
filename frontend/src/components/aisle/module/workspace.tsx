@@ -10,6 +10,7 @@ import { ChatSocket } from "@/components/socket/ChatSocket";
 
 import redirectUser from "@/hook/redirectUser";
 import { navigate } from "@/app/_actions/navigate";
+import { useObjectEditor } from "@/hook/useObjectEditor";
 
 export default function Workspace({ id }: { id?: string }) {
   const { title, objects } = useProjectInfo();
@@ -124,15 +125,30 @@ function WorkspaceUtils({ objts }: { objts?: ObjectInfo[] }) {
 function Layers({ objts }: { objts?: ObjectInfo[] }) {
   return (
     <div className={styles.layerContainer}>
-      {objts?.map((o) => {
-        return <Layer obj={o} />;
+      {objts?.map((o, i) => {
+        return <Layer key={i} obj={o} />;
       })}
     </div>
   );
 }
 
 function Layer({ obj }: { obj: ObjectInfo }) {
-  return <div className={styles.layerTag}>{obj.geometry}</div>;
+  const [select, setSelect] = useState(false);
+  const { selected, setSelected } = useObjectEditor();
+  return (
+    <div
+      className={
+        selected?.objectId === obj.objectId
+          ? styles.layerTagSelected
+          : styles.layerTag
+      }
+      onClick={() => {
+        setSelected(obj);
+      }}
+    >
+      {obj.geometry}
+    </div>
+  );
 }
 
 function Chat() {

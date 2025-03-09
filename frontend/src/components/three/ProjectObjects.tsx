@@ -1,24 +1,15 @@
 "use client";
 
 import { ObjectInfo } from "@/@types/api";
-import { useObjects } from "@/hook/useObjects";
-import { useProjectInfo } from "@/hook/useProjectInfo";
-import { SelectedInfo, useSelected } from "@/hook/useSelected";
+import { SelectedInfo, useObjectEditor } from "@/hook/useObjectEditor";
+
 import { toMatrix4, toMatrix4decompose } from "@/utils/calc";
-import { Center, Text3D } from "@react-three/drei";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import * as THREE from "three";
+import { useEffect } from "react";
 
 const SELECTEDCOLOR = "#FFEA00";
 
 interface MeshProps {
   obj: ObjectInfo;
-  handleSelected: () => void;
-}
-
-interface MeshObjectProps {
-  id: string;
-  material: string;
   handleSelected: () => void;
 }
 
@@ -30,7 +21,7 @@ export function ProjectObjects({
   const pObjects = objectInfos ? objectInfos : [];
 
   const { setSelected, resetSelected, selected, scale, rotation, position } =
-    useSelected();
+    useObjectEditor();
 
   // unmount시 selected 제거
   useEffect(() => {
@@ -65,43 +56,22 @@ function SelectedObject(props: SelectedInfo) {
   }
   const matrix = toMatrix4(selected.matrix);
   // FIXME
-  switch (selected.geometry) {
-    case "BoxGeometry":
-      return (
-        <group scale={scale} rotation={rotation} position={position}>
-          <group scale={[1.01, 1.01, 1.01]}>
-            <mesh matrix={matrix}>
-              <boxGeometry />
-              <meshPhysicalMaterial color={SELECTEDCOLOR} />
-            </mesh>
-          </group>
-        </group>
-      );
-    case "SphereGeometry":
-      return (
-        <group scale={scale} rotation={rotation} position={position}>
-          <group scale={[1.01, 1.01, 1.01]}>
-            <mesh matrix={matrix}>
-              <sphereGeometry />
-              <meshPhysicalMaterial color={SELECTEDCOLOR} />
-            </mesh>
-          </group>
-        </group>
-      );
-    case "ConeGeometry":
-      return (
-        <group scale={scale} rotation={rotation} position={position}>
-          <group scale={[1.01, 1.01, 1.01]}>
-            <mesh matrix={matrix}>
-              <coneGeometry />
-              <meshPhysicalMaterial color={SELECTEDCOLOR} />
-            </mesh>
-          </group>
-        </group>
-      );
-    default:
-      return <></>;
-  }
+  return (
+    <group scale={scale} position={position} rotation={rotation}>
+      <group>
+        <mesh matrix={matrix}>
+          {selected.geometry === "BoxGeometry" ? (
+            <boxGeometry />
+          ) : selected.geometry === "SphereGeometry" ? (
+            <sphereGeometry />
+          ) : (
+            <coneGeometry />
+          )}
+          <meshStandardMaterial color={SELECTEDCOLOR} />
+        </mesh>
+      </group>
+    </group>
+  );
 }
 
 function MeshObject({ obj, handleSelected }: MeshProps) {
@@ -111,66 +81,51 @@ function MeshObject({ obj, handleSelected }: MeshProps) {
   // projectId 53
   const newRotation = rotation.map((d) => (isNaN(d) ? 0 : d)) as any;
 
-  // FIXME
-  switch (obj.geometry) {
-    case "BoxGeometry":
-      return (
-        <group scale={scale} position={position} rotation={newRotation}>
-          <BoxObject
-            id={obj.objectId}
-            material={obj.material}
-            handleSelected={handleSelected}
-          />
-        </group>
-      );
-    case "SphereGeometry":
-      return (
-        <group scale={scale} position={position} rotation={newRotation}>
-          <SphereObject
-            id={obj.objectId}
-            material={obj.material}
-            handleSelected={handleSelected}
-          />
-        </group>
-      );
-    case "ConeGeometry":
-      return (
-        <group scale={scale} position={position} rotation={newRotation}>
-          <ConeObject
-            id={obj.objectId}
-            material={obj.material}
-            handleSelected={handleSelected}
-          />
-        </group>
-      );
-    default:
-      return <></>;
-  }
-}
-
-function BoxObject({ id, material, handleSelected }: MeshObjectProps) {
   return (
-    <mesh onClick={handleSelected}>
-      <boxGeometry />
-      <meshStandardMaterial color={material} />
-    </mesh>
+    <group scale={scale} position={position} rotation={newRotation}>
+      <mesh onClick={handleSelected}>
+        {obj.geometry === "BoxGeometry" ? (
+          <boxGeometry />
+        ) : obj.geometry === "SphereGeometry" ? (
+          <sphereGeometry />
+        ) : (
+          <coneGeometry />
+        )}
+        <meshStandardMaterial color={obj.material} />
+      </mesh>
+    </group>
   );
 }
 
-function SphereObject({ id, material, handleSelected }: MeshObjectProps) {
-  return (
-    <mesh onClick={handleSelected}>
-      <sphereGeometry />
-      <meshStandardMaterial color={material} />
-    </mesh>
-  );
-}
+// interface MeshObjectProps {
+//   id: string;
+//   material: string;
+//   handleSelected: () => void;
+// }
 
-function ConeObject({ id, material, handleSelected }: MeshObjectProps) {
-  return (
-    <mesh onClick={handleSelected}>
-      <coneGeometry />
-      <meshStandardMaterial color={material} />
-    </mesh>
-  );
-}
+// function BoxObject({ id, material, handleSelected }: MeshObjectProps) {
+//   return (
+//     <mesh onClick={handleSelected}>
+//       <boxGeometry />
+//       <meshStandardMaterial color={material} />
+//     </mesh>
+//   );
+// }
+
+// function SphereObject({ id, material, handleSelected }: MeshObjectProps) {
+//   return (
+//     <mesh onClick={handleSelected}>
+//       <sphereGeometry />
+//       <meshStandardMaterial color={material} />
+//     </mesh>
+//   );
+// }
+
+// function ConeObject({ id, material, handleSelected }: MeshObjectProps) {
+//   return (
+//     <mesh onClick={handleSelected}>
+//       <coneGeometry />
+//       <meshStandardMaterial color={material} />
+//     </mesh>
+//   );
+// }

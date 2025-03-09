@@ -154,8 +154,23 @@ export const bottomContentContainer = style({
 
 export const layerContainer = style({});
 
-export const layerTag = style({
+const layerText = {
   ...theme.textStyle.subtitle2,
+  padding: "4px",
+  userSelect: "none" as any,
+  ":hover": {
+    cursor: "pointer",
+  },
+};
+
+export const layerTag = style({
+  ...layerText,
+});
+
+export const layerTagSelected = style({
+  ...layerText,
+  fontWeight: "700",
+  color: "#FFEA00",
 });
 
 export const chatWrapper = style({

@@ -51,7 +51,6 @@ export default function Workspace({ objts }: { objts?: ObjectInfo[] }) {
             position={DEFAULT.directionalLight.position}
           /> */}
         <color attach="background" args={[background.color]} />
-        <SampleObjects id={"3"} />
 
         <ProjectObjects objectInfos={objts} />
         <Camera props={cam} />

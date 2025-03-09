@@ -14,10 +14,10 @@ export default function Header() {
           <Link href={"/about"} className={styles.headerLink}>
             About
           </Link>
-          <Link href={"/about/documentation"} className={styles.headerLink}>
+          <Link href={"/documentation"} className={styles.headerLink}>
             Documentation
           </Link>
-          <Link href={"/about/contact"} className={styles.headerLink}>
+          <Link href={"/contact"} className={styles.headerLink}>
             Contact
           </Link>
           <Profile />

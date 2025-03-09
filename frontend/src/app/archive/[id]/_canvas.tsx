@@ -1,25 +1,20 @@
 "use client";
 
-import { ProjectCanvas } from "@/components/three/Canvas";
 import * as styles from "./archiveCanvas.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useProjectInfo } from "@/hook/useProjectInfo";
-import { ObjectInfo } from "@/@types/api";
+import Archive from "@/components/canvas/Archive";
 
 export default function ArchiveCanvas({ id }: { id: string }) {
-  const { projectId, objects, fetch } = useProjectInfo();
-  const [objts, setObjts] = useState<ObjectInfo[]>([]);
+  const { objects, fetch } = useProjectInfo();
 
   useEffect(() => {
-    fetch(id).then((r) => {
-      setObjts(r.objects);
-      console.log(r.objects.length > 0 ? "not empty" : "empty");
-    });
+    fetch(id);
   }, []);
 
   return (
     <div className={styles.archivePageContainer}>
-      <ProjectCanvas objts={objts} />
+      <Archive objts={objects} />
     </div>
   );
 }

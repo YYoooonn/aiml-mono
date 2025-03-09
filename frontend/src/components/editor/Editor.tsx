@@ -1,3 +1,5 @@
+// DEPRECIATED
+
 import * as styles from "./editor.css";
 import {
   ChangeEvent,

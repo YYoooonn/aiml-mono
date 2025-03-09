@@ -12,6 +12,5 @@ export async function navigateArchive(projectId: string) {
 
 export async function navigateWorkspace(projectId: string) {
   // XXX navigate to workspace
-  console.log("not implemented yet");
-  // redirect(`/workspace/${projectId}`);
+  redirect(`/workspace/${projectId}`);
 }

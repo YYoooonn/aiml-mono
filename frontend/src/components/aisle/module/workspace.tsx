@@ -1,37 +1,67 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import * as styles from "./content.css";
+import * as styles from "./workspace.css";
 import { useProjectInfo } from "@/hook/useProjectInfo";
 import { ObjectInfo } from "@/@types/api";
 import { useChat } from "@/hook/useChat";
 import { useUserInfo } from "@/hook/useUserInfo";
 import { ChatSocket } from "@/components/socket/ChatSocket";
-import {
-  WorkspaceBottomLayout,
-  WorkspaceTopLayout,
-} from "../layout/WorkspaceLayout";
 
-export default function WorkspaceContent() {
+import redirectUser from "@/hook/redirectUser";
+import { navigate } from "@/app/_actions/navigate";
+
+export default function Workspace({ id }: { id?: string }) {
   const { title, objects } = useProjectInfo();
+  const { username } = useUserInfo();
 
   return (
     <div className={styles.workspaceContainer}>
-      <WorkspaceTopLayout>
-        <WorkspaceInfos title={title} />
-      </WorkspaceTopLayout>
-      <WorkspaceBottomLayout>
-        <WorkspaceUtils />
-      </WorkspaceBottomLayout>
+      <WorkspaceTopModule user={username}>
+        <WorkspaceInfos user={username} title={title} />
+      </WorkspaceTopModule>
+      <WorkspaceBottomModule>
+        <WorkspaceUtils objts={objects} />
+      </WorkspaceBottomModule>
     </div>
   );
 }
 
-function WorkspaceInfos({ title }: { title?: string }) {
+export function WorkspaceTopModule({
+  user,
+  children,
+}: { user?: string } & React.PropsWithChildren) {
+  return (
+    <div className={styles.workspaceTopContainer}>
+      <div className={styles.workspaceTopInner}>
+        <div className={styles.aisleWrapper}>{children}</div>
+      </div>
+    </div>
+  );
+}
+
+export function WorkspaceBottomModule({ children }: React.PropsWithChildren) {
+  // true == layer
+  return (
+    <div className={styles.workspaceBottomContainer}>
+      <div className={styles.aisleWrapper}>{children}</div>
+    </div>
+  );
+}
+
+function WorkspaceInfos({ user, title }: { user?: string; title?: string }) {
   return (
     <>
-      <div className={styles.projectTitle}>
-        {title ? title : "PROJECT NAME"}
+      <div className={styles.aisleHeader}>
+        <div
+          className={styles.returnIcon}
+          onClick={() => {
+            user ? redirectUser(user) : navigate("/");
+          }}
+        />
+        <div className={styles.projectTitle}>
+          {title ? title : "PROJECT NAME"}
+        </div>
       </div>
       <div className={styles.profileImgContainer}>
         <ProfileImages />
@@ -57,7 +87,7 @@ function ProfileImages() {
   );
 }
 
-function WorkspaceUtils({ objects }: { objects?: ObjectInfo[] }) {
+function WorkspaceUtils({ objts }: { objts?: ObjectInfo[] }) {
   // true == layer
   const [isSelected, setIsSelected] = useState(true);
   return (
@@ -85,16 +115,16 @@ function WorkspaceUtils({ objects }: { objects?: ObjectInfo[] }) {
         </div>
       </div>
       <div className={styles.bottomContentContainer}>
-        {isSelected ? <Layers objects={objects} /> : <Chat />}
+        {isSelected ? <Layers objts={objts} /> : <Chat />}
       </div>
     </>
   );
 }
 
-function Layers({ objects }: { objects?: ObjectInfo[] }) {
+function Layers({ objts }: { objts?: ObjectInfo[] }) {
   return (
     <div className={styles.layerContainer}>
-      {objects?.map((o) => {
+      {objts?.map((o) => {
         return <Layer obj={o} />;
       })}
     </div>

@@ -8,5 +8,10 @@ export const workspaceContainer = style({
   height: "100%",
   backgroundColor: "rgba(100, 0, 0, 0.1)",
   textAlign: "center",
-  ...theme.textStyle.heading2,
+  ...theme.textStyle.subtitle1,
+});
+
+export const canvasWrapper = style({
+  width: "100%",
+  height: `calc(100vh - ${constants.HNFHEIGHT})`,
 });

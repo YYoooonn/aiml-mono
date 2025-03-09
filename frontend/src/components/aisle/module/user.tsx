@@ -1,12 +1,12 @@
 "use client";
 
 import { useUserInfo } from "@/hook/useUserInfo";
-import * as styles from "./content.css";
+import * as styles from "./user.css";
 import { useState } from "react";
 import redirectUser from "@/hook/redirectUser";
-import { BaseLayout, AisleButton } from "../layout/BaseLayout";
+import { BaseNavLayout, AisleButton } from "./base";
 
-export default function UserContent() {
+export default function User() {
   const { username, projects } = useUserInfo();
   const [showList, setShowList] = useState(true);
 
@@ -15,9 +15,9 @@ export default function UserContent() {
     redirectUser(username.concat("/edit"));
   };
   return (
-    <BaseLayout>
+    <BaseNavLayout>
       <AisleButton text={"Project List"}>
-        <div className={styles.leftAisleIcon} />
+        <div className={styles.userAisleIcon} />
       </AisleButton>
       <div className={styles.projectListContainer}>
         {showList &&
@@ -29,6 +29,6 @@ export default function UserContent() {
             );
           })}
       </div>
-    </BaseLayout>
+    </BaseNavLayout>
   );
 }

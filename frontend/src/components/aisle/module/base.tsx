@@ -1,15 +1,23 @@
-import * as styles from "./layout.css";
+import * as styles from "./base.css";
 
-export function BaseLayout({ children }: React.PropsWithChildren) {
+export function LeftAisleLayout({ children }: React.PropsWithChildren) {
+  return <div className={styles.leftAisleContainer}>{children}</div>;
+}
+
+export function RightAisleLayout({ children }: React.PropsWithChildren) {
+  return <div className={styles.rightAisleContainer}>{children}</div>;
+}
+
+export function BaseNavLayout({ children }: React.PropsWithChildren) {
   return (
-    <div className={styles.leftAisleInnerWrapper}>
+    <div className={styles.aisleInnerWrapper}>
       <BaseSideNav />
       {children}
     </div>
   );
 }
 
-function BaseSideNav() {
+export function BaseSideNav() {
   return (
     <>
       <AisleButton text={"Profile"}>

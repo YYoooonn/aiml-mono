@@ -1,24 +1,62 @@
 import { style } from "@vanilla-extract/css";
 import { theme } from "@/styles/theme.css";
+import { breakpoints } from "@/styles/breakpoints";
+import * as constants from "@/styles/constants";
+import { baseBorder } from "../aisle.css";
 
-const baseBorder = {
-  border: "2px solid",
-  // XXX Color test
-  borderColor: `rgba(242, 241, 234, 0.3)`,
-  borderRadius: "16px",
+const aisleContainer = {
+  display: "flex",
+  // color: "black",
+  width: constants.AISLEWIDTH,
+  height: `calc(100vh - ${constants.HNFHEIGHT})`,
+  alignSelf: "top",
+  zIndex: 9999,
+  "@media": {
+    [breakpoints.lowTablet]: { display: "none" },
+  },
+  ...theme.textStyle.test1,
 };
 
-export const leftAisleInnerWrapper = style({
+export const leftAisleContainer = style({
+  overflow: "hidden",
+  position: "fixed",
+  // top: constants.HEADERHEIGHT,
+  // minHeight: "calc(100% - 16px)",
+  flexDirection: "column",
+  float: "left",
+
+  left: 0,
+  marginLeft: "32px",
+
+  ...aisleContainer,
+});
+
+export const rightAisleContainer = style({
+  overflowX: "hidden",
+  position: "fixed",
+
+  flexDirection: "column",
+  float: "right",
+
+  right: 0,
+  marginRight: "32px",
+
+  border: "1px solid",
+
+  ...aisleContainer,
+});
+
+export const aisleInnerWrapper = style({
   display: "block",
   width: "100%",
   height: "100%",
-  padding: "16px",
+  padding: "14px",
   ...baseBorder,
   backgroundColor: theme.color.black,
   color: theme.color.white,
 });
 
-const baseAisleBlock = {
+export const baseAisleBlock = {
   display: "flex",
   alignItems: "center",
   marginBottom: "8px",
@@ -44,24 +82,6 @@ export const leftAisleIcon = style({
   marginLeft: "4px",
   border: "1px solid white",
   borderRadius: "99px",
-});
-
-export const aisleHeader = style({
-  width: "100%",
-  margin: "4px",
-  display: "block",
-});
-
-export const returnIcon = style({
-  width: "12px",
-  height: "12px",
-  display: "block",
-  borderRadius: "100px",
-  backgroundColor: theme.color.red70,
-  ":hover": {
-    backgroundColor: theme.color.red,
-    cursor: "pointer",
-  },
 });
 
 export const aisleWrapper = style({
@@ -98,46 +118,4 @@ export const workspaceBottomContainer = style({
   marginBottom: "0px",
   ...baseBorder,
   backgroundColor: theme.color.black,
-});
-
-export const bottomHeaderContainer = style({
-  width: "100%",
-  display: "flex",
-  alignItems: "center",
-});
-
-const headerButton = {
-  display: "block",
-  height: "24px",
-  width: "50px",
-  alignContent: "center",
-};
-
-export const headerButtonUnSelected = style({
-  ...headerButton,
-  ...theme.textStyle.body1,
-  userSelect: "none",
-  textAlign: "center",
-  ":hover": {
-    cursor: "pointer",
-    ...theme.textStyle.body1Bold,
-    // backgroundColor: theme.color.ivory30,
-    // borderRadius: "4px",
-  },
-});
-
-export const headerButtonSelected = style({
-  ...headerButton,
-  ...theme.textStyle.body1Bold,
-  userSelect: "none",
-  textAlign: "center",
-  borderRadius: "4px",
-  backgroundColor: theme.color.ivory30,
-});
-
-export const bottomContentContainer = style({
-  width: "100%",
-  height: "100%",
-  marginTop: "8px",
-  padding: "6px",
 });

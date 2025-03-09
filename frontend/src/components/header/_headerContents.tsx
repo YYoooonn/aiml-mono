@@ -6,6 +6,7 @@ import { useUserInfo } from "@/hook/useUserInfo";
 import useComponentVisible from "@/hook/useComponentVisible";
 import Link from "next/link";
 import redirectUser from "@/hook/redirectUser";
+import { useEffect } from "react";
 
 export function Logo() {
   const onClick = (e: React.MouseEvent) => {

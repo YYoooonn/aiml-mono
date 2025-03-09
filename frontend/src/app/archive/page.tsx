@@ -26,9 +26,9 @@ export default function Archive() {
   };
 
   return (
-    <div>
+    <>
       {/* <div className={styles.archiveTitle}>archives</div> */}
       <Archives archives={archives} />
-    </div>
+    </>
   );
 }

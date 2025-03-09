@@ -1,19 +1,19 @@
-import * as styles from "./layout.css";
+import * as styles from "./base.css";
 
-export function WorkspaceTopLayout({ children }: React.PropsWithChildren) {
+export function WorkspaceTopModule({
+  user,
+  children,
+}: { user?: string } & React.PropsWithChildren) {
   return (
     <div className={styles.workspaceTopContainer}>
       <div className={styles.workspaceTopInner}>
-        <div className={styles.aisleHeader}>
-          <div className={styles.returnIcon} />
-        </div>
         <div className={styles.aisleWrapper}>{children}</div>
       </div>
     </div>
   );
 }
 
-export function WorkspaceBottomLayout({ children }: React.PropsWithChildren) {
+export function WorkspaceBottomModule({ children }: React.PropsWithChildren) {
   // true == layer
   return (
     <div className={styles.workspaceBottomContainer}>

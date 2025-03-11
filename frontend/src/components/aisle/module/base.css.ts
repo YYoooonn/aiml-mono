@@ -70,7 +70,6 @@ export const leftAisleBlock = style({
 export const leftAisleText = style({
   position: "relative",
   display: "block",
-  height: "100%",
   alignItems: "center",
   ...theme.textStyle.body1,
 });

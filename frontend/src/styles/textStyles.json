@@ -28,6 +28,12 @@
     "fontSize": "24px",
     "lineHeight": "28px"
   },
+  "heading5": {
+    "fontFamily": "var(--font-radjhani)",
+    "fontWeight": "600",
+    "fontSize": "20px",
+    "lineHeight": "auto"
+  },
   "body1Bold": {
     "fontWeight": "600",
     "fontSize": "16px",
@@ -36,7 +42,7 @@
   "body1": {
     "fontWeight": "500",
     "fontSize": "16px",
-    "lineHeight": "152%"
+    "lineHeight": "100%"
   },
   "body2": {
     "fontWeight": "400",

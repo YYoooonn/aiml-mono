@@ -61,8 +61,9 @@ function MatrixEditor({ pId }: { pId: string }) {
   const handleRemove = (e: React.MouseEvent) => {
     e.preventDefault();
     if (selected) {
-      filterObject(selected.objectId);
-      removeSelected(pId);
+      alert("NOT IMPLEMENTED YET");
+      // filterObject(selected.objectId);
+      // removeSelected(pId);
     }
   };
 

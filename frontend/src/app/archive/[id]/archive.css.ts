@@ -1,6 +1,4 @@
 import { style } from "@vanilla-extract/css";
-import { breakpoints } from "@/styles/breakpoints";
-import { theme } from "@/styles/theme.css";
 import * as constants from "@/styles/constants";
 
 export const archivePageContainer = style({

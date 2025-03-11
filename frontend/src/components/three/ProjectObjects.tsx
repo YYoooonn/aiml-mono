@@ -4,6 +4,7 @@ import { ObjectInfo } from "@/@types/api";
 import { SelectedInfo, useObjectEditor } from "@/hook/useObjectEditor";
 
 import { toMatrix4, toMatrix4decompose } from "@/utils/calc";
+import { Center } from "@react-three/drei";
 import { useEffect, useState } from "react";
 
 const SELECTEDCOLOR = "#FFEA00";
@@ -11,10 +12,10 @@ const SELECTEDCOLOR = "#FFEA00";
 interface MeshProps {
   obj: ObjectInfo;
   selected?: ObjectInfo;
-  handleSelected: () => void;
+  handleSelected?: () => void;
 }
 
-export function ProjectObjects({
+export function WorkspaceObjects({
   objectInfos,
 }: {
   objectInfos?: ObjectInfo[];
@@ -41,6 +42,21 @@ export function ProjectObjects({
         );
       })}
     </group>
+  );
+}
+
+export function ArchiveObjects({
+  objectInfos,
+}: {
+  objectInfos?: ObjectInfo[];
+}) {
+  const pObjects = objectInfos ? objectInfos : [];
+  return (
+    <Center>
+      {pObjects.map((obj, i) => {
+        return <MeshObject key={i} obj={obj} />;
+      })}
+    </Center>
   );
 }
 

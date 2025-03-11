@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-import { ProjectObjects } from "../three/ProjectObjects";
+import { ArchiveObjects } from "../three/ProjectObjects";
 import { ObjectInfo } from "@/@types/api";
 
 import * as styles from "./canvas.css";
@@ -37,7 +37,7 @@ export default function Archive({ objts }: { objts?: ObjectInfo[] }) {
         <color attach="background" args={[DEFAULT.background.color]} />
         {/* <SampleObjects id={id} /> */}
 
-        <ProjectObjects objectInfos={objts} />
+        <ArchiveObjects objectInfos={objts} />
         <CameraControls />
       </Canvas>
     </div>

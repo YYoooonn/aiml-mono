@@ -80,8 +80,7 @@ export const useObjectEditor = create<SelectedInfo & ObjectActions>()(
     removeSelected: async (id) => {
       const { selected, resetSelected } = get();
       if (selected) {
-        alert("NOT IMPLEMENTED YET");
-        // await deleteObject(selected.objectId, id).then(() => resetSelected)
+        await deleteObject(selected.objectId, id).then(() => resetSelected);
       }
     },
     updateMaterial: async (mat) => alert("NOT IMPLEMENTED YET"),

@@ -1,15 +1,32 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { getArchives } from "../_actions/project";
-import * as styles from "./archive.css";
 import { Archives } from "./_archives";
 
+import * as styles from "./archive.css";
+import { useModals } from "@/hook/useModals";
+import { ArchiveModal } from "@/components/modal/archive";
+import { ModalType } from "@/hook/useModalStore";
+
 export default function Archive() {
+  const { modals, open, close } = useModals();
   const [pageNum, setPageNum] = useState(0);
   const [keyword, setKeyword] = useState("");
   // XXX type
   const [archives, setArchives] = useState<Array<any>>([]);
+
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const param = searchParams.get("from");
+    if (param) {
+      open(ArchiveModal, { id: param }, ModalType.ARCHIVE);
+    }
+    if (!param && modals) {
+      close();
+    }
+  }, [searchParams.get("from")]);
 
   useEffect(() => {
     fetchArchive();

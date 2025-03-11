@@ -18,9 +18,8 @@ export default function Page({ params }: { params: { username: string } }) {
     <>
       <div className={styles.projectPageHeader}>Workspaces</div>
       <p style={{ marginTop: "16px" }} />
-      <Suspense>
-        <Projects projects={projects} addProject={addProject} />
-      </Suspense>
+
+      <Projects projects={projects} addProject={addProject} />
     </>
   );
 }

@@ -1,14 +1,12 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-import { ProjectObjects } from "../three/ProjectObjects";
+import { WorkspaceObjects } from "../three/ProjectObjects";
 import { ObjectInfo } from "@/@types/api";
 import { UserCams } from "../three/UserCams";
-import CamTracker from "../three/CamTracker";
-import SampleObjects from "../three/SampleObjects";
+import { useEditor } from "@/hook/useEditor";
 import Camera from "./camera";
 import Lights from "./lights";
-import { useEditor } from "@/hook/useEditor";
 
 import * as styles from "./canvas.css";
 import EditorObjects from "./EditorObjects";
@@ -60,7 +58,7 @@ export default function Workspace({ objts }: { objts?: ObjectInfo[] }) {
           /> */}
         <color attach="background" args={[background.color]} />
         <EditorObjects />
-        <ProjectObjects objectInfos={objts} />
+        <WorkspaceObjects objectInfos={objts} />
         <Camera
           cam={cam}
           setZoom={setCameraZoom}

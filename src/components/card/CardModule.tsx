@@ -1,14 +1,23 @@
-import { useProjectInfo } from "@/hook/useProjectInfo";
-import { navigateArchive, navigateWorkspace } from "@/app/_actions/navigate";
-import * as styles from "./card.css";
+"use client";
+
+import { navigateWorkspace } from "@/app/_actions/navigate";
 import { useModals } from "@/hook/useModals";
 import { Project } from "@/@types/api";
 import NewProjectForm from "../form/NewProjectForm";
+import { ArchiveModal } from "../modal/archive";
+import { ModalType } from "@/hook/useModalStore";
+
+import * as styles from "./card.css";
+import { useRouter } from "next/navigation";
 
 export function ArchiveCard({ props }: { props: ProjectProps }) {
+  const { open, close } = useModals();
+  const router = useRouter();
+
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigateArchive(props.projectId);
+    router.push(`/archive?from=${props.projectId}`);
+    // navigateArchive(props.projectId);
   };
   return <CardModule props={props} handler={handleClick} />;
 }
@@ -50,7 +59,7 @@ export function NewCardModule({
 
   const handleClick = () => {
     if (valid) {
-      open(NewProjectForm, { addProject: addProject });
+      open(NewProjectForm, { addProject: addProject }, ModalType.FORM);
     } else {
       // project limitation 3
       alert("Currently Project Limited to 3");

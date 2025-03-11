@@ -1,4 +1,4 @@
-import { createCookie, deleteCookie, getCookie } from "./auth";
+import { createCookie, deleteCookie, getCookie, hasCookie } from "./auth";
 import { navigate } from "./navigate";
 
 interface UserBaseInfo {
@@ -15,10 +15,6 @@ interface RegisterInfo extends UserBaseInfo {
   firstName: string;
   lastName: string;
   email?: string;
-}
-
-export async function hasCookie() {
-  return getCookie().then((c) => (c ? true : false));
 }
 
 export async function fetchRegister(props: RegisterInfo) {
@@ -43,7 +39,6 @@ export async function updateUserInfo(props: UpdateInfo) {
       body: JSON.stringify(props),
     });
     const data = await res.json();
-    console.debug("update", data);
     return data;
   } catch (e) {
     //console.debug("Error from registration :");
@@ -63,7 +58,7 @@ export async function fetchLogin(props: UserBaseInfo) {
     });
     const data = await res.json();
     if (data["token"]) {
-      createCookie(data["token"]);
+      await createCookie(data["token"]);
     }
     return data;
   } catch (e) {
@@ -75,6 +70,11 @@ export async function fetchLogin(props: UserBaseInfo) {
 
 export async function fetchUserInfo(username?: UserBaseInfo["username"]) {
   try {
+    // XXX check cookie
+    const valid = await hasCookie();
+    if (!valid) {
+      throw new Error("authentication : no token available");
+    }
     // XXX use cookie here or from client-server
     const res = await fetch("/api/user", {
       method: "GET",
@@ -83,15 +83,13 @@ export async function fetchUserInfo(username?: UserBaseInfo["username"]) {
     if (data["username"]) {
       return data;
     } else {
-      deleteCookie();
-      throw new Error("authentication failed");
+      await deleteCookie();
+      throw new Error("authentication : token invalid");
     }
   } catch (e) {
     //console.debug("Error from fetching userinfo :");
-    console.debug(e);
     // alert("Access invalid, please login again");
-    navigate("/login");
-    return { error: "Access invalid, please login again" };
+    return { error: e };
   }
 }
 

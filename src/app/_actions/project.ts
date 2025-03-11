@@ -16,7 +16,7 @@ export async function createObject(
   } catch (e) {
     //console.debug("Error from fetching project :");
     //console.debug(e);
-    return { error: "error from fetching project process" };
+    return { error: "error from fetching project process", e };
   }
 }
 
@@ -24,7 +24,10 @@ export async function createObject(
 export async function updateObject(
   objectId: string,
   projectId: string,
-  updateInfo: { matrix: ObjectConstructor["matrix"] },
+  updateInfo: {
+    matrix?: ObjectConstructor["matrix"];
+    material?: ObjectConstructor["material"];
+  },
 ) {
   try {
     const res = await fetch(`/api/projects/${projectId}/objects/${objectId}`, {
@@ -32,12 +35,11 @@ export async function updateObject(
       body: JSON.stringify(updateInfo),
     });
     const data = await res.json();
-    console.debug("UPDATE OBJECT:", data);
     return data;
   } catch (e) {
     //console.debug("Error from fetching project :");
     //console.debug(e);
-    return { error: "error from fetching project process" };
+    return { error: "error from fetching project process", e};
   }
 }
 
@@ -47,7 +49,7 @@ export async function deleteObject(objectId: string, projectId: string) {
     const res = await fetch(`/api/projects/${projectId}/objects/${objectId}`, {
       method: "DELETE",
     });
-    console.log("deletion complete");
+    console.debug(res)
   } catch (e) {
     console.debug("Error from deletion :");
     console.debug(e);
@@ -65,7 +67,7 @@ export async function fetchProject(projectId: string) {
   } catch (e) {
     //console.debug("Error from fetching project :");
     //console.debug(e);
-    return { error: "error from fetching project process" };
+    return { error: "error from fetching project process", e };
   }
 }
 
@@ -81,7 +83,7 @@ export async function fetchProjects(username: string) {
   } catch (e) {
     //console.debug("Error from fetching projects :");
     //console.debug(e);
-    return { error: "error from fetching projects process" };
+    return { error: "error from fetching projects process", e};
   }
 }
 
@@ -102,7 +104,7 @@ export async function createProject(props: BaseProjectProp, username?: string) {
     //console.debug(data);
     return data;
   } catch (e) {
-    return { error: "error from creating project process" };
+    return { error: "error from creating project process", e};
   }
 }
 
@@ -121,6 +123,6 @@ export async function getArchives(archiveProps: ArchiveProps) {
     const data = await res.json();
     return JSON.parse(data);
   } catch (e) {
-    return { error: "error from getting public projects" };
+    return { error: "error from getting public projects", e};
   }
 }

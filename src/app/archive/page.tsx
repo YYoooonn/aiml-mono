@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { getArchives } from "../_actions/project";
-import * as styles from "./archive.css";
 import { Archives } from "./_archives";
+import { useModals } from "@/hook/useModals";
+import { ArchiveModal } from "@/components/modal/archive";
+import { ModalType } from "@/hook/useModalStore";
 
 export default function Archive() {
   const [pageNum, setPageNum] = useState(0);
@@ -19,16 +22,36 @@ export default function Archive() {
     const publicPrjt = await getArchives({
       pageNumber: pageNum,
       keyword: keyword,
-      pageSize: 20,
+      pageSize: 21,
     });
 
     setArchives(publicPrjt.content);
   };
 
   return (
-    <div>
+    <>
       {/* <div className={styles.archiveTitle}>archives</div> */}
       <Archives archives={archives} />
-    </div>
+      <Suspense>
+        <ArchiveRouter />
+      </Suspense>
+    </>
   );
+}
+
+// FIXME !!
+function ArchiveRouter(){
+  const { modals, open, close } = useModals();
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const param = searchParams.get("from");
+    if (param) {
+      open(ArchiveModal, { id: param }, ModalType.ARCHIVE);
+    }
+    if (!param && modals) {
+      close();
+    }
+  }, [searchParams]);
+
+  return(<></>)
 }

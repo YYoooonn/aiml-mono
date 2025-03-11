@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { BoxGeometry, BufferGeometry, Material } from "three";
 
 interface RegisterResponse extends NextResponse {
   // encoded password response

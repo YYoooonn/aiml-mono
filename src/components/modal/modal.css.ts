@@ -2,11 +2,48 @@ import { style } from "@vanilla-extract/css";
 import { breakpoints } from "@/styles/breakpoints";
 import { theme } from "@/styles/theme.css";
 
-export const modalBackgroundWrapper = style({
-  position: "absolute",
-  width: "100vw",
-  height: "100vh",
+const modalBackground = {
+  position: "fixed",
+  display: "flex",
+  overflowY: "auto",
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
   zIndex: 999,
+  color: theme.color.ivory,
+} as any;
+
+export const modalBackgroundWrapper = style({
+  ...modalBackground,
+  backgroundColor: theme.color.black50,
+});
+
+export const modalBackgroundWrapperArchive = style({
+  ...modalBackground,
+  backgroundColor: theme.color.black80,
+});
+
+export const archiveModalWrapper = style({
+  position: "absolute",
+  display: "flex",
+  flexDirection: "column",
+  width: "90vw",
+  maxWidth: "1400px",
+  height: "calc(100vh - 24px)",
+  marginTop: "12px",
+  left: "50%",
+  transform: "translate(-50%, 0)",
+  border: "1px solid",
+  borderColor: theme.color.ivory,
+  "@media": {
+    [breakpoints.lowTablet]: {
+      width: "100vw",
+      height: "100vh",
+      marginTop: 0,
+      border: "none",
+    },
+  },
 });
 
 export const modalWrapper = style({
@@ -15,36 +52,6 @@ export const modalWrapper = style({
   transform: "translate(-50%, 0)",
   top: "84px",
   backgroundColor: theme.color.black,
-});
-
-export const pageModalContainer = style({
-  position: "absolute",
-  display: "flex",
-  top: "50%",
-  left: "50%",
-  inset: 0,
-  width: "90vw",
-  maxWidth: "752px",
-  minHeight: "432px",
-  margin: "84px auto",
-  pointerEvents: "auto",
-  overflowY: "auto",
-  color: "white",
-  backgroundColor: "black",
-  zIndex: 1000,
-  border: "2px solid",
-  borderColor: theme.color.ivory30,
-  selectors: {
-    "&::before": {
-      content: "''",
-      position: "absolute",
-      inset: 0,
-      pointerEvents: "none",
-    },
-  },
-  "@media": {
-    [breakpoints.lowTablet]: { padding: 0 },
-  },
 });
 
 export const pageModalInWrapper = style({

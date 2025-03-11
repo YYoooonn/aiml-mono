@@ -7,9 +7,9 @@ export default function LeftAisleLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={styles.LeftAisleLayoutContainer}>
+    <div className={styles.aisleLayoutContainer}>
       <LeftAisle />
-      <div className={styles.LeftAislePageContainer}>{children}</div>
+      <div className={styles.leftAislePageContainer}>{children}</div>
     </div>
   );
 }

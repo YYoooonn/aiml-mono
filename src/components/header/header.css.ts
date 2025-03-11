@@ -58,7 +58,6 @@ export const headerLink = style({
   position: "relative",
   display: "block",
   alignItems: "center",
-  height: "100%",
   textDecoration: "none",
 });
 

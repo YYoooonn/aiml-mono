@@ -1,11 +1,10 @@
 import * as styles from "./aisle.css";
-import RightAisleCotents from "./content/RightAisleContent";
+import Editor from "./module/editor/editor";
 
 export default function RightAisle() {
   return (
     <div className={styles.rightAisleContainer}>
-      "right aisle"
-      <RightAisleCotents />
+      <Editor />
     </div>
   );
 }

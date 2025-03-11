@@ -1,5 +1,8 @@
 {
   "black": "#000000",
+  "black80": "rgba(0,0,0,0.8)",
+  "black50": "rgba(0,0,0,0.5)",
+  "black30": "rgba(0,0,0,0.3)",
   "white": "#FFFFFF",
   "ivory": "rgba(242, 241, 234, 1)",
   "ivory80": "rgba(242, 241, 234, 0.8)",

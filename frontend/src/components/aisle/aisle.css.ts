@@ -9,7 +9,7 @@ const aisleContainer = {
   width: constants.AISLEWIDTH,
   height: `calc(100vh - ${constants.HNFHEIGHT})`,
   alignSelf: "top",
-  zIndex: 9999,
+  zIndex: 999,
   "@media": {
     [breakpoints.lowTablet]: { display: "none" },
   },

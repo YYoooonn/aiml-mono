@@ -5,11 +5,12 @@ import * as styles from "../workspace.css";
 import { useEffect } from "react";
 import { useProjectInfo } from "@/hook/useProjectInfo";
 
-export default function Page({ params }: { params: { projectId: string } }) {
-  const { title, objects, fetch } = useProjectInfo();
+export default function Page({ params }: { params: { id: string } }) {
+  const { title, objects, fetch, reset } = useProjectInfo();
 
   useEffect(() => {
-    fetch(params.projectId);
+    fetch(params.id);
+    return () => reset();
   }, []);
 
   return (

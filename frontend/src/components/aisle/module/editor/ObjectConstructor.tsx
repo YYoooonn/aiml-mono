@@ -15,8 +15,9 @@ import {
   MaterialSelector,
 } from "./editor";
 import { useObjectCreator } from "@/hook/useObjectCreator";
-import * as styles from "./editor.css";
 import { useProjectInfo } from "@/hook/useProjectInfo";
+
+import * as styles from "./editor.css";
 
 export default function ObjectConstructor({ pId }: { pId: string }) {
   return (
@@ -44,7 +45,7 @@ function ObjectBuilder({ pId }: { pId: string }) {
         selector="BoxGeometry"
         setSelect={setSelected}
       >
-        <MatrixBuilder pId={pId} type="BoxGeometry" />
+        <MatrixBuilder pId={pId} type="BoxGeometry" setSelect={setSelected} />
       </CreatorBlock>
       <CreatorBlock
         title={"Sphere"}
@@ -52,7 +53,11 @@ function ObjectBuilder({ pId }: { pId: string }) {
         selector="SphereGeometry"
         setSelect={setSelected}
       >
-        <MatrixBuilder pId={pId} type="SphereGeometry" />
+        <MatrixBuilder
+          pId={pId}
+          type="SphereGeometry"
+          setSelect={setSelected}
+        />
       </CreatorBlock>
       <CreatorBlock
         title={"Cone"}
@@ -60,7 +65,7 @@ function ObjectBuilder({ pId }: { pId: string }) {
         selector="ConeGeometry"
         setSelect={setSelected}
       >
-        <MatrixBuilder pId={pId} type="ConeGeometry" />
+        <MatrixBuilder pId={pId} type="ConeGeometry" setSelect={setSelected} />
       </CreatorBlock>
       {/* <DimSelector text="position" dim={position} setDim={setPosition} />
       {rotation? <DimSelector text="rotation" dim={rotation} setDim={setRotation} /> : null}
@@ -71,7 +76,15 @@ function ObjectBuilder({ pId }: { pId: string }) {
   );
 }
 
-function MatrixBuilder({ pId, type }: { pId: string; type: string }) {
+function MatrixBuilder({
+  pId,
+  type,
+  setSelect,
+}: {
+  pId: string;
+  type: string;
+  setSelect: Dispatch<SetStateAction<string>>;
+}) {
   const {
     setNew,
     reset,
@@ -93,6 +106,7 @@ function MatrixBuilder({ pId, type }: { pId: string; type: string }) {
       reset();
       addToObjects(r);
     });
+    setSelect("");
   };
 
   useEffect(() => {

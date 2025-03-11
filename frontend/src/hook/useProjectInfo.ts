@@ -10,6 +10,7 @@ import {
 import { persist } from "zustand/middleware";
 
 export interface ProjectAction {
+  reset: () => void;
   fetch: (projectId: Project["projectId"]) => Promise<Project>;
   getObjects: () => Promise<void>;
   addtoObjects: (object: ObjectInfo) => void;
@@ -35,16 +36,8 @@ const DEFAULT: Omit<Project, "projects"> = {
 };
 
 export const useProjectInfo = create<ProjectState>()((set, get) => ({
-  projectId: "",
-  title: "",
-  subtitle: "",
-  objects: [],
-  // TODO not implemented yet
-  lastModifiedAt: "",
-  createdAt: "",
-  createdBy: "",
-  isPublic: true,
-  participants: [],
+  ...DEFAULT,
+  reset: () => set({ ...DEFAULT }),
   // setUser: (user) => set({user}),
   fetch: async (projectId) => {
     const response = await fetchProject(projectId);

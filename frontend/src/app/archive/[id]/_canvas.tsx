@@ -1,6 +1,8 @@
+// XXX DEPRECIATED
+
 "use client";
 
-import * as styles from "./archiveCanvas.css";
+import * as styles from "./archive.css";
 import { useEffect } from "react";
 import { useProjectInfo } from "@/hook/useProjectInfo";
 import Archive from "@/components/canvas/Archive";

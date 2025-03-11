@@ -1,11 +1,22 @@
-import ArchiveCanvas from "./_canvas";
+"use client";
 
-export default async function Archive({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+import Archive from "@/components/canvas/Archive";
+import { useProjectInfo } from "@/hook/useProjectInfo";
+import { useEffect } from "react";
 
-  return <ArchiveCanvas id={id} />;
+import * as styles from "./archive.css";
+
+export default function ArchivePage({ params }: { params: { id: string } }) {
+  const { title, objects, fetch, reset } = useProjectInfo();
+
+  useEffect(() => {
+    fetch(params.id);
+    return () => reset();
+  }, []);
+
+  return (
+    <div className={styles.archivePageContainer}>
+      <Archive objts={objects} />
+    </div>
+  );
 }

@@ -9,7 +9,6 @@ export function toMatrix(
   const pos = new THREE.Vector3(position[0], position[1], position[2]);
   const quat = new THREE.Quaternion(rotation[0], rotation[1], rotation[2]);
   const sc = new THREE.Vector3(scale[0], scale[1], scale[2]);
-  console.log(pos, quat, sc);
   return new THREE.Matrix4().compose(pos, quat, sc).toArray();
 }
 

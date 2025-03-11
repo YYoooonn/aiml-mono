@@ -2,18 +2,33 @@ import { style } from "@vanilla-extract/css";
 import * as constants from "@/styles/constants";
 import { breakpoints } from "@/styles/breakpoints";
 
-export const LeftAisleLayoutContainer = style({
+export const aisleLayoutContainer = style({
   minWidth: "100%",
   minHeight: "100%",
 });
 
-export const LeftAislePageContainer = style({
-  width: `calc(100% - 32px - ${constants.AISLEWIDTH})`,
-  display: "block",
-  marginLeft: `calc(32px + ${constants.AISLEWIDTH})`,
+const baseAislePageContainer = {
+  width: "auto",
+  height: "100%",
   "@media": {
-    [breakpoints.lowTablet]: { marginLeft: 0, width: "100%" },
+    [breakpoints.lowTablet]: { marginLeft: 0, marginRight: 0 },
   },
+};
+
+export const aislePageContainer = style({
+  marginLeft: `calc(32px + ${constants.AISLEWIDTH})`,
+  ...baseAislePageContainer,
+});
+
+export const leftAislePageContainer = style({
+  marginLeft: `calc(32px + ${constants.AISLEWIDTH})`,
+  ...baseAislePageContainer,
+});
+
+export const bothAislePageContainer = style({
+  marginLeft: `calc(32px + ${constants.AISLEWIDTH})`,
+  marginRight: `calc(32px + ${constants.AISLEWIDTH})`,
+  ...baseAislePageContainer,
 });
 
 export const defaultLayoutContainer = style({

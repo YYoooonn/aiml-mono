@@ -9,7 +9,6 @@ import { socket } from "@/sockets/project";
 import { useCameraInfo } from "@/hook/useCameraInfo";
 import { useParticipants } from "@/hook/useParticipants";
 import { useProjectInfo } from "@/hook/useProjectInfo";
-import { useSelected } from "@/hook/useSelected";
 
 type Position = [x: number, y: number, z: number];
 type Rotation = Array<number | string | undefined>;
@@ -37,7 +36,6 @@ export function ProjectSocket(props: SocketProps) {
   const setParticipant = useParticipants((state) => state.setParticipant);
   const setParticipants = useParticipants((state) => state.setParticipants);
   const getObjects = useProjectInfo((state) => state.getObjects);
-  const selected = useSelected((state) => state.selected);
 
   const [isDragging, setIsDragging] = useState(false);
 

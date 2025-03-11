@@ -10,13 +10,14 @@ import {
 import { persist } from "zustand/middleware";
 
 export interface ProjectAction {
+  reset: () => void;
   fetch: (projectId: Project["projectId"]) => Promise<Project>;
   getObjects: () => Promise<void>;
   addtoObjects: (object: ObjectInfo) => void;
   createObject: (objectInfo: ObjectConstructor) => Promise<void>;
-  removeObject: (objectId: string) => Promise<void>;
+  removeObject?: (objectId: string) => Promise<void>;
   updateObject: (object: ObjectInfo) => void;
-  popObject: (objectId: string) => void;
+  filterObject: (objectId: string) => void;
 }
 
 type ProjectState = Omit<Project & ProjectAction, "projects">;
@@ -35,16 +36,8 @@ const DEFAULT: Omit<Project, "projects"> = {
 };
 
 export const useProjectInfo = create<ProjectState>()((set, get) => ({
-  projectId: "",
-  title: "",
-  subtitle: "",
-  objects: [],
-  // TODO not implemented yet
-  lastModifiedAt: "",
-  createdAt: "",
-  createdBy: "",
-  isPublic: true,
-  participants: [],
+  ...DEFAULT,
+  reset: () => set({ ...DEFAULT }),
   // setUser: (user) => set({user}),
   fetch: async (projectId) => {
     const response = await fetchProject(projectId);
@@ -67,15 +60,19 @@ export const useProjectInfo = create<ProjectState>()((set, get) => ({
       set({ objects: response.objects });
     }
   },
-  popObject: (objectId: string) => {},
-  removeObject: async (objectId) => {
-    await deleteObject(objectId, get().projectId);
-    set({ objects: get().objects.filter((o) => o.objectId !== objectId) });
+  filterObject: (objectId: string) => {
+    set({
+      objects: get().objects.filter((o) => o.objectId !== objectId),
+    });
   },
-  updateObject: (newObject) => {
+  // removeObject: async (objectId) => {
+  //   await deleteObject(objectId, get().projectId);
+  //   set({ objects: get().objects.filter((o) => o.objectId !== objectId) });
+  // },
+  updateObject: (obj) => {
     set({
       objects: get().objects.map((o) =>
-        o.objectId === newObject.objectId ? newObject : o,
+        o.objectId === obj.objectId ? obj : o,
       ),
     });
   },

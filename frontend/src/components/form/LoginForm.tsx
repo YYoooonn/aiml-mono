@@ -1,6 +1,5 @@
 "use client";
 
-import redirectUser from "@/hook/redirectUser";
 import { fetchLogin } from "@/app/_actions/user";
 import { useState } from "react";
 import { PasswordInput, TextInput } from "../ui/input";
@@ -20,13 +19,12 @@ export default function LoginForm() {
     try {
       const loginData = { username: username, password: password };
       const data = await fetchLogin(loginData);
-      console.log(data)
       if (data.hasOwnProperty("error")) {
         // ERROR : handle error - alert
         // alert(data["error"]);
         setError("Error: ".concat(data["error"]));
       } else {
-        await navigate("/user")
+        await navigate(`/user/${username}`);
       }
     } catch (err) {
       console.log(err);

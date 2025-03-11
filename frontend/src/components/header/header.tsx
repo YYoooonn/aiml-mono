@@ -11,11 +11,11 @@ export default function Header() {
           <Link href={"/archive"} className={styles.headerLink}>
             Archive
           </Link>
-          <Link href={"/documentation"} className={styles.headerLink}>
-            Documentation
-          </Link>
           <Link href={"/about"} className={styles.headerLink}>
             About
+          </Link>
+          <Link href={"/documentation"} className={styles.headerLink}>
+            Documentation
           </Link>
           <Link href={"/contact"} className={styles.headerLink}>
             Contact

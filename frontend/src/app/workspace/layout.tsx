@@ -1,14 +1,9 @@
-import DefaultLayout from "@/components/layouts/DefaultLayout";
-import LeftAisleLayout from "@/components/layouts/LeftAisleLayout";
+import WorkspaceLayout from "@/components/layouts/WorkspaceLayout";
 
-export default function UserLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <LeftAisleLayout>
-      <DefaultLayout>{children}</DefaultLayout>
-    </LeftAisleLayout>
-  );
+  return <WorkspaceLayout>{children}</WorkspaceLayout>;
 }

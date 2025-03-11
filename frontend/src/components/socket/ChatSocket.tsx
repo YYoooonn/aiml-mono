@@ -2,7 +2,6 @@
 
 // import { MainLayout } from '@/layout/MainLayout';
 import { v4 as uuidv4 } from "uuid";
-// import { faker } from '@faker-js/faker';
 import * as styles from "./socket.css";
 import { useEffect, useState } from "react";
 import { socket } from "@/sockets/chat";

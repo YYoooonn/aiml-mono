@@ -1,10 +1,8 @@
 "use client";
 
-import { v4 as uuidv4 } from "uuid";
+import { useModalStore, ModalType } from "@/hook/useModalStore";
 
-import { useModalStore } from "@/hook/useModalStore";
-
-import * as styles from "./modal.css";
+import { FormModalLayout, ArchiveModalLayout } from "./layouts";
 
 function ModalContainer() {
   const { modals, close } = useModalStore();
@@ -13,31 +11,23 @@ function ModalContainer() {
   };
   return (
     <>
-      {modals.map((modal) => {
-        const { Component, props } = modal;
-        props?.size;
-        return (
-          <div
-            key={uuidv4()}
-            className={styles.modalBackgroundWrapper}
-            onClick={handleModalClose}
-          >
-            <div
-              className={styles.modalWrapper}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className={styles.pageModalInWrapper}>
-                <div className={styles.modalHeader}>
-                  <div
-                    className={styles.buttonExit}
-                    onClick={handleModalClose}
-                  />
-                </div>
-                <Component {...props} />
-              </div>
-            </div>
-          </div>
-        );
+      {modals.map((modal, i) => {
+        const { Component, props, type } = modal;
+        if (type === ModalType.ARCHIVE) {
+          // ARCHIVE TYPE
+          return (
+            <ArchiveModalLayout key={i}>
+              <Component {...props} />
+            </ArchiveModalLayout>
+          );
+        } else {
+          // FORM TYPE
+          return (
+            <FormModalLayout handleClose={handleModalClose} key={i}>
+              <Component {...props} />
+            </FormModalLayout>
+          );
+        }
       })}
     </>
   );

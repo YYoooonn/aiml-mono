@@ -1,7 +1,6 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { useRouter } from "next/router";
 
 export async function navigate(data: string) {
   redirect(data);

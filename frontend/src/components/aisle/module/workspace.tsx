@@ -133,7 +133,6 @@ function Layers({ objts }: { objts?: ObjectInfo[] }) {
 }
 
 function Layer({ obj }: { obj: ObjectInfo }) {
-  const [select, setSelect] = useState(false);
   const { selected, setSelected } = useObjectEditor();
   return (
     <div

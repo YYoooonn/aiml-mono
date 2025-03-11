@@ -3,9 +3,10 @@
 import { Canvas } from "@react-three/fiber";
 import { ProjectObjects } from "../three/ProjectObjects";
 import { ObjectInfo } from "@/@types/api";
-import { OrbitControls } from "@react-three/drei";
 
 import * as styles from "./canvas.css";
+import Camera from "./camera";
+import { CameraControls } from "@react-three/drei";
 
 // XXX WORKSPACE PROPS
 const DEFAULT = {
@@ -37,9 +38,7 @@ export default function Archive({ objts }: { objts?: ObjectInfo[] }) {
         {/* <SampleObjects id={id} /> */}
 
         <ProjectObjects objectInfos={objts} />
-
-        <OrbitControls enableZoom={true} />
-        <ambientLight intensity={2} color={"#FFFFFF"} />
+        <CameraControls />
       </Canvas>
     </div>
   );

@@ -11,6 +11,7 @@ import Lights from "./lights";
 import { useEditor } from "@/hook/useEditor";
 
 import * as styles from "./canvas.css";
+import EditorObjects from "./EditorObjects";
 
 type Position = [x: number, y: number, z: number];
 
@@ -32,7 +33,14 @@ const DEFAULT = {
 };
 
 export default function Workspace({ objts }: { objts?: ObjectInfo[] }) {
-  const { cam, background, ambientLight, lights } = useEditor();
+  const {
+    cam,
+    setCameraPosition,
+    setCameraZoom,
+    background,
+    ambientLight,
+    lights,
+  } = useEditor();
 
   return (
     <div className={styles.canvasWrapper}>
@@ -51,11 +59,14 @@ export default function Workspace({ objts }: { objts?: ObjectInfo[] }) {
             position={DEFAULT.directionalLight.position}
           /> */}
         <color attach="background" args={[background.color]} />
-
+        <EditorObjects />
         <ProjectObjects objectInfos={objts} />
-        <Camera props={cam} />
+        <Camera
+          cam={cam}
+          setZoom={setCameraZoom}
+          setPosition={setCameraPosition}
+        />
         <UserCams />
-        <CamTracker />
       </Canvas>
     </div>
   );

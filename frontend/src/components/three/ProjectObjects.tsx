@@ -4,12 +4,13 @@ import { ObjectInfo } from "@/@types/api";
 import { SelectedInfo, useObjectEditor } from "@/hook/useObjectEditor";
 
 import { toMatrix4, toMatrix4decompose } from "@/utils/calc";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const SELECTEDCOLOR = "#FFEA00";
 
 interface MeshProps {
   obj: ObjectInfo;
+  selected?: ObjectInfo;
   handleSelected: () => void;
 }
 
@@ -20,8 +21,7 @@ export function ProjectObjects({
 }) {
   const pObjects = objectInfos ? objectInfos : [];
 
-  const { setSelected, resetSelected, selected, scale, rotation, position } =
-    useObjectEditor();
+  const { setSelected, resetSelected, selected } = useObjectEditor();
 
   // unmount시 selected 제거
   useEffect(() => {
@@ -30,17 +30,12 @@ export function ProjectObjects({
 
   return (
     <group>
-      <SelectedObject
-        selected={selected}
-        scale={scale}
-        rotation={rotation}
-        position={position}
-      />
       {pObjects.map((obj, i) => {
         return (
           <MeshObject
             key={i}
             obj={obj}
+            selected={selected}
             handleSelected={() => setSelected(obj)}
           />
         );
@@ -49,41 +44,19 @@ export function ProjectObjects({
   );
 }
 
-function SelectedObject(props: SelectedInfo) {
-  const { selected, scale, rotation, position } = props;
-  if (!selected) {
-    return <></>;
-  }
-  const matrix = toMatrix4(selected.matrix);
-  // FIXME
-  return (
-    <group scale={scale} position={position} rotation={rotation}>
-      <group>
-        <mesh matrix={matrix}>
-          {selected.geometry === "BoxGeometry" ? (
-            <boxGeometry />
-          ) : selected.geometry === "SphereGeometry" ? (
-            <sphereGeometry />
-          ) : (
-            <coneGeometry />
-          )}
-          <meshStandardMaterial color={SELECTEDCOLOR} />
-        </mesh>
-      </group>
-    </group>
-  );
-}
-
-function MeshObject({ obj, handleSelected }: MeshProps) {
+function MeshObject({ obj, selected, handleSelected }: MeshProps) {
   const { position, scale, rotation } = toMatrix4decompose(obj.matrix);
-
+  const [] = useState();
   // XXX temporary for error catch
   // projectId 53
   const newRotation = rotation.map((d) => (isNaN(d) ? 0 : d)) as any;
 
   return (
     <group scale={scale} position={position} rotation={newRotation}>
-      <mesh onClick={handleSelected}>
+      <mesh
+        onClick={handleSelected}
+        visible={selected && selected.objectId !== obj.objectId}
+      >
         {obj.geometry === "BoxGeometry" ? (
           <boxGeometry />
         ) : obj.geometry === "SphereGeometry" ? (

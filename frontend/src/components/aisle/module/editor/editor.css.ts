@@ -1,7 +1,7 @@
 import { style } from "@vanilla-extract/css";
 import { theme } from "@/styles/theme.css";
 
-import { baseAisleBlock, aisleInnerWrapper } from "./base.css";
+import { baseAisleBlock, aisleInnerWrapper } from "../base.css";
 
 export const editorInnerWrapper = aisleInnerWrapper;
 
@@ -60,12 +60,12 @@ export const editorProp = style({
 const editorBlock = {
   padding: "4px",
   width: "100%",
+  userSelect: "none",
   border: "1px solid",
-};
+} as any;
 
 export const editorButtonContainer = style({
   ...editorBlock,
-  userSelect: "none",
   ":hover": {
     cursor: "pointer",
     borderStyle: "solid",
@@ -77,9 +77,15 @@ export const editorButtonContainer = style({
 
 export const editorButtonContainerSelected = style({
   ...editorBlock,
-  userSelect: "none",
-
   borderColor: theme.color.ivory,
+});
+
+export const editorButtonContainerDisabled = style({
+  ...editorBlock,
+  border: "1px dashed",
+  borderColor: theme.color.ivory30,
+  color: theme.color.ivory30,
+  ":hover": {},
 });
 
 export const dropDownContainer = style({});

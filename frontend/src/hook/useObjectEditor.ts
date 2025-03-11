@@ -1,7 +1,8 @@
 "use client";
 
 import { ObjectInfo } from "@/@types/api";
-import { toMatrix4decompose } from "@/utils/calc";
+import { deleteObject, updateObject } from "@/app/_actions/project";
+import { toMatrix, toMatrix4decompose } from "@/utils/calc";
 import { create } from "zustand";
 
 type XYZ = [x: number, y: number, z: number];
@@ -11,6 +12,7 @@ export interface SelectedInfo {
   position: XYZ | undefined;
   scale: XYZ | undefined;
   rotation: XYZ | undefined;
+  material: string | undefined;
 }
 
 export interface ObjectActions {
@@ -19,8 +21,9 @@ export interface ObjectActions {
   setScale: (val: XYZ) => void;
   setPosition: (val: XYZ) => void;
   setRotation: (val: XYZ) => void;
+  setMaterial: (val: string) => void;
   removeSelected: (projectId: string) => Promise<void>;
-  updateMatrix: (projectId: string) => Promise<void>;
+  updateMatrix: (projectId: string) => Promise<any>;
   updateMaterial: (material: string) => Promise<void>;
 }
 
@@ -29,6 +32,7 @@ const DEFAULT: SelectedInfo = {
   position: undefined,
   scale: undefined,
   rotation: undefined,
+  material: undefined,
 };
 
 export const useObjectEditor = create<SelectedInfo & ObjectActions>()(
@@ -44,6 +48,7 @@ export const useObjectEditor = create<SelectedInfo & ObjectActions>()(
           position: mat.position,
           scale: mat.scale,
           rotation: mat.rotation,
+          material: obj.material ? obj.material : "#575757",
         });
       }
     },
@@ -51,10 +56,34 @@ export const useObjectEditor = create<SelectedInfo & ObjectActions>()(
     setScale: (scale) => set({ scale: scale }),
     setPosition: (pos) => set({ position: pos }),
     setRotation: (rot) => set({ rotation: rot }),
+    setMaterial: (val) => set({ material: val }),
+    updateMatrix: async (id) => {
+      const { selected, position, rotation, scale, material, resetSelected } =
+        get();
+      if (selected && position && rotation && scale) {
+        const matrix = toMatrix(position, rotation, scale);
+        const objectData = await updateObject(selected.objectId, id, {
+          matrix: matrix,
+          material: material,
+        }).then((o) => (o.error ? null : o));
+        if (objectData) {
+          resetSelected();
+          return objectData;
+        } else {
+          alert("error from object update");
+        }
+      }
+      return null;
+    },
 
     // fetch
-    removeSelected: async (id) => console.log("NOT IMPLEMENTED YET"),
-    updateMatrix: async (id) => console.log("NOT IMPLEMENTED YET"),
-    updateMaterial: async (mat) => console.log("NOT IMPLEMENTED YET"),
+    removeSelected: async (id) => {
+      const { selected, resetSelected } = get();
+      if (selected) {
+        alert("NOT IMPLEMENTED YET");
+        // await deleteObject(selected.objectId, id).then(() => resetSelected)
+      }
+    },
+    updateMaterial: async (mat) => alert("NOT IMPLEMENTED YET"),
   }),
 );

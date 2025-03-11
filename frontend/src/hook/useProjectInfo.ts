@@ -14,9 +14,9 @@ export interface ProjectAction {
   getObjects: () => Promise<void>;
   addtoObjects: (object: ObjectInfo) => void;
   createObject: (objectInfo: ObjectConstructor) => Promise<void>;
-  removeObject: (objectId: string) => Promise<void>;
+  removeObject?: (objectId: string) => Promise<void>;
   updateObject: (object: ObjectInfo) => void;
-  popObject: (objectId: string) => void;
+  filterObject: (objectId: string) => void;
 }
 
 type ProjectState = Omit<Project & ProjectAction, "projects">;
@@ -67,15 +67,19 @@ export const useProjectInfo = create<ProjectState>()((set, get) => ({
       set({ objects: response.objects });
     }
   },
-  popObject: (objectId: string) => {},
-  removeObject: async (objectId) => {
-    await deleteObject(objectId, get().projectId);
-    set({ objects: get().objects.filter((o) => o.objectId !== objectId) });
+  filterObject: (objectId: string) => {
+    set({
+      objects: get().objects.filter((o) => o.objectId !== objectId),
+    });
   },
-  updateObject: (newObject) => {
+  // removeObject: async (objectId) => {
+  //   await deleteObject(objectId, get().projectId);
+  //   set({ objects: get().objects.filter((o) => o.objectId !== objectId) });
+  // },
+  updateObject: (obj) => {
     set({
       objects: get().objects.map((o) =>
-        o.objectId === newObject.objectId ? newObject : o,
+        o.objectId === obj.objectId ? obj : o,
       ),
     });
   },

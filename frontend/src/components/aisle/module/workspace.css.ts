@@ -160,6 +160,7 @@ const layerText = {
   userSelect: "none" as any,
   ":hover": {
     cursor: "pointer",
+    color: "#FFEA00",
   },
 };
 

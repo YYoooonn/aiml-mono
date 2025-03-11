@@ -24,7 +24,10 @@ export async function createObject(
 export async function updateObject(
   objectId: string,
   projectId: string,
-  updateInfo: { matrix: ObjectConstructor["matrix"] },
+  updateInfo: {
+    matrix?: ObjectConstructor["matrix"];
+    material?: ObjectConstructor["material"];
+  },
 ) {
   try {
     const res = await fetch(`/api/projects/${projectId}/objects/${objectId}`, {
@@ -32,7 +35,6 @@ export async function updateObject(
       body: JSON.stringify(updateInfo),
     });
     const data = await res.json();
-    console.debug("UPDATE OBJECT:", data);
     return data;
   } catch (e) {
     //console.debug("Error from fetching project :");
@@ -47,7 +49,6 @@ export async function deleteObject(objectId: string, projectId: string) {
     const res = await fetch(`/api/projects/${projectId}/objects/${objectId}`, {
       method: "DELETE",
     });
-    console.log("deletion complete");
   } catch (e) {
     console.debug("Error from deletion :");
     console.debug(e);

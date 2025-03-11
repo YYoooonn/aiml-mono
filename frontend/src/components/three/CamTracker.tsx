@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import { useThree } from "@react-three/fiber";
 import { useCameraInfo } from "@/hook/useCameraInfo";
+import { EditorProps } from "@/hook/useEditor";
 
-function CamTracker() {
+interface CamTrackerProps {
+  pos?: EditorProps["cam"]["position"];
+}
+
+function CamTracker(props: CamTrackerProps) {
   const { camera } = useThree();
   const [isDragging, setIsDragging] = useState(false);
-  const setCamPosition = useCameraInfo((state) => state.setPosition);
-  const setCamRotation = useCameraInfo((state) => state.setRotation);
+  const { setPosition, setRotation } = useCameraInfo();
 
+  // track camera on mouse down condition
   useEffect(() => {
     const handleMouseDown = () => setIsDragging(true);
     const handleMouseUp = () => setIsDragging(false);
@@ -15,8 +20,8 @@ function CamTracker() {
     const handleMouseMove = () => {
       if (isDragging) {
         // console.log(`Camera Position: ${camera.position.toArray()}`);
-        setCamPosition(camera.position.toArray());
-        setCamRotation(camera.rotation.toArray());
+        setPosition(camera.position.toArray());
+        setRotation(camera.rotation.toArray());
       }
     };
 
@@ -30,6 +35,10 @@ function CamTracker() {
       window.removeEventListener("mousemove", handleMouseMove);
     };
   }, [camera, isDragging]);
+
+  useEffect(() => {
+    props.pos ? setPosition(props.pos) : null;
+  }, [props.pos]);
 
   return null; // No visual output
 }

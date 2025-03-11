@@ -44,6 +44,8 @@ const DEFAULT = <EditorProps>{
 export interface EditorAction {
   setBackground: (bg: EditorProps["background"]) => void;
   setCamera: (cam: EditorProps["cam"]) => void;
+  setCameraPosition: (pos: Position) => void;
+  setCameraZoom: (val: number) => void;
   setAmbientLight: (lp: EditorProps["ambientLight"]) => void;
   addLight: (l: Light) => void;
 }
@@ -57,6 +59,8 @@ export const useEditor = create<EditorProps & EditorAction>()((set, get) => ({
   setCamera: (cam) => {
     set({ cam: cam });
   },
+  setCameraPosition: (pos) => set({ cam: { ...get().cam, position: pos } }),
+  setCameraZoom: (val) => set({ cam: { ...get().cam, zoom: val } }),
   setAmbientLight: (lp) => {
     set({ ambientLight: lp });
   },

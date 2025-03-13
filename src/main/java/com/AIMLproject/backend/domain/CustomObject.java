@@ -1,6 +1,7 @@
 package com.AIMLproject.backend.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -8,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -20,15 +22,11 @@ import lombok.Setter;
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class UserProject {
+public class CustomObject {
 
 	@Id
 	@GeneratedValue
-	private Long userProjectId;
-
-	@ManyToOne
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private User user;
+	private Long objectId;
 
 	@ManyToOne
 	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -40,17 +38,20 @@ public class UserProject {
 	@LastModifiedDate
 	private LocalDateTime lastModifiedAt;
 
-	private Boolean isOwner;
+	@ElementCollection
+	private List<Double> matrix;
 
-	private Boolean readOnly;
+	private String geometry; // type
 
-	public UserProject(User user, Project project, Boolean isOwner, Boolean readOnly) {
-		this.user = user;
+	private String material; // color
+
+	public CustomObject(Project project, List<Double> matrix, String geometry, String material) {
 		this.project = project;
-		this.isOwner = isOwner;
-		this.readOnly = readOnly;
+		this.matrix = matrix;
+		this.geometry = geometry;
+		this.material = material;
 	}
 
-	public UserProject() {
+	public CustomObject() {
 	}
 }

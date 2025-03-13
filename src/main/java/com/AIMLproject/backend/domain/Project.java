@@ -2,13 +2,14 @@ package com.AIMLproject.backend.domain;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -27,25 +28,21 @@ public class Project {
 	@GeneratedValue
 	private Long projectId;
 
-	// Audit // to do: how to audit CreatedBy and LastModifiedBy
-	@CreatedDate
-	private LocalDateTime createdAt;
-	@LastModifiedDate
-	private LocalDateTime lastModifiedAt;
-	// @CreatedBy
-	// private Long createdBy;
-	// @LastModifiedBy
-	// private Long lastModifiedBy;
-
 	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 
-	// Auth
+	@CreatedDate
+	private LocalDateTime createdAt;
+
+	@LastModifiedDate
+	private LocalDateTime lastModifiedAt;
+
 	private Boolean isPublic;
 
-	// Info
 	private String title;
+
 	private String subtitle;
 
 	public Project(User user, Boolean isPublic, String title, String subtitle) {

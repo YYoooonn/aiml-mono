@@ -11,6 +11,6 @@ import com.AIMLproject.backend.domain.User;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 	List<Project> findByUser(User user);
-	
+
 	Page<Project> findByIsPublicTrueAndTitleContainingIgnoreCase(String keyword, Pageable pageable);
 }

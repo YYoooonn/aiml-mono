@@ -1,6 +1,7 @@
 package com.AIMLproject.backend.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.AIMLproject.backend.domain.Project;
 import com.AIMLproject.backend.domain.User;
-import com.AIMLproject.backend.domain.UserProject;
 import com.AIMLproject.backend.dto.req.InviteReq;
 import com.AIMLproject.backend.dto.req.UserReq;
+import com.AIMLproject.backend.dto.res.ProjectRes;
 import com.AIMLproject.backend.dto.res.UserRes;
 import com.AIMLproject.backend.service.ProjectService;
 import com.AIMLproject.backend.service.UserService;
@@ -36,39 +38,48 @@ public class UserController {
 		this.projectService = projectService;
 	}
 
-	@PostMapping("/users/register")
-	public ResponseEntity<UserRes> createUser(@RequestBody UserReq req) {
-		User user = userService.saveUser(req.getUsername(), req.getPassword(), req.getFirstName(), req.getLastName(),
+	@PostMapping("/users")
+	public ResponseEntity<UserRes> create(@RequestBody UserReq req) {
+		User user = userService.createUser(req.getUsername(), req.getPassword(), req.getFirstName(), req.getLastName(),
 			req.getEmail());
-		List<Project> projects = projectService.findAllProjectsByUser(user);
-		List<UserProject> involvedProjects = projectService.findInvolvedProjectsByUser(user);
-		UserRes res = new UserRes(user, projects, involvedProjects);
+		UserRes res = new UserRes(user);
 		return ResponseEntity.ok(res);
 	}
 
-	@GetMapping("/users/profile")
-	public ResponseEntity<UserRes> readUser(@AuthenticationPrincipal UserDetails userDetails) {
+	@GetMapping("/users/me")
+	public ResponseEntity<UserRes> read(@AuthenticationPrincipal UserDetails userDetails) {
+		User user = userService.findUserByUsername(userDetails.getUsername());
+		UserRes res = new UserRes(user);
+		return ResponseEntity.ok(res);
+	}
+
+	@GetMapping("/users/{userId}")
+	public ResponseEntity<UserRes> getUser(@PathVariable Long userId) {
+		User user = userService.readUser(userId);
+		UserRes res = new UserRes(user);
+		return ResponseEntity.ok(res);
+	}
+
+	@GetMapping("/users/me/projects") // to do
+	public ResponseEntity<List<ProjectRes>> newReadUserProjects(@AuthenticationPrincipal UserDetails userDetails) {
 		User user = userService.findUserByUsername(userDetails.getUsername());
 		List<Project> projects = projectService.findAllProjectsByUser(user);
-		List<UserProject> involvedProjects = projectService.findInvolvedProjectsByUser(user);
-		UserRes res = new UserRes(user, projects, involvedProjects);
+		List<ProjectRes> res = projects.stream().map(ProjectRes::new).collect(Collectors.toList());
 		return ResponseEntity.ok(res);
 	}
 
-	@PutMapping("/users/profile")
-	public ResponseEntity<UserRes> updateUser(@AuthenticationPrincipal UserDetails userDetails,
-		@RequestBody UserReq req) {
-		User user = userService.updateUser(userDetails.getUsername(), req.getFirstName(), req.getLastName(),
-			req.getEmail());
-		List<Project> projects = projectService.findAllProjectsByUser(user);
-		List<UserProject> involvedProjects = projectService.findInvolvedProjectsByUser(user);
-		UserRes res = new UserRes(user, projects, involvedProjects);
+	@PutMapping("/users/me")
+	public ResponseEntity<UserRes> putUser(@AuthenticationPrincipal UserDetails userDetails, @RequestBody UserReq req) {
+		User user = userService.findUserByUsername(userDetails.getUsername());
+		User updatedUser = userService.updateUser(user, req.getFirstName(), req.getLastName(), req.getEmail());
+		UserRes res = new UserRes(updatedUser);
 		return ResponseEntity.ok(res);
 	}
 
-	@DeleteMapping("/users/delete")
+	@DeleteMapping("/users/me")
 	public ResponseEntity<Void> deleteUser(@AuthenticationPrincipal UserDetails userDetails) {
-		userService.deleteUser(userDetails.getUsername());
+		User user = userService.findUserByUsername(userDetails.getUsername());
+		userService.deleteUser(user);
 		return ResponseEntity.ok().build();
 	}
 

@@ -1,6 +1,7 @@
 package com.AIMLproject.backend.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,15 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.AIMLproject.backend.domain.Mesh;
+import com.AIMLproject.backend.domain.CustomObject;
 import com.AIMLproject.backend.domain.Project;
 import com.AIMLproject.backend.domain.User;
 import com.AIMLproject.backend.domain.UserProject;
-import com.AIMLproject.backend.dto.req.MeshReq;
 import com.AIMLproject.backend.dto.req.ProjectReq;
-import com.AIMLproject.backend.dto.res.MeshRes;
+import com.AIMLproject.backend.dto.res.ObjectRes;
+import com.AIMLproject.backend.dto.res.ParticipantRes;
 import com.AIMLproject.backend.dto.res.ProjectRes;
-import com.AIMLproject.backend.service.MeshService;
+import com.AIMLproject.backend.service.ObjectService;
 import com.AIMLproject.backend.service.ProjectService;
 import com.AIMLproject.backend.service.UserService;
 
@@ -35,122 +36,77 @@ public class ProjectController {
 
 	private final UserService userService;
 	private final ProjectService projectService;
-	private final MeshService meshService;
+	private final ObjectService objectService;
 
 	@Autowired
-	public ProjectController(UserService userService, ProjectService projectService, MeshService meshService) {
+	public ProjectController(UserService userService, ProjectService projectService, ObjectService objectService) {
 		this.userService = userService;
 		this.projectService = projectService;
-		this.meshService = meshService;
+		this.objectService = objectService;
 	}
 
 	@PostMapping("/projects")
 	public ResponseEntity<ProjectRes> createProject(@AuthenticationPrincipal UserDetails userDetails,
 		@RequestBody ProjectReq req) {
 		User user = userService.findUserByUsername(userDetails.getUsername());
-		Project project = projectService.addProject(user, req.getTitle(), req.getSubtitle(), req.getIsPublic());
-		List<Mesh> objects = meshService.getAllObjects(project);
-		List<UserProject> participants = userService.findParticipantsByProject(project);
-		ProjectRes res = new ProjectRes(project, objects, participants);
+		Project project = projectService.createProject(user, req.getTitle(), req.getSubtitle(), req.getIsPublic());
+		ProjectRes res = new ProjectRes(project);
 		return ResponseEntity.ok(res);
 	}
 
-	@GetMapping("/projects/{projectId}")
+	@GetMapping("/projects/{projectId}") // ***********************************
 	public ResponseEntity<ProjectRes> readProject(@AuthenticationPrincipal UserDetails userDetails,
 		@PathVariable Long projectId) {
-		User user =
-			(userDetails != null) ? userService.findUserByUsername(userDetails.getUsername()) : null; // to do: request
+		User user = (userDetails != null) ? userService.findUserByUsername(userDetails.getUsername()) : null;
 		Project project = projectService.getProject(user, projectId);
-		List<Mesh> objects = meshService.getAllObjects(project);
-		List<UserProject> participants = userService.findParticipantsByProject(project);
-		ProjectRes res = new ProjectRes(project, objects, participants);
+		ProjectRes res = new ProjectRes(project);
+		return ResponseEntity.ok(res);
+	}
+
+	@GetMapping("/projects/{projectId}/participants") // ***********************************
+	public ResponseEntity<List<ParticipantRes>> ara(@AuthenticationPrincipal UserDetails userDetails,
+		@PathVariable Long projectId) {
+		User user = (userDetails != null) ? userService.findUserByUsername(userDetails.getUsername()) : null;
+		Project project = projectService.getProject(user, projectId);
+		List<UserProject> userProjects = userService.findParticipantsByProject(project);
+		List<ParticipantRes> res = userProjects.stream().map(ParticipantRes::new).collect(Collectors.toList());
+		return ResponseEntity.ok(res);
+	}
+
+	@GetMapping("/projects/{projectId}/objects") // ***********************************
+	public ResponseEntity<List<ObjectRes>> adg(@AuthenticationPrincipal UserDetails userDetails,
+		@PathVariable Long projectId) {
+		User user = (userDetails != null) ? userService.findUserByUsername(userDetails.getUsername()) : null;
+		Project project = projectService.getProject(user, projectId);
+		List<CustomObject> objects = objectService.getAllObjects(project);
+		List<ObjectRes> res = objects.stream().map(ObjectRes::new).collect(Collectors.toList());
+		return ResponseEntity.ok(res);
+	}
+
+	@GetMapping("/projects/search")
+	public ResponseEntity<?> searchPublicProjects(@RequestParam String keyword,
+		@RequestParam(defaultValue = "0") int pageNumber,
+		@RequestParam(defaultValue = "10") int pageSize) {
+		Page<Project> res = projectService.getPublicProjects(keyword, pageNumber, pageSize);
+		// List<ProjectRes> res = pageProjects.stream().map(ProjectRes::new).collect(Collectors.toList()); // to do
 		return ResponseEntity.ok(res);
 	}
 
 	@PutMapping("/projects/{projectId}")
-	public ResponseEntity<ProjectRes> updateProject(@AuthenticationPrincipal UserDetails userDetails,
+	public ResponseEntity<?> updateProject(@AuthenticationPrincipal UserDetails userDetails,
 		@PathVariable Long projectId, @RequestBody ProjectReq req) {
 		User user = userService.findUserByUsername(userDetails.getUsername());
 		Project project = projectService.updateProject(user, projectId, req.getTitle(), req.getSubtitle(),
 			req.getIsPublic());
-		List<Mesh> objects = meshService.getAllObjects(project);
-		List<UserProject> participants = userService.findParticipantsByProject(project);
-		ProjectRes res = new ProjectRes(project, objects, participants);
+		ProjectRes res = new ProjectRes(project);
 		return ResponseEntity.ok(res);
 	}
 
 	@DeleteMapping("/projects/{projectId}")
-	public ResponseEntity<?> deleteProject(@AuthenticationPrincipal UserDetails userDetails,
+	public ResponseEntity<Void> deleteProject(@AuthenticationPrincipal UserDetails userDetails,
 		@PathVariable Long projectId) {
 		User user = userService.findUserByUsername(userDetails.getUsername());
 		projectService.deleteProject(user, projectId);
 		return ResponseEntity.ok().build();
 	}
-
-	/**
-	 * OBJECT
-	 */
-
-	@GetMapping("/projects/{projectId}/objects/{objectId}") // to do
-	public ResponseEntity<MeshRes> readObject(@AuthenticationPrincipal UserDetails userDetails,
-		@PathVariable Long projectId, @PathVariable Long objectId) {
-		User user =
-			(userDetails != null) ? userService.findUserByUsername(userDetails.getUsername()) : null; // to do: request
-		Project project = projectService.getProject(user, projectId);
-		Mesh object = meshService.getObject(project, objectId);
-		MeshRes res = new MeshRes(object);
-		return ResponseEntity.ok(res);
-	}
-
-	@PostMapping("/projects/{projectId}/objects")
-	public ResponseEntity<MeshRes> createObject(@AuthenticationPrincipal UserDetails userDetails,
-		@PathVariable Long projectId, @RequestBody MeshReq req) {
-		User user = userService.findUserByUsername(userDetails.getUsername());
-		Project project = projectService.getProject(user, projectId);
-		Mesh object = meshService.createObject(project, req.getMatrix(), req.getGeometry(), req.getMaterial());
-		MeshRes res = new MeshRes(object);
-		return ResponseEntity.ok(res);
-	}
-
-	@PutMapping("/projects/{projectId}/objects/{objectId}")
-	public ResponseEntity<?> updateObject(@AuthenticationPrincipal UserDetails userDetails,
-		@PathVariable Long projectId, @PathVariable Long objectId, @RequestBody MeshReq req) {
-		User user = userService.findUserByUsername(userDetails.getUsername());
-		Project project = projectService.getProject(user, projectId);
-		Mesh object = meshService.updateObject(project, objectId, req.getMatrix(), req.getGeometry(),
-			req.getMaterial());
-		MeshRes res = new MeshRes(object);
-		return ResponseEntity.ok(res);
-	}
-
-	@DeleteMapping("/projects/{projectId}/objects/{objectId}")
-	public ResponseEntity<Void> deleteObject(@AuthenticationPrincipal UserDetails userDetails,
-		@PathVariable Long projectId, @PathVariable Long objectId) {
-		User user = userService.findUserByUsername(userDetails.getUsername());
-		Project project = projectService.getProject(user, projectId);
-		meshService.deleteObject(project, objectId);
-		return ResponseEntity.ok().build();
-	}
-
-	@GetMapping("/projects/search")
-	public ResponseEntity<Page<Project>> readPublicProjects(@RequestParam String keyword,
-		@RequestParam(defaultValue = "0") int pageNumber,
-		@RequestParam(defaultValue = "10") int pageSize) {
-		Page<Project> projects = projectService.getPublicProjects(keyword, pageNumber, pageSize);
-		// Res res = new Res(projects);
-		return ResponseEntity.ok(projects);
-	}
-	/*
-	@PostMapping("/projects/invite")
-	public ResponseEntity<> invitation
-	{}
-
-	@GetMapping("/invitations")
-
-	@PutMapping("/invitations/{invitationId}")
-	public ResponseEntity<?> respondInvitation(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long invitationId) {
-		User user = userService.findUserByUsername(userDetails.getUsername());
-
-
-	} */
 }

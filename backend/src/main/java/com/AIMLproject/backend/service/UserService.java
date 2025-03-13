@@ -28,6 +28,19 @@ public class UserService {
 		this.userProjectRepository = userProjectRepository;
 	}
 
+	public User createUser(String username, String password, String firstName, String lastName, String email) {
+		if (userRepository.findByUsername(username).isPresent()) {
+			throw new RuntimeException("User already exists with username: " + username); // to do: handle Exception
+		}
+		String encodedPassword = passwordEncoder.encode(password);
+		User user = new User(username, encodedPassword, firstName, lastName, email);
+		return userRepository.save(user);
+	}
+
+	public User readUser(Long userId) {
+		return userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+	}
+
 	public List<UserProject> findParticipantsByProject(Project project) {
 		return userProjectRepository.findByProject(project);
 	}
@@ -46,8 +59,7 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public User updateUser(String username, String firstName, String lastName, String email) {
-		User user = findUserByUsername(username);
+	public User updateUser(User user, String firstName, String lastName, String email) {
 		if (firstName != null) {
 			user.setFirstName(firstName);
 		}
@@ -60,8 +72,7 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public void deleteUser(String username) {
-		User user = findUserByUsername(username);
+	public void deleteUser(User user) {
 		userRepository.delete(user);
 	}
 

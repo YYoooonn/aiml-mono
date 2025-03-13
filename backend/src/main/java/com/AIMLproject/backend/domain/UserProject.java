@@ -2,13 +2,12 @@ package com.AIMLproject.backend.domain;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -27,25 +26,22 @@ public class UserProject {
 	@GeneratedValue
 	private Long userProjectId;
 
-	// Audit
-	@CreatedDate
-	private LocalDateTime createdAt;
-	@LastModifiedDate
-	private LocalDateTime lastModifiedAt;
-	// @CreatedBy
-	// private Long createdBy;
-	// @LastModifiedBy
-	// private Long lastModifiedBy;
-
-	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
-	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.REMOVE)
+
+	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Project project;
 
-	// Auth
+	@CreatedDate
+	private LocalDateTime createdAt;
+
+	@LastModifiedDate
+	private LocalDateTime lastModifiedAt;
+
 	private Boolean isOwner;
+
 	private Boolean readOnly;
 
 	public UserProject(User user, Project project, Boolean isOwner, Boolean readOnly) {
@@ -56,6 +52,5 @@ public class UserProject {
 	}
 
 	public UserProject() {
-
 	}
 }

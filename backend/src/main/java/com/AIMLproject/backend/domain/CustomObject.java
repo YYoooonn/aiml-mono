@@ -3,13 +3,12 @@ package com.AIMLproject.backend.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -23,40 +22,36 @@ import lombok.Setter;
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Mesh {
+public class CustomObject {
 
 	@Id
 	@GeneratedValue
 	private Long objectId;
 
-	// Audit // to do: how to audit CreatedBy and LastModifiedBy
-	@CreatedDate
-	private LocalDateTime createdAt;
-	@LastModifiedDate
-	private LocalDateTime lastModifiedAt;
-	// @CreatedBy
-	// private Long createdBy;
-	// @LastModifiedBy
-	// private Long lastModifiedBy;
-
-	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Project project;
 
-	// Info
+	@CreatedDate
+	private LocalDateTime createdAt;
+
+	@LastModifiedDate
+	private LocalDateTime lastModifiedAt;
+
 	@ElementCollection
 	private List<Double> matrix;
+
 	private String geometry; // type
+
 	private String material; // color
 
-	public Mesh(Project project, List<Double> matrix, String geometry, String material) {
+	public CustomObject(Project project, List<Double> matrix, String geometry, String material) {
 		this.project = project;
 		this.matrix = matrix;
 		this.geometry = geometry;
 		this.material = material;
 	}
 
-	public Mesh() {
-
+	public CustomObject() {
 	}
 }

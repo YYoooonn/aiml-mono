@@ -5,8 +5,7 @@ import java.util.List;
 import lombok.Getter;
 
 @Getter
-public class MeshReq {
-
+public class ObjectReq {
 	private List<Double> matrix;
 	private String geometry;
 	private String material;

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.AIMLproject.backend.domain.Project;
 import com.AIMLproject.backend.domain.User;
 import com.AIMLproject.backend.domain.UserProject;
-import com.AIMLproject.backend.repository.MeshRepository;
+import com.AIMLproject.backend.repository.ObjectRepository;
 import com.AIMLproject.backend.repository.ProjectRepository;
 import com.AIMLproject.backend.repository.UserProjectRepository;
 import com.AIMLproject.backend.repository.UserRepository;
@@ -23,11 +23,11 @@ public class ProjectService {
 	private final UserRepository userRepository;
 	private final ProjectRepository projectRepository;
 	private final UserProjectRepository userProjectRepository;
-	private final MeshRepository meshRepository;
+	private final ObjectRepository meshRepository;
 
 	@Autowired
 	public ProjectService(UserRepository userRepository, ProjectRepository projectRepository,
-		UserProjectRepository userProjectRepository, MeshRepository meshRepository) {
+		UserProjectRepository userProjectRepository, ObjectRepository meshRepository) {
 		this.userRepository = userRepository;
 		this.projectRepository = projectRepository;
 		this.userProjectRepository = userProjectRepository;
@@ -54,13 +54,13 @@ public class ProjectService {
 				throw new RuntimeException("Unauthorized access: Project not public");
 			}
 			if (!userProjectRepository.existsByUserAndProject(user, project)) {
-				throw new RuntimeException("Unauthorized access: 당신은 참여자가 아닙니다.");
+				throw new RuntimeException("Unauthorized access: 당신은 참여자가 아닙니다.(private Project)");
 			}
 		}
 		return project;
 	}
 
-	public Project addProject(User user, String title, String subtitle, Boolean isPublic) {
+	public Project createProject(User user, String title, String subtitle, Boolean isPublic) {
 		Project savedProject = projectRepository.save(new Project(user, isPublic, title, subtitle));
 		userProjectRepository.save(new UserProject(user, savedProject, true, false));
 		return savedProject;
@@ -72,7 +72,7 @@ public class ProjectService {
 		Project project = loadProjectById(projectId);
 
 		if (!user.equals(project.getUser())) {
-			throw new RuntimeException("딴사람 프로젝트임"); // to do: handle Exception
+			throw new RuntimeException("is not owner"); // to do: handle Exception
 		}
 		if (title != null) {
 			project.setTitle(title);
@@ -88,9 +88,8 @@ public class ProjectService {
 	}
 
 	public void deleteProject(User user, Long projectId) throws UsernameNotFoundException {
-		Project project = loadProjectById(projectId);
-		if (!user.equals(project.getUser())) {
-			throw new RuntimeException("딴사람 프로젝트임"); // to do: handle Exception
+		if (!user.equals(loadProjectById(projectId).getUser())) {
+			throw new RuntimeException("is not owner"); // to do: handle Exception
 		}
 		projectRepository.deleteById(projectId);
 	}
@@ -99,7 +98,7 @@ public class ProjectService {
 		Project project = projectRepository.findById(projectId)
 			.orElseThrow(() -> new RuntimeException("해당 아이디의 프로젝트 없음."));
 		if (!project.getUser().equals(invitor)) {
-			throw new RuntimeException("프로젝트 초대 권한이 없습ㄴ니다.");
+			throw new RuntimeException("프로젝트 초대 권한이 없습니다.");
 		}
 		User invitee = userRepository.findById(inviteeId).orElseThrow(() -> new RuntimeException(
 			"초대하려는 사람의 아이디가 없습니다."

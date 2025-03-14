@@ -47,7 +47,7 @@ public class Project {
 
 	public Project(User user, Boolean isPublic, String title, String subtitle) {
 		this.user = user;
-		this.isPublic = isPublic;
+		this.isPublic = isPublic ? isPublic : false;
 		this.title = title;
 		this.subtitle = subtitle;
 	}

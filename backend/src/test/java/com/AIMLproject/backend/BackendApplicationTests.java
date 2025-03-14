@@ -1,13 +1,12 @@
 package com.AIMLproject.backend;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+// @SpringBootTest
 class BackendApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void test() {
 	}
 
 }

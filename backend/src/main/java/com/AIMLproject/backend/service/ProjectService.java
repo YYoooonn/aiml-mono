@@ -61,6 +61,9 @@ public class ProjectService {
 	}
 
 	public Project createProject(User user, String title, String subtitle, Boolean isPublic) {
+		if (isPublic == null) {
+			isPublic = false;
+		}
 		Project savedProject = projectRepository.save(new Project(user, isPublic, title, subtitle));
 		userProjectRepository.save(new UserProject(user, savedProject, true, false));
 		return savedProject;

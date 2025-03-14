@@ -1,6 +1,8 @@
 package com.AIMLproject.backend.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,23 +66,27 @@ public class ProjectController {
 	}
 
 	@GetMapping("/projects/{projectId}/participants") // ***********************************
-	public ResponseEntity<List<ParticipantRes>> ara(@AuthenticationPrincipal UserDetails userDetails,
+	public ResponseEntity<Map<String, List<ParticipantRes>>> ara(@AuthenticationPrincipal UserDetails userDetails,
 		@PathVariable Long projectId) {
 		User user = (userDetails != null) ? userService.findUserByUsername(userDetails.getUsername()) : null;
 		Project project = projectService.getProject(user, projectId);
 		List<UserProject> userProjects = userService.findParticipantsByProject(project);
 		List<ParticipantRes> res = userProjects.stream().map(ParticipantRes::new).collect(Collectors.toList());
-		return ResponseEntity.ok(res);
+		Map<String, List<ParticipantRes>> newRes = new HashMap<>();
+		newRes.put("participants", res);
+		return ResponseEntity.ok(newRes);
 	}
 
 	@GetMapping("/projects/{projectId}/objects") // ***********************************
-	public ResponseEntity<List<ObjectRes>> adg(@AuthenticationPrincipal UserDetails userDetails,
+	public ResponseEntity<Map<String, List<ObjectRes>>> adg(@AuthenticationPrincipal UserDetails userDetails,
 		@PathVariable Long projectId) {
 		User user = (userDetails != null) ? userService.findUserByUsername(userDetails.getUsername()) : null;
 		Project project = projectService.getProject(user, projectId);
 		List<CustomObject> objects = objectService.getAllObjects(project);
 		List<ObjectRes> res = objects.stream().map(ObjectRes::new).collect(Collectors.toList());
-		return ResponseEntity.ok(res);
+		Map<String, List<ObjectRes>> newRes = new HashMap<>();
+		newRes.put("objects", res);
+		return ResponseEntity.ok(newRes);
 	}
 
 	@GetMapping("/projects/search")

@@ -10,18 +10,22 @@ import com.AIMLproject.backend.domain.Project;
 import com.AIMLproject.backend.domain.User;
 import com.AIMLproject.backend.domain.UserProject;
 import com.AIMLproject.backend.repository.ObjectRepository;
+import com.AIMLproject.backend.repository.ProjectRepository;
 import com.AIMLproject.backend.repository.UserProjectRepository;
 
 @Service
 public class ObjectService {
 
 	private final ObjectRepository objectRepository;
+	private final ProjectRepository projectRepository;
 	private final UserProjectRepository userProjectRepository;
 
 	@Autowired
-	public ObjectService(ObjectRepository objectRepository, UserProjectRepository userProjectRepository) {
+	public ObjectService(ObjectRepository objectRepository, UserProjectRepository userProjectRepository,
+		ProjectRepository projectRepository) {
 		this.objectRepository = objectRepository;
 		this.userProjectRepository = userProjectRepository;
+		this.projectRepository = projectRepository;
 	}
 
 	public List<CustomObject> getAllObjects(Project project) {
@@ -30,7 +34,10 @@ public class ObjectService {
 
 	public CustomObject createObject(User user, Long projectId, List<Double> matrix, String geometry, String material) {
 
-		UserProject userProject = userProjectRepository.findByUserAndProjectId(user, projectId)
+		Project project = projectRepository.findById(projectId)
+			.orElseThrow(() -> new RuntimeException("project not exists"));
+
+		UserProject userProject = userProjectRepository.findByUserAndProject(user, project)
 			.orElseThrow(() -> new RuntimeException("user is not participant"));
 
 		return objectRepository.save(new CustomObject(userProject.getProject(), matrix, geometry, material));

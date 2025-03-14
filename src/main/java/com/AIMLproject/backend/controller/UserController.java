@@ -1,6 +1,8 @@
 package com.AIMLproject.backend.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,11 +63,14 @@ public class UserController {
 	}
 
 	@GetMapping("/users/me/projects") // to do
-	public ResponseEntity<List<ProjectRes>> newReadUserProjects(@AuthenticationPrincipal UserDetails userDetails) {
+	public ResponseEntity<Map<String, List<ProjectRes>>> newReadUserProjects(
+		@AuthenticationPrincipal UserDetails userDetails) {
 		User user = userService.findUserByUsername(userDetails.getUsername());
 		List<Project> projects = projectService.findAllProjectsByUser(user);
 		List<ProjectRes> res = projects.stream().map(ProjectRes::new).collect(Collectors.toList());
-		return ResponseEntity.ok(res);
+		Map<String, List<ProjectRes>> newRes = new HashMap<>();
+		newRes.put("projects", res);
+		return ResponseEntity.ok(newRes);
 	}
 
 	@PutMapping("/users/me")

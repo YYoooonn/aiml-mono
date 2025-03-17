@@ -74,9 +74,9 @@ web socket 통신 \
 
 #### 윤종욱
 
-git : `https://github.com/YYoooonn` \
-blog : \
-portfolio : 
+git : https://github.com/YYoooonn \
+blog : https://velog.io/@yyoooonn/posts \
+portfolio : https://issuu.com/yoonjonguk/docs/yyoooonn_wip?fr=xKAE9_zU1NQ
 
 
 ### _back_
@@ -84,7 +84,7 @@ portfolio :
 #### 안준영
 
 홍익대학교 컴퓨터공학과 \
-git : `https://github.com/anjnyng98`
+git : https://github.com/anjnyng98
 
 <!-- 
 

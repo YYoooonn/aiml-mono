@@ -1,25 +1,46 @@
 # version: "3"
 services:
   frontend:
+    env_file:
+      - .env
     build:
       context: .
-      dockerfile: ./docker/next.Dockerfile
-    # platform for ec2 environment
-    env_file:
-      - .env.production.local
+      dockerfile: ./docker/web.Dockerfile
+    container_name: frontend
     platform: linux/x86_64
-    image: yyoooonn/aimlfront:latest
-    ports:
-      - 3000:3000
+    image: ${DOCKER_REPO}/aimlfront:latest
+    expose:
+      - "3000"
+    networks:
+      - nginx-net
+  
+  socket:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./docker/socket.Dockerfile
+    container_name: socket
+    platform: linux/x86_64
+    image: ${DOCKER_REPO}/aimlsocket:latest
+    expose:
+      - "3001"
+    networks:
+      - nginx-net
 
   nginx:
-    build:
-      context: .
-      dockerfile: ./docker/nginx/nginx.Dockerfile
-    # platform for ec2 environment
+    image: nginx:latest
+    container_name: nginx
     platform: linux/x86_64
-    image: yyoooonn/aimlfrontnginx:latest
+    volumes:
+      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
     ports:
       - 80:80
     depends_on:
       - frontend
+      - socket
+    networks:
+      - nginx-net
+
+networks:
+  nginx-net:

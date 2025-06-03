@@ -1,16 +1,14 @@
 # aiml-mono
 
-> aiml 프로젝트 통합 레포\
-> 홍익대학교 졸업 프로젝트 2024.9 - WIP\
-> *[**`front`** subtree - click for detail information for frontend](https://github.com/YYoooonn/aiml-front)*
-
+> aiml 프로젝트 통합 레포 : 2024.9 - WIP\
+> *[**`frontend`** subtree - click for detail information for frontend](https://github.com/YYoooonn/aiml-front)*\
+> *[**`backend`** subtree - click for detail information for frontend](https://github.com/YYoooonn/aiml-back-v2)*
 ---
 
-[**LABit : A Collaborative Lab in Space** - explore the cosmos of creativity](http://ec2-15-165-90-147.ap-northeast-2.compute.amazonaws.com/) \
+[**A Collaborative Workspace for 3D** - edit and archive 3D projects](http://ec2-3-39-43-240.ap-northeast-2.compute.amazonaws.com/) \
 온라인으로 동료들과 함께 3D 작업하고, 작업물들을 아카이빙 해보세요!
 
-![Screenshot 2025-03-16 at 2 43 07 AM](https://github.com/user-attachments/assets/f8bdd1c3-c507-404a-beb5-d8704dc444d0)
-
+![mainworkspace](https://github.com/user-attachments/assets/320d4223-1960-4a94-a89d-ee400cd14bcf)
 
 ## _why?_
 
@@ -18,10 +16,17 @@
 
 Web Application의 시대에 존재할 수 있는 새로운 가능성을 열어보고자 하였다.
 
+
+### _preview_
+
+| landing | archive | workspace |
+| -------- | ------- | ------- |
+| ![landing0603](https://github.com/user-attachments/assets/36e17ba3-7c92-4a89-b1d8-4bd6fc75ace5) | ![archive0603](https://github.com/user-attachments/assets/b17a4686-afc5-4c3f-8af8-6b7151a5ac99) | ![workspace0603](https://github.com/user-attachments/assets/09c0e250-a7c6-4470-8f51-ba3a14c29f8d) |
+
+
 ### _features_
 
 #### _1. 사용자 인증 및 권한 관리_
-
 #### _2. 3차원 객체 저장 가능한 DB 구현_
 #### _3. 웹소켓 기반 실시간 협업_ 
 #### _4. 온라인 3D 뷰어 및 편집 기능_
@@ -33,7 +38,8 @@ Web Application의 시대에 존재할 수 있는 새로운 가능성을 열어�
 #### _done_
 
 실시간 배포 테스트 환경 조성 \
-:  _`aws` ec2 freetier 활용하여 `front`, `back` 독립적으로 실행 중_
+:  _`aws` ec2 freetier 활용하여 `frontend`, `backend` 독립적으로 실행 중_\
+:  _`github actions`를 활용한 build test 및 docker hub image push_
 
 RESTful api 설계 \
 : `front`, `back` 서버 사이의 api routing REST 아키텍처 적용
@@ -44,39 +50,27 @@ web socket 통신 \
 온라인 3d 뷰어 및 편집 기능 \
 : 온라인 에디터 기능 구현
 
+3차원 객체 저장 및 수정 가능한 DB system \
+: transform matrix, geometry (face, vertex), material 구현 완료 \
+: multi database 인프라 구축 (mysql, redis, postgresql-aws rds)
+
 #### _in progress_
 
-3차원 객체 저장 방식\
-: 현재 매우 간단한 형태로 일부의 제한된 형태로만 구현되어 있음, 고도화 진행중
-
-실시간 협업 기능\
+실시간 협업 기능 고도화\
 : crdt, ot 와 같은 충돌 처리 방법 구현 필요
 
-인프라 구축\
-: EC2 서버와 S3를 활용한 모델 파일 관리 및 저장 설정 완료, 전체 인프라는 보강 예정.
-
-인증 시스템 보완\
-: JWT 인증 시스템은 초기 구현 중이며, 추가적인 학습과 보완이 필요함.
 
 ---
 
-### _preview_
-
-| landing | archive | workspace |
-| -------- | ------- | ------- |
-| ![land](https://github.com/user-attachments/assets/e80f4308-de9d-4af7-be8a-a6305b8f3fb0) | ![archive](https://github.com/user-attachments/assets/38c8cc99-70bb-4933-8058-a8a499e87306) | ![wspace](https://github.com/user-attachments/assets/848ebd1e-8440-492d-8a41-e6e9bd64ce94) |
-
-
 ## _who?_
 
-### _front_
-
+### _front & back_
 
 #### 윤종욱
 
 git : https://github.com/YYoooonn \
 blog : https://velog.io/@yyoooonn/posts \
-portfolio : https://issuu.com/yoonjonguk/docs/yyoooonn_wip?fr=xKAE9_zU1NQ
+architecture : https://issuu.com/yoonjonguk/docs/yyoooonn_wip?fr=xKAE9_zU1NQ
 
 
 ### _back_
@@ -97,148 +91,42 @@ git : https://github.com/anjnyng98
 src managing : `git` \
 scheduling : `notion`
 
-### _front_
+### _system architecture_
 
-**ENV `dev`**
+<img width="1239" alt="Screenshot 2025-06-02 at 3 20 05 PM" src="https://github.com/user-attachments/assets/47098c86-3fa9-4d38-910f-241258e0b905" />
 
-```bash
-# at ./front
 
-# .env.* file setup
-
-# 1. install required packages
-pnpm i
-
-# 2. run as dev
-pnpm dev
-
-# result
-> front@0.1.0 dev ~/aiml-front
-> nodemon
-
-[nodemon] 3.1.7
-[nodemon] to restart at any time, enter `rs`
-[nodemon] watching path(s): server.ts
-[nodemon] watching extensions: json,js,ts
-[nodemon] starting `ts-node --project tsconfig.server.json server.ts`
+### _file structrue_
 
 ```
-
-
-#### ENV `production`
-
-```bash
-# at ./front
-
-# .env.* file setup
-
-# 1. build with docker-compose
-docker-compose build
-
-# 2. run with docker-compose
-docker-compose up
-# or run as detached
-docker-compose up -d
-```
-
-
-
-### _back_
-
-Framework : Spring Boot \
-Library : JPA, Security, Jwt \
-DBMS : MySQL \
-Server : EC2, S3
-
-```bash
-cd backend
-./gradlew build
-java -jar build/libs/backend-0.0.1-SNAPSHOT.jar
-```
-
-### _mono_
-
-"not implemented yet"
-
-추후에 github actions를 통한 CI/CD 동시 구현 예정
-
----
-
-### 📌 ARCHITECTURE
-
-
-```
-.aiml-mono
-├─backend
-│  └─src
-│      ├─main
-│      │  ├─java
-│      │  │  └─com
-│      │  │      └─AIMLproject
-│      │  │          └─backend
-│      │  │              ├─config
-│      │  │              ├─controller
-│      │  │              ├─domain
-│      │  │              ├─dto
-│      │  │              │  ├─req
-│      │  │              │  └─res
-│      │  │              ├─exception
-│      │  │              ├─jwt
-│      │  │              ├─repository
-│      │  │              ├─s3
-│      │  │              └─service
-│      │  └─resources
-│      └─test
-│          └─java
-│              └─com
-│                  └─AIMLproject
-│                      └─backend
+aiml-mono
+├── back
+│   ├── .github : github actions
+│   ├── apps : application (controller)
+│   │   ├── api
+│   │   └── (batch)
+│   ├── modules : modules (services)
+│   │   ├── user
+│   │   ├── project
+│   │   ├── scene
+│   │   ├── object3d
+│   │   └── ...
+│   └── libs
+│       ├── common : logger
+│       └── infra : db, s3, ...etc
 ├── front
+│   ├── .github : github actions
+│   ├── apps
+│   │   ├── socket-server : express
+│   │   └── web : nextjs        
+│   ├── packages
+│   │   ├── ui
+│   │   └── config
 │   ├── docker
-│   │   └── conf.d
-│   ├── server
-│   ├── src
-│   │   ├── @types
-│   │   ├── app
-│   │   │   ├── (header)
-│   │   │   │   ├── about
-│   │   │   │   ├── contact
-│   │   │   │   └── documentation
-│   │   │   ├── _actions
-│   │   │   ├── api
-│   │   │   │   ├── auth
-│   │   │   │   ├── projects
-│   │   │   │   │   └── ...
-│   │   │   │   ├── users
-│   │   │   │   │   └── ...
-│   │   │   │   └── objects
-│   │   │   │       └── [id]
-│   │   │   ├── archive
-│   │   │   ├── login
-│   │   │   ├── register
-│   │   │   ├── test
-│   │   │   ├── user
-│   │   │   │   └── [id]
-│   │   │   └── workspace
-│   │   ├── assets
-│   │   ├── components
-│   │   ├── hook
-│   │   ├── sockets
-│   │   ├── store
-│   │   ├── styles
-│   │   ├── utils
-│   │   └── middleware.ts
-│   ├── server.ts
-│   ├── docker-compose.yml
-│   ├── package.json
-│   ├── tsconfig.json
-│   ├── tsconfig.server.json
-│   ├── .env
-│   ├── .dockerignore
-│   ├── .gitignore
-│   └── next-env.d.ts
-├── .env
-├── docker-compose.yml
-└── ...
+│   │   ├── next.dockerfile
+│   │   └── express.dockerfile
+│   └── nginx
+│       └── nginx.config
+└── scripts
 ```
 

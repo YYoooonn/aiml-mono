@@ -2,7 +2,7 @@
 
 > aiml 프로젝트 통합 레포 : 2024.9 - WIP\
 > *[**`frontend`** subtree - click for detail information for frontend](https://github.com/YYoooonn/aiml-front)*\
-> *[**`backend`** subtree - click for detail information for frontend](https://github.com/YYoooonn/aiml-back-v2)*
+> *[**`backend`** subtree - click for detail information for backend](https://github.com/YYoooonn/aiml-back-v2)*
 ---
 
 [**A Collaborative Workspace for 3D** - edit and archive 3D projects](http://ec2-3-39-43-240.ap-northeast-2.compute.amazonaws.com/) \
